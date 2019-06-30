@@ -6,6 +6,12 @@ import java.io.InputStreamReader;
 import java.util.*;
 public class Main{
 	public static void main(String args[]){
+		/*
+		 * https://www.acmicpc.net/problem/10817
+		 * 알고리즘 문제
+		 * http://localhost:4000/algorithm/java/2019/06/30/algorithm-3.html
+		 * (헤석)
+		 */
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			String [] arr = br.readLine().split(" ");
