@@ -87,8 +87,8 @@ public class Main{
         ArrayList<Integer> thirdIndex = new ArrayList<Integer>();
         ArrayList<Integer> fourIndex = new ArrayList<Integer>();
         for( int index = 0; index < totalRow; index++ ) {
-        	String [] inputData  = br.readLine().split(" ");
-        	 firstIndex.add(Integer.parseInt(inputData[0]));
+            String [] inputData  = br.readLine().split(" ");
+             firstIndex.add(Integer.parseInt(inputData[0]));
              secondIndex.add(Integer.parseInt(inputData[1]));
              thirdIndex.add(Integer.parseInt(inputData[2]));
              fourIndex.add(Integer.parseInt(inputData[3]));
@@ -108,7 +108,7 @@ public class Main{
                     firstGroup.put(totalSumFirstSecond, 1);
                 }
                 if( secondGroup.containsKey( totalSumThirdFour ) ) {
-                    secondGroup.replace(totalSumThirdFour, firstGroup.get(totalSumThirdFour)+1);
+                    secondGroup.replace(totalSumThirdFour, secondGroup.get(totalSumThirdFour)+1);
                 }else {
                     secondGroup.put(totalSumThirdFour, 1);
                 }
