@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 public class Main{
     public static void main(String args[]) throws IOException{
         /*
@@ -77,7 +79,7 @@ public class Main{
         // 합이 0인 네 정수!
         // 합치기기법
         // A와 B의 합을 1개의 그룹으로 , C와 D의 합을 1개의 그룹으로 HashMap< 숫자, 중복 갯수 > 로 담기
-        // 2진탐색으로 절대값이 0이되는것 찾기
+        // 2진탐색으로 절대값이 0이되는것 찾기 Or 그냥 해쉬맵 데이터로 찾기
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int totalRow =  Integer.parseInt(br.readLine());
         ArrayList<Integer> firstIndex = new ArrayList<Integer>();
@@ -91,17 +93,50 @@ public class Main{
              thirdIndex.add(Integer.parseInt(inputData[2]));
              fourIndex.add(Integer.parseInt(inputData[3]));
         }
-        int result=0;
-        for(int first : firstIndex ) {
-        	for(int second : secondIndex) {
-        		for(int third : thirdIndex) {
-        			for( int four : fourIndex ) {
-        				if(first+second+third+four == 0) result++;
-        			}
-        		}
-        	}
+        //1. 2개의 그룹으로 묶기  HashMap< 숫자, 중복 갯수 > 로 담기
+        Map<Integer, Integer> firstGroup = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> secondGroup = new HashMap<Integer, Integer>();
+        
+        for( int firstData = 0; firstData < totalRow; firstData++   ) {
+            for( int secondData = 0; secondData < totalRow; secondData++ ) {
+                int totalSumFirstSecond    = firstIndex.get(firstData) + secondIndex.get(secondData);
+                int totalSumThirdFour    = thirdIndex.get(firstData) +  fourIndex.get(secondData);
+                
+                if( firstGroup.containsKey( totalSumFirstSecond ) ) {
+                    firstGroup.replace(totalSumFirstSecond, firstGroup.get(totalSumFirstSecond)+1);
+                } else {
+                    firstGroup.put(totalSumFirstSecond, 1);
+                }
+                if( secondGroup.containsKey( totalSumThirdFour ) ) {
+                    secondGroup.replace(totalSumThirdFour, firstGroup.get(totalSumThirdFour)+1);
+                }else {
+                    secondGroup.put(totalSumThirdFour, 1);
+                }
+            }
+        }
+        
+        // 찾기 
+        int sizeFisrt   = firstGroup.size();
+        int sizeSecond  = secondGroup.size();
+        int result      = 0;
+        Map<Integer, Integer> loop;
+        Map<Integer, Integer> seek;
+        if( sizeFisrt < sizeSecond ) {
+            loop = firstGroup;
+            seek = secondGroup;
+        } else {
+            loop = secondGroup;
+            seek = firstGroup;
+        }
+        System.out.println(firstGroup);
+        System.out.println(secondGroup);
+        
+        for( int key :  loop.keySet()) {
+            int temt = -(key);
+            if(seek.containsKey(temt)) {
+                result += (loop.get(key) *seek.get(temt) );
+            }
         }
         System.out.println(result);
-        
     }
 }
