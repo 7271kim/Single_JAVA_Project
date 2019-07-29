@@ -2,86 +2,39 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 public class Main{
-    static int[] A;
-    static int[] T;
+    static int TOTAL;
     
     public static void main(String args[]) throws IOException{
         /*
-         * https://www.acmicpc.net/problem/3653
-         * 팬윅 트리에대한 이해
-         * https://www.acmicpc.net/blog/view/21
-         * https://stack07142.tistory.com/297
-         * https://m.blog.naver.com/PostView.nhn?blogId=occidere&logNo=221059582892&proxyReferer=https%3A%2F%2Fwww.google.com%2F
-         * 참고
-         */
-        /*
-         Panwork tree 란 Tree[i]는   A[i]가 주어졌을 때, A[i] 로부터 앞으로 ㄴ[i]( 해당 수를 2진수로 나타냈을때 마지막 i의 값 )의 합이 저장됨
-         
-         CORE! 업데이트와, 부분 합
-         
-        static int sum(int p) {
-            int res = 0;
-            while (p > 0) {
-                res += T[p];
-                p &= p-1;
-            }
-            return res;
-        }
-        
-        static void update(int p, int val) {
-            while (p < T.length) {
-                T[p] += val;
-                p += p & (-p);
-            }
-        }
+         * https://www.acmicpc.net/problem/1914
+         * 재귀에 대한 이해
          */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int totaExam = Integer.parseInt(br.readLine());
-        for ( int row = 0; row < totaExam; row++ ) {
-            String next[] = br.readLine().split(" ");
-            
-            int videoNumber = Integer.parseInt(next[0]);
-            int totalCheck  = Integer.parseInt(next[1]);
-            int original [] = new int[ videoNumber + 1 ]; // original[3] = 3 >> 3번의 책은 3번의 위치에 있다.
-            FenwickTree fenwickTree = new FenwickTree(videoNumber + totalCheck +1);
-            
-            String videoDetail[] = br.readLine().split(" ");
-             
-            for(int putTree = 1; putTree <= videoNumber; putTree++) {
-                original[putTree] = putTree+totalCheck;
-                fenwickTree.update(original[putTree], 1);
-            }
-            
-            for( int showVideo = 0; showVideo < totalCheck; showVideo ++) {
-                int show =  Integer.parseInt(videoDetail[showVideo]);
-                System.out.println(fenwickTree.sum(original[show])-1);
-                fenwickTree.update( original[show] , -1 );
-                original[show] = totalCheck - showVideo;
-                fenwickTree.update( original[show] , 1 );
-            }
+        int N = Integer.parseInt(br.readLine());
+        TOTAL= 0;
+        if(N <= 20 ) {
+        moveCheck(N, 1, 2, 3, 0);
+        System.out.println(TOTAL);
+        showCheck(N, 1, 2, 3, 0);
+        }
+        
+    }
+    public static void moveCheck( int total,int from, int by, int to , int result ) {
+        if( total == 1 ) {
+            TOTAL++;
+        } else {
+            TOTAL++;
+            moveCheck(total - 1, from, to, by, result);
+            moveCheck(total - 1, by, from, to, result);
+        }
+    }
+    public static void showCheck( int total,int from, int by, int to , int result ) {
+        if( total == 1 ) {
+            System.out.println(from + " " + to);
+        } else {
+            showCheck(total - 1, from, to, by, result);
+            System.out.println(from + " " + to);
+            showCheck(total - 1, by, from, to, result);
         }
     }
 }
-
-class FenwickTree{
-    int tree [];
-    
-    public FenwickTree(int size) {
-        tree = new int[size];
-    }
-    public void update(int p, int val) {
-        while (p < tree.length) {
-            tree[p] += val;
-            p += p & (-p);
-        }
-    }
-    public int sum(int p) {
-        int res = 0;
-        while (p > 0) {
-            res += tree[p];
-            p &= p-1;
-        }
-        return res;
-    }
-}
-
