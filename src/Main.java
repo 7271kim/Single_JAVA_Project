@@ -1,8 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 public class Main{
-    static int TOTAL;
     
     public static void main(String args[]) throws IOException{
         /*
@@ -11,22 +11,20 @@ public class Main{
          */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        TOTAL= 0;
+        BigInteger big = new BigInteger("1");
+
         if(N <= 20 ) {
-        moveCheck(N, 1, 2, 3, 0);
-        System.out.println(TOTAL);
-        showCheck(N, 1, 2, 3, 0);
+            System.out.println((1<<N)-1);
+            showCheck(N, 1, 2, 3, 0);
+        } else {
+            for( int index = 0 ; index < N; index++ ) {
+                //big = big.multiply(BigInteger.TWO);
+                big = big.multiply(new BigInteger("2"));
+            }
+            big = big.subtract(new BigInteger("1"));
+            System.out.println(big);
         }
         
-    }
-    public static void moveCheck( int total,int from, int by, int to , int result ) {
-        if( total == 1 ) {
-            TOTAL++;
-        } else {
-            TOTAL++;
-            moveCheck(total - 1, from, to, by, result);
-            moveCheck(total - 1, by, from, to, result);
-        }
     }
     public static void showCheck( int total,int from, int by, int to , int result ) {
         if( total == 1 ) {
