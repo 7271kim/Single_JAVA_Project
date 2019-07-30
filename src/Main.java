@@ -1,38 +1,46 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 public class Main{
     
     public static void main(String args[]) throws IOException{
         /*
-         * https://www.acmicpc.net/problem/1914
-         * 재귀에 대한 이해
+         * https://www.acmicpc.net/problem/2910
+         * 빈도수
          */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
-        BigInteger big = new BigInteger("1");
-
-        if(N <= 20 ) {
-            System.out.println((1<<N)-1);
-            showCheck(N, 1, 2, 3, 0);
-        } else {
-            for( int index = 0 ; index < N; index++ ) {
-                //big = big.multiply(BigInteger.TWO);
-                big = big.multiply(new BigInteger("2"));
+        String[] firstLow   = br.readLine().split(" ");
+        String[] nextLow    = br.readLine().split(" ");
+        Map<Integer, Integer> result          = new HashMap<Integer, Integer>();
+        List<Integer> sort                    = new ArrayList<Integer>();
+        int n = Integer.parseInt(firstLow[0]);
+        int c = Integer.parseInt(firstLow[1]);
+        int [] test = new int[c+1];
+        //해당이슈는 배열으 최대 범위가 10억을 못넘음. 답은 맞지만 GGGGG
+        for( int index = 0 ; index < n; index++ ) {
+            int number = Integer.parseInt(nextLow[index]); 
+            int mid    = (n-index)*10;
+            if( test[number] == 0 ) {
+                test[number] = 100 + mid + number;
+            } else {
+                test[number]+= 100;
             }
-            big = big.subtract(new BigInteger("1"));
-            System.out.println(big);
         }
-        
-    }
-    public static void showCheck( int total,int from, int by, int to , int result ) {
-        if( total == 1 ) {
-            System.out.println(from + " " + to);
-        } else {
-            showCheck(total - 1, from, to, by, result);
-            System.out.println(from + " " + to);
-            showCheck(total - 1, by, from, to, result);
+        for( int item : test ) {
+            sort.add(item);
+        }
+         Collections.sort(sort,Collections.reverseOrder());
+         for( int key : sort ){
+             int count  = key/100;
+             int number = key%10;
+            for( int index = 1 ; index <= count; index++ ) {
+              System.out.println(number);
+            }
         }
     }
 }
