@@ -1,46 +1,59 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-public class Main{
-    
-    public static void main(String args[]) throws IOException{
-        /*
-         * https://www.acmicpc.net/problem/2910
-         * 빈도수
-         */
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] firstLow   = br.readLine().split(" ");
-        String[] nextLow    = br.readLine().split(" ");
-        Map<Integer, Integer> result          = new HashMap<Integer, Integer>();
-        List<Integer> sort                    = new ArrayList<Integer>();
-        int n = Integer.parseInt(firstLow[0]);
-        int c = Integer.parseInt(firstLow[1]);
-        int [] test = new int[c+1];
-        //해당이슈는 배열으 최대 범위가 10억을 못넘음. 답은 맞지만 GGGGG
-        for( int index = 0 ; index < n; index++ ) {
-            int number = Integer.parseInt(nextLow[index]); 
-            int mid    = (n-index)*10;
-            if( test[number] == 0 ) {
-                test[number] = 100 + mid + number;
-            } else {
-                test[number]+= 100;
-            }
-        }
-        for( int item : test ) {
-            sort.add(item);
-        }
-         Collections.sort(sort,Collections.reverseOrder());
-         for( int key : sort ){
-             int count  = key/100;
-             int number = key%10;
-            for( int index = 1 ; index <= count; index++ ) {
-              System.out.println(number);
-            }
-        }
-    }
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		int n=sc.nextInt();
+		int[][] arr = new int[n][2];
+		int scale =sc.nextInt();
+		
+		for(int i=0;i<n;i++) {
+			arr[i][1]=1;
+		}
+		
+		for(int i=0;i<n;i++) {
+			arr[i][0]=sc.nextInt();
+			for(int k=0;k<i;k++) {
+				if(arr[k][0]==arr[i][0]) {
+					arr[k][1]++;
+					arr[i][0]=0;
+				}
+			}
+		}
+		String tmep = "";
+		for( int index = 0; index< arr.length; index++ ) {
+		    tmep +="[";
+		    for( int index2 = 0; index2 < arr[index].length; index2++)
+		        tmep = tmep +" [" +arr[index][index2] + "] ";
+		    tmep +="]\n";
+		}
+		System.out.println(tmep);
+		//빈도순으로 내림차순정렬
+		for(int k=0;k<n;k++) {
+			for(int i=0;i<n-1;i++) {
+				if(arr[i][1]<arr[i+1][1]) {
+					int temp1=arr[i][1];
+					int temp2=arr[i][0];
+					arr[i][1]=arr[i+1][1];
+					arr[i][0]=arr[i+1][0];
+					arr[i+1][1]=temp1;
+					arr[i+1][0]=temp2;
+				}
+			}
+		}
+		
+		for(int i=0;i<n;i++) {
+			for(int k=0;k<arr[i][1];k++) {
+				if(arr[i][0]!=0) {
+					System.out.print(arr[i][0]+" ");
+				}
+				
+			}
+			
+		}
+	}
+
 }
+
