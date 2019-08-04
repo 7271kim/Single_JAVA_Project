@@ -1,133 +1,150 @@
 package LottoGet;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class StaticClassLotto {
 
     public static void main(String[] args) {
         // 통계용 
-        int wishGet = 5; // 로또 번호 5개가 맞을 때까지 계속 뽑음
+        int wishGet          = 5; // 로또 번호 wish개가 맞을 때까지 계속 뽑음
         int wishTotalCount   = 1000; // 5번이 총 1000번 맞을 때 가지의 통계 작성
         
        //확인용 : 당첨된 숫자
-        int[] thisLotto = {11,17,28,30,33,35};  // 금주 당첨번호 발표  후 작성 ( 몇개 맞았는지 확인용 )
-        System.out.println("[11,17,28,30,33,35]");
-        System.out.println("로또번호");
-        ArrayList<Integer> result = new ArrayList<>();
-        Map<String, ArrayList<Integer>> totalGetArray = new  HashMap<>();
+        int[] thisLotto = {1,2,6,12,22,37};  // 금주 당첨번호 발표  후 작성 ( 몇개 맞았는지 확인용 )
         
-        // 병경부 ! ------------------------------------- 1
-        // 미리 선택해논 수 - 선택시 , No number에 추가 나머지에서 제거
-        int[] beforePick         = {11,17};
-        // 나오면 안되는 수
-        int[] noNumber           = {11,17};
-       
-        Boolean checkOverLabDetail= true;
-        Map<Integer, Integer> checkOverlay = new HashMap<>();
-        checkOverlay.put(0, 0);
-        checkOverlay.put(1, 2);
-        checkOverlay.put(2, 0);
-        checkOverlay.put(3, 2);
-        checkOverlay.put(4, 0);
+        int[] pickBefore    = {}; // 먼저 뽑아놓는 수
+        int[] noPick        = {}; // 나오면 안되는 수
         
-        // 해당 wishGet을 위해 총 몇번을 샀나
-        double totalStaticCount = 0;
+        long totalBuy        = (long) 0.0; //총 산 횟수
+        long thisCount        = (long) 0.0; // 지금까지 맞은 횟수
         
-        // 통계 wishTotalCount번 돌리기
-        for ( int staticIndex =0 ; staticIndex < wishTotalCount; staticIndex++ ){
-            wrapper : while( true ){
-                result = new ArrayList<>();
-                totalGetArray = new  HashMap<>();
-                Map<Integer, Integer> tempcheckOverlay = new HashMap<>();
+        // 구간별 Pick
+        int check_1_10  = 0;
+        int check_11_20 = 0;
+        int check_21_30 = 0;
+        int check_31_40 = 0;
+        int check_41_45 = 0;
+        
+        while ( thisCount < wishTotalCount ) {
+            int totoal      = check_1_10+check_11_20+check_21_30+check_31_40+check_41_45;
+            if( pickBefore.length < 7 && totoal < 7) {
+                Map<Integer, Integer> result = new HashMap<Integer, Integer>();
+                Map<Integer, Integer> lottoNumber = new HashMap<Integer, Integer>();
+                ArrayList<Integer> check = new ArrayList<Integer>(Arrays.asList(check_1_10,check_11_20,check_21_30,check_31_40,check_41_45));
                 
-                for( int indexBeforpick = 0; indexBeforpick < beforePick.length; indexBeforpick++ ){
-                    int beforeValue = beforePick[indexBeforpick];
-                    result.add(beforeValue);
-                    tempcheckOverlay = gerTempMap( beforeValue , tempcheckOverlay);
+                for(int index = 1; index <= 45; index++) {
+                    lottoNumber.put(index, index);
                 }
+                LottoDataStatic lottoData = new LottoDataStatic(lottoNumber, check);
                 
-                // 로또번호 뽑기
-                
-                for( int index = 0; index < 6 - beforePick.length; index++ ){
-                    int temp = 0;
-                    
-                    while( true ){
-                        temp = randomRange(1, 45);
-                        if( result.indexOf( temp ) > -1 ) continue;
-                        int remainder = (int) Math.floor( (temp - 1 ) /10 );
-                        tempcheckOverlay = gerTempMap( temp , tempcheckOverlay);
-                        if( checkOverlay.get(remainder) != 0 && checkOverLabDetail && tempcheckOverlay.get(remainder) > checkOverlay.get(remainder) ) continue;
-                        
-                        break;
+                for( int before : pickBefore ) {
+                    result.put(before, before);
+                    lottoData.removeLotto(before);
+                    removeLotto(before, lottoData);
+                }
+                for( int no : noPick ) {
+                    lottoData.removeLotto(no);
+                }
+                while( result.size() < 6 ){
+                    for( int item = 0; item < lottoData.getCheck().size(); item++ ) {
+                        while( lottoData.getCheck().get(item) > 0 ) {
+                            int tempNumber = randomRange(item*10+1, item*10+10);
+                            int index = (tempNumber-1)/10;
+                            
+                            if(item != index) continue;
+                            
+                            if(lottoNumber.containsKey(tempNumber)) {
+                                removeLotto(tempNumber,lottoData);
+                                result.put(tempNumber, tempNumber);
+                                lottoNumber.remove(tempNumber);
+                            }
+                        }
                     }
-                    result.add(temp);
-               }
-                
-                //checkOverlay 0 , 2, 2 등  맞추기 
-                for( int key : checkOverlay.keySet() ){
-                    if( checkOverlay.get(key) != 0 ){
-                        if(!tempcheckOverlay.containsKey(key) || checkOverlay.get(key) != tempcheckOverlay.get(key) ){
-                            continue wrapper;
-                        } 
+                    if( result.size() >= 6) break;
+                    int tempNumber = randomRange(1, 45);
+                    if(lottoData.getLottoNumber().containsKey(tempNumber)) {
+                        removeLotto(tempNumber, lottoData);
+                        result.put(tempNumber, tempNumber);
+                        lottoData.removeLotto(tempNumber);
                     }
                 }
                 
-                sortThis(result);
-                
-                Iterator iterator = result.iterator();
-                String keyText= "";
-                while (iterator.hasNext()) {
-                    keyText += String.valueOf(iterator.next());
+                ArrayList<Integer> orderedResult = new ArrayList<Integer>(result.keySet());
+                Collections.sort(orderedResult);
+                totalBuy++;
+                int temp = 0;
+                for(int index = 0; index < thisLotto.length; index++) {
+                    if( thisLotto[index] == orderedResult.get(index) ) {
+                        temp++;
+                    } 
                 }
-                if( totalGetArray.containsKey(keyText) ) continue;
-                totalGetArray.put( keyText, result );
-                // 위 1회 구매 로직
-                
-                // 통계를 위해.
-                int tempCount = 0;
-                for(int lotto : thisLotto  ){
-                    if(result.indexOf(lotto) > -1 ) tempCount++;
-                }
-                totalStaticCount++;
-                if( tempCount >= wishGet ) break;
+                System.out.println(totalBuy);
+                if( temp == wishGet) thisCount++;
+            }
+            if( totalBuy > 50000000.0) {
+                System.out.println("토탈이 5000만이 넘어 너무 오래걸려 로재 로직을 종료하겠습니다");
+                break;
             }
         }
-        
-        System.out.println("통계");
-        System.out.println("totalStatic : " + totalStaticCount);
-        System.out.println(wishGet + "개를 맞추기 위해 통계적으로 몇 회 사야 하냐 : " +  Math.floor (totalStaticCount/wishTotalCount) + "번 사야한다.");
+        if( thisCount > 0 ) {
+        System.out.println("로또번호가 " + wishGet +"개 맞을때까지 평균적으로 " + totalBuy/thisCount + "회 사야한다.");
+        } else {
+            System.out.println("지금까지 맞은 케이스가 없습니다. Pick을 확인해보세요");
+        }
     }
     
-    public static Map<Integer, Integer> gerTempMap ( int inputNumber , Map<Integer, Integer> returnValue ) {
-        int remainder = (int) Math.floor( ( inputNumber - 1 ) /10);
-        int remainderValue = returnValue.containsKey(remainder) ? returnValue.get(remainder) + 1 : 1;
-        returnValue.put(remainder, remainderValue);
-        
-        return returnValue;
-    }
-    public static ArrayList<Integer> sortThis( ArrayList<Integer> inCome ){
-        ArrayList<Integer> result = inCome;
-        for( int cycleIndex = 0; cycleIndex < result.size(); cycleIndex++ ){
-            int minIndex = cycleIndex;
-            int minValue = result.get(cycleIndex);
-            
-            for( int index = cycleIndex+1 ; index < result.size(); index++ ){
-                if(result.get(index) < minValue ){
-                    minIndex = index;
-                    minValue = result.get(index);
-                }
-            }
-            
-            int thisCycleValue = result.get(cycleIndex);
-            result.set(cycleIndex, minValue);
-            result.set(minIndex, thisCycleValue);
-        }
-        return result;
-    }
     public static int randomRange(int n1, int n2) {
       return (int) (Math.random() * (n2 - n1 + 1)) + n1;
     }
+    
+    public static LottoDataStatic removeLotto( int number ,LottoDataStatic input ) {
+        int index = (number-1)/10;
+        ArrayList<Integer> check = input.getCheck();
+        Map<Integer, Integer> lottoNumber = input.getLottoNumber();
+        
+        int temp = check.get(index);
+        if( temp > 0 ) {
+            check.set(index, temp-1);
+            if( check.get(index) == 0 ) {
+                for(int removeIndex = 1; removeIndex <= 10; removeIndex++) {
+                    lottoNumber.remove(index*10 + removeIndex);
+                }
+            }
+        }
+        input.setCheck(check);
+        input.setLottoNumber(lottoNumber);
+        
+        return input;
+    }
 
+}
+class LottoDataStatic {
+    Map<Integer, Integer> lottoNumber;
+    ArrayList<Integer> check;
+    
+    public LottoDataStatic( Map<Integer, Integer> lottoNumber, ArrayList<Integer> check ) {
+        this.lottoNumber = lottoNumber;
+        this.check = check;
+    }
+    
+    public Map<Integer, Integer> getLottoNumber() {
+        return lottoNumber;
+    }
+    public void setLottoNumber(Map<Integer, Integer> lottoNumber) {
+        this.lottoNumber = lottoNumber;
+    }
+    public ArrayList<Integer> getCheck() {
+        return check;
+    }
+    public void setCheck(ArrayList<Integer> check) {
+        this.check = check;
+    }
+    
+    public void removeLotto( int number) {
+        lottoNumber.remove(number);
+    }
+     
 }
