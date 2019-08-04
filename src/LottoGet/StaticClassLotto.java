@@ -9,23 +9,23 @@ public class StaticClassLotto {
 
     public static void main(String[] args) {
         // 통계용 
-        int wishGet          = 3; // 로또 번호 wish개가 맞을 때까지 계속 뽑음
+        int wishGet          = 4; // 로또 번호 wish개가 맞을 때까지 계속 뽑음
         int wishTotalCount   = 1000; // 5번이 총 1000번 맞을 때 가지의 통계 작성
         
        //확인용 : 당첨된 숫자
-        int[] thisLotto = {1,5,6,12,22,37};  // 금주 당첨번호 발표  후 작성 ( 몇개 맞았는지 확인용 )
+        int[] thisLotto = {21,25,30,32,40,42};  // 금주 당첨번호 발표  후 작성 ( 몇개 맞았는지 확인용 )
         
-        int[] pickBefore    = {5,12}; // 먼저 뽑아놓는 수
-        int[] noPick        = {44}; // 나오면 안되는 수
+        int[] pickBefore    = {}; // 먼저 뽑아놓는 수
+        int[] noPick        = {2,6,17,20,27,37,39,41,43,44,17}; // 나오면 안되는 수
         
         long totalBuy        = (long) 0.0; //총 산 횟수
         long thisCount        = (long) 0.0; // 지금까지 맞은 횟수
         
         // 구간별 Pick
-        int check_1_10  = 3;
-        int check_11_20 = 0;
-        int check_21_30 = 1;
-        int check_31_40 = 0;
+        int check_1_10  = 0;
+        int check_11_20 = 1;
+        int check_21_30 = 2;
+        int check_31_40 = 2;
         int check_41_45 = 1;
         
         while ( thisCount < wishTotalCount ) {

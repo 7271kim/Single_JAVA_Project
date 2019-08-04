@@ -11,26 +11,81 @@ public class GetLotto {
     
     public static void main(String[] args) throws Exception {
         LottoDB lottoDB = new LottoDB();
-//        Map<String, String> listDB = lottoDB.getQurry("SELECT * FROM lotto_data ORDER BY `DATE` DESC limit 10");
-        Map<String, String> listDB = lottoDB.allData();
-        System.out.println(listDB.size());
-        /*for( String item : listDB.keySet() ) {
-            System.out.println(item);
-            System.out.println(listDB.get(item));
-        }*/
-        
+        String noDate = "12"; // 과거 noDate번 동안 나오지 않은 수
+        Boolean CheckNoDate = true; // 과거 noDate번 동안 나오지 않은 수 제거 할것인가
         
         int totalGetLotto   = 10; // 로또 구매 갯수
-        int[] pickBefore    = {5,12}; // 먼저 뽑아놓는 수
-        int[] noPick        = {44}; // 나오면 안되는 수
+        int[] pickBefore    = {}; // 먼저 뽑아놓는 수
+        int[] noPick        = {2,6,20,27,37,39,41,43,44,17}; // 나오면 안되는 수
+        
+        // 구간별 Pick
+        int check_1_10  = 0;
+        int check_11_20 = 0;
+        int check_21_30 = 0;
+        int check_31_40 = 2;
+        int check_41_45 = 0;
+        
+        Map<Integer, Integer> emptyNumber = new HashMap<Integer, Integer>();
+        Map<Integer, String> befereNumbers = new HashMap<Integer, String>();
+        Map<String, String> lists = lottoDB.getQurry("SELECT * FROM lotto_data ORDER BY `DATE` DESC limit "+noDate);
+        for(int index = 1; index <= 45; index++) {
+            emptyNumber.put(index, index);
+        }
+        
+        ArrayList<Integer> oderedData = new ArrayList<Integer>();
+        for(String item : lists.keySet())
+            oderedData.add(Integer.parseInt(item));
+        Collections.sort(oderedData, Collections.reverseOrder());
+        
+        System.out.println("과거 " + noDate+"회 데이터");
+        for( int item : oderedData ) {
+            String [] splitText =  lists.get(String.valueOf(item)).split(" ");
+            System.out.println(item +"회");
+            String temp = "[";
+            for( String number : splitText ) {
+                temp += number + " ";
+                int castNumber = Integer.parseInt(number);
+                if(befereNumbers.containsKey(castNumber)){
+                    befereNumbers.replace(castNumber, befereNumbers.get(castNumber)+"*");
+                } else {
+                    befereNumbers.put(castNumber,"*");
+                }
+                emptyNumber.remove(castNumber);
+            }
+            temp += "]";
+            System.out.println(temp);
+        }
+        
+        System.out.println("과거 " + noDate+"회동안 나오지 않은 수");
+        for( int item : emptyNumber.keySet() ) {
+            System.out.print(item + " ");
+        }
+        System.out.println();
+        System.out.println("과거 " + noDate+"회동안 나온 수 세트");
+        for( int item : befereNumbers.keySet() ) {
+            System.out.println(item + " "+befereNumbers.get(item));
+        }
+        
+        /*
+        // 각 회의 합계를 구하고 싶은 경우
+        Map<String, String> test = lottoDB.getAllData();
+        ArrayList<Integer> tttt = new ArrayList<Integer>();
+        for(String item : test.keySet())
+            tttt.add(Integer.parseInt(item));
+        Collections.sort(tttt);
+        
+        for( int item : tttt ) {
+            String [] splitText =  test.get(String.valueOf(item)).split(" ");
+            System.out.println(item +"회의 합");
+            int temttt = 0;
+            for( String number : splitText )
+                temttt = temttt + Integer.parseInt(number);
+            System.out.println(temttt);
+        }
+        */
+        lottoDB.close();
         
         ArrayList<ArrayList<Integer>> totalLotto = new ArrayList<ArrayList<Integer>>();
-        // 구간별 Pick
-        int check_1_10  = 3;
-        int check_11_20 = 0;
-        int check_21_30 = 1;
-        int check_31_40 = 0;
-        int check_41_45 = 1;
         
         while(totalLotto.size() < totalGetLotto) {
             int totoal      = check_1_10+check_11_20+check_21_30+check_31_40+check_41_45;
@@ -40,8 +95,13 @@ public class GetLotto {
                 ArrayList<Integer> check = new ArrayList<Integer>(Arrays.asList(check_1_10,check_11_20,check_21_30,check_31_40,check_41_45));
                 
                 for(int index = 1; index <= 45; index++) {
-                    lottoNumber.put(index, index);
+                    if(CheckNoDate) {
+                        if(!emptyNumber.containsKey(index)) lottoNumber.put(index, index);
+                    } else {
+                        lottoNumber.put(index, index);
+                    }
                 }
+                
                 LottoData lottoData = new LottoData(lottoNumber, check);
                 
                 for( int before : pickBefore ) {
@@ -145,3 +205,4 @@ class LottoData {
     }
      
 }
+

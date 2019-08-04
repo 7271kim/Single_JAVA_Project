@@ -1,6 +1,5 @@
 package LottoGet;
 
-import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,18 +10,13 @@ public class SettingsDB {
     
     public static void main(String[] args) throws Exception {
         LottoDB lottoDB = new LottoDB();
-        //allUpdate(lottoDB, 1);
+       
+        allUpdate(lottoDB, 1);
         
         lottoDB.close();
     }
     
     public static void allUpdate (LottoDB lottoDB, int input) throws Exception {
-        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-        encryptor.setPassword(System.getenv("ASOG_ENCRYPTION_KEY"));
-        String url = encryptor.decrypt("N9E8Gx8OgK3sSTU5lvKukxCZK1JvDJ6yYH00Oo2QGgSArGdet42ZOjulkKYItVCCgMcccyM5U4c=");
-        String id = encryptor.decrypt("Ma/9nT/AbenjlE85W0D+di1tNfRHyLTC");
-        String pw = encryptor.decrypt("I7qV/0X33au3v+j7swW36uxKBFCrBbg4");
-        lottoDB.connectionDB(url,id,pw);
         for(int index = 1; index <= input; index++ ) {
             String parsingUrl = "https://www.dhlottery.co.kr/gameResult.do?method=statByColor&currentPage="+index;
             Document doc= Jsoup.connect(parsingUrl).get();

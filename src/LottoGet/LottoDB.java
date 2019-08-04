@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.HashMap;   
 import java.util.Map;
 
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+
 public class LottoDB {
     private Connection conn = null;
     private Statement stmt = null;
@@ -16,22 +18,26 @@ public class LottoDB {
     private PreparedStatement psmt = null;
     private Map<String, String> lottoData = new HashMap<String, String>();
     
-    public Map<String, String> getLottoData() {
-        return lottoData;
-    }
-
-    public void setLottoData(Map<String, String> lottoData) {
-        this.lottoData = lottoData;
-    }
-
-    public void connectionDB(String url, String id, String pw) {
+    public LottoDB() {
+        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+        encryptor.setPassword(System.getenv("ASOG_ENCRYPTION_KEY"));
+        String url = encryptor.decrypt("N9E8Gx8OgK3sSTU5lvKukxCZK1JvDJ6yYH00Oo2QGgSArGdet42ZOjulkKYItVCCgMcccyM5U4c=");
+        String id = encryptor.decrypt("Ma/9nT/AbenjlE85W0D+di1tNfRHyLTC");
+        String pw = encryptor.decrypt("I7qV/0X33au3v+j7swW36uxKBFCrBbg4");
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(url,id,pw);
         } catch (Exception e) {
             System.out.println(e);
         }
-        
+    }
+    
+    public Map<String, String> getLottoData() {
+        return lottoData;
+    }
+
+    public void setLottoData(Map<String, String> lottoData) {
+        this.lottoData = lottoData;
     }
     
     public void insertLotto(String date, String number) {
@@ -52,8 +58,7 @@ public class LottoDB {
         Map<String, String> list = new HashMap<String, String>();
         try {
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM lotto_data");
-            System.out.println(rs);
+            rs = stmt.executeQuery(query);
             writeResultSet(rs, list);
         } catch (Exception e) {
             System.out.println("error  : " +e);
@@ -61,12 +66,11 @@ public class LottoDB {
         return list;
     }
     
-    public Map<String, String> allData() {
+    public Map<String, String> getAllData() {
         Map<String, String> list = new HashMap<String, String>();
         try {
             stmt = conn.createStatement();
-            rs = stmt
-                    .executeQuery("SELECT * FROM lotto_data");
+            rs = stmt.executeQuery("SELECT * FROM lotto_data ORDER BY `DATE` DESC");
             writeResultSet(rs, list);
         } catch (Exception e) {
             System.out.println(e);
