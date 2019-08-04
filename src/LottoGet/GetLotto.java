@@ -6,16 +6,29 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class GetLotto {
-    public static void main(String[] args) {
+    
+    public static void main(String[] args) throws Exception {
+        LottoDB lottoDB = new LottoDB();
+//        Map<String, String> listDB = lottoDB.getQurry("SELECT * FROM lotto_data ORDER BY `DATE` DESC limit 10");
+        Map<String, String> listDB = lottoDB.allData();
+        System.out.println(listDB.size());
+        /*for( String item : listDB.keySet() ) {
+            System.out.println(item);
+            System.out.println(listDB.get(item));
+        }*/
+        
+        
         int totalGetLotto   = 10; // 로또 구매 갯수
-        int[] pickBefore    = {1,2}; // 먼저 뽑아놓는 수
-        int[] noPick        = {3,4,5,6,7,8,9,41,42,43,44}; // 나오면 안되는 수
+        int[] pickBefore    = {5,12}; // 먼저 뽑아놓는 수
+        int[] noPick        = {44}; // 나오면 안되는 수
+        
         ArrayList<ArrayList<Integer>> totalLotto = new ArrayList<ArrayList<Integer>>();
         // 구간별 Pick
         int check_1_10  = 3;
         int check_11_20 = 0;
-        int check_21_30 = 0;
+        int check_21_30 = 1;
         int check_31_40 = 0;
         int check_41_45 = 1;
         
