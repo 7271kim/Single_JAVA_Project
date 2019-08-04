@@ -1,12 +1,8 @@
-### 1.GetLotto.JAVA
-- thisLotto : 구매 후 금주 당첨 번호 작성란 > 작성하면  금주 몇개 맞았는지 확인 가능
-- beforePick : 항상 들어갈 번호 선택
-- noNumber : 나오면 안되는 번호 선택 ( beforePick에 들어간 숫자 적어주기 )
-- checkOverlay.put(0, 2) : 1 ~ 10번까지 숫자중 2개의 숫자를 골라야 한다면 checkOverlay.put(0, 2)
-- checkOverlay.put(1, 1) : 11 ~ 20번까지 숫자중 1개의 숫자를 골라야 한다면 checkOverlay.put(1, 1)
-- checkOverlay.put(2, 0) : 21 ~ 30번까지 숫자 랜덤 checkOverlay.put(2, 0)
-- checkOverlay.put(3, 0) : 31 ~ 40 번까지 숫자 랜덤 checkOverlay.put(3, 0)
-- checkOverlay.put(4, 0) : 41 ~ 45 번까지 숫자 랜덤 checkOverlay.put(4, 0)
+### 1.GetLotto.JAVA [2019.08.04 전체로직 변경]
+ - totalGetLotto 로또구매 갯수
+ - pickBefore : 먼저 뽑아놓을 수 
+ - noPick : 나오면 안되는 수
+ - check_1_10, check_11_20, check_21_30, check_31_40, check_41_45 : 구간별 pick
 
 ### 1.StaticClassLotto.JAVA
 - wishGet : 3이라면 3개의 번호를 맞출 때 까지 계속 뽑음 
