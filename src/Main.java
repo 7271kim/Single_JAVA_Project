@@ -1,28 +1,43 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Main {
     public static void main(String[] args) throws NumberFormatException, IOException {
+        /*
+         * https://www.acmicpc.net/problem/1572
+         * 중앙값 
+         * 앞뒤 빼고 넣기
+         */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n= Integer.parseInt(br.readLine());
-        for( int example = 0; example < n; example++ ) {
-            int scale= Integer.parseInt(br.readLine());
-            String[] publicKey = br.readLine().split(" ");
-            String[] privateKey = br.readLine().split(" ");
-            String[] cryptogram = br.readLine().split(" ");
-            int resultSet[] = new int[scale];
-            String[] result = new String[scale];
-            for(int publicItem = 0; publicItem < publicKey.length; publicItem++) 
-                for( int privateItem = 0; privateItem < privateKey.length; privateItem++)
-                    if( publicKey[publicItem].equals(privateKey[privateItem]) ) resultSet[privateItem] = publicItem;
-            for(int index = 0 ; index < resultSet.length; index++) {
-                result[resultSet[index]] = cryptogram[index];
-            }
-            for( int index = 0; index < result.length; index++ ) {
-                System.out.print(result[index]+" ");
-            }
-        }
+        String[] fistInput = br.readLine().split(" ");
+        int n = Integer.parseInt(fistInput[0]);
+        int k = Integer.parseInt(fistInput[1]);
+        int [] temp = new int[n+1];
+        int result = 0;
+        int mid = ((k+1)/2)-1;
+         for( int index = 1; index <= n; index++ ) {
+             int number = Integer.parseInt(br.readLine());
+             temp[index] = number;
+             if( k == index ) {
+                 ArrayList<Integer> tempList = new ArrayList<Integer>();
+                 for( int loop = 1; loop <= index; loop++ ) {
+                     tempList.add(temp[loop]);
+                 }
+                 Collections.sort(tempList);
+                 result += tempList.get(mid);
+             } else if(k < index ) {
+                 ArrayList<Integer> tempList = new ArrayList<Integer>();
+                 for( int loop = index-k+1; loop <= index; loop++ ) {
+                     tempList.add(temp[loop]);
+                 }
+                 Collections.sort(tempList);
+                 result += tempList.get(mid);
+             }
+         }
+         System.out.println(result);
     }
 }
 
