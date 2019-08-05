@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;   
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -54,6 +56,54 @@ public class LottoDB {
         }
     }
     
+    public void insertLottoNum(String number, String number2, String value) {
+        try {
+                psmt = conn.prepareStatement("INSERT INTO lotto_number_total ( NUMBER, NUMBER_TWO,VALUE ) values (?,?,?)");
+                psmt.setString(1, number);
+                psmt.setString(2, number2);
+                psmt.setString(3, value);
+                psmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void updateLottoNum(String number, String number2, String value) {
+        try {
+                psmt = conn.prepareStatement("UPDATE lotto_number_total SET VALUE = ? WHERE NUMBER=? AND NUMBER_TWO=?");
+                psmt.setString(1, value);
+                psmt.setString(2, number);
+                psmt.setString(3, number2);
+                psmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public int getLottoNumOne(String query) {
+        int result = 0;
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            result = writeResultSet2(rs);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public List<LottoModel> getLottoNumList(String number) {
+        List<LottoModel> result = new ArrayList<LottoModel>();
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT NUMBER,NUMBER_TWO,VALUE FROM lotto_number_total WHERE NUMBER="+number);
+            result = getResultSet(rs);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
     public Map<String, String> getQurry(String query) {
         Map<String, String> list = new HashMap<String, String>();
         try {
@@ -85,6 +135,26 @@ public class LottoDB {
             list.put(date, number);
         }
         return list;
+    }
+    
+    private List<LottoModel> getResultSet(ResultSet resultSet) throws SQLException {
+        List<LottoModel> list = new ArrayList<LottoModel>();
+        while (resultSet.next()) {
+            LottoModel lottoModel = new LottoModel();
+            lottoModel.setNumber(resultSet.getString("number"));
+            lottoModel.setNumber_two(resultSet.getString("number_two"));
+            lottoModel.setValue(resultSet.getString("value"));
+            list.add(lottoModel);
+        }
+        return list;
+    }
+    
+    private int writeResultSet2(ResultSet resultSet) throws SQLException {
+        int result=1;
+        while (resultSet.next()) {
+            result =  Integer.parseInt(resultSet.getString("value"));
+        }
+        return result;
     }
     
     public void close() {
