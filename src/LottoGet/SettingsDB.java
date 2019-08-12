@@ -14,8 +14,8 @@ public class SettingsDB {
     public static void main(String[] args) throws Exception {
         LottoDB lottoDB = new LottoDB();
        
-        //allUpdate(lottoDB, 1); // 회차별 로또번호 업데이트
-        subtotal(lottoDB, 87); // 1 ~ 87 - 끝까지 전체 번호별 당첨 횟수 업데이트
+        allUpdate(lottoDB, 1); // 회차별 로또번호 업데이트
+        //subtotal(lottoDB, 87); // 1 ~ 87 - 끝까지 전체 번호별 당첨 횟수 업데이트
         //subtotalOne(lottoDB); // 최근 1개 누적값 업데이트
         
         
@@ -46,9 +46,12 @@ public class SettingsDB {
                     Elements td = item.select("td");
                     String date = td.get(0).text();
                     String number = td.get(2).text();
-                    System.out.println("date : " + date);
-                    System.out.println("number : " + number);
-                    lottoDB.insertLotto(date, number);
+                    if(lottoDB.getQurry("SELECT * FROM lotto_data WHERE DATE='"+date+"'").size() < 1) {
+                        System.out.println("date : " + date);
+                        System.out.println("number : " + number);
+                        lottoDB.insertLotto(date, number);
+                        subtotalOne(lottoDB); // 최근 1개 누적값 업데이트
+                    };
                 }
                 
             }
