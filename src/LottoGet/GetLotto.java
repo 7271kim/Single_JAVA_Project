@@ -16,8 +16,8 @@ public class GetLotto {
         Boolean CheckNoDate = true; // 과거 noDate번 동안 나오지 않은 수 제거 할것인가
         
         int totalGetLotto   = 3; // 로또 구매 갯수
-        int[] pickBefore    = {35,37}; // 먼저 뽑아놓는 수
-        int[] noPick        = {1,2,3,5,6,8,10,11,13,14,15,17,18,19,20,21,23,25,26,27,28,30,31,32,33,34,36,40,42,44,45}; // 나오면 안되는 수
+        int[] pickBefore    = {}; // 먼저 뽑아놓는 수
+        int[] noPick        = {1,2,6, 5, 12, 23, 26,30, 31, 34 }; // 나오면 안되는 수
         
         // 구간별 Pick
         int check_1_10  = 0;
