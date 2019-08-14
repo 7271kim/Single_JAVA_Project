@@ -18,13 +18,20 @@ public class Main {
         String[] fistInput = br.readLine().split(" ");
         int n = Integer.parseInt(fistInput[0]);
         int k = Integer.parseInt(fistInput[1]);*/
-        int[] or = {9,8,5,7,2,1,3,4};
+        int[] or = {3,2,5,7,10,3,2,7,8,2,1,9,5,10,7,4};
         //int[] or = {1,2,3};
-        IndexTree temp = new IndexTree(or);
-        temp.print();
-        System.out.println(temp.intervalSum(1, 6));
-        temp.updateTree(0, 0);
-        temp.print();
+        //IndexTree temp = new IndexTree(or);
+        //temp.print();
+        //System.out.println(temp.intervalSum(1, 6));
+       // temp.updateTree(0, 0);
+       // temp.print();
+        
+        BinaryIndexTree temB = new BinaryIndexTree(or);
+        temB.printTotal();
+        temB.printFenwick();
+        temB.printOriginal();
+        System.out.println(temB.sumTotal(3));
+        System.out.println(temB.sumInterVal(2, 4));
     }
 }
 /*
@@ -128,26 +135,68 @@ class IndexTree {
 2.  Binary Indexed Tree & Fenwick Tree (BIT(or Fenwick))
  - IDT 중에서도, 구간 합을 구하는데 특별한 자료구조 형태
  - Panwork tree ( Tree[i] )란 A[i]가 주어졌을 때, A[i]로부터 앞으로 ㄴi의 합이 저장되도록 미리 만들어 놓은 자료구조 (마지막 1이 나타내는 값을 L[i]라고 표현)
+ - T[1] = A[1] , T[2] = A[2] + A[1], T[3] = A[3], T[4] = A[1] + A[2] + A[3] + A[4] 이런식의 구조를 만들어 놓음
+ - 개인적인 성향으로 origanal 데이터는 보존되어야 한다고 생각되어 T[ 1~원본데이터 크기 ] 는 팬윅 트리 T[ 원본데이터 크기 ~ 원본데이터 크기 ]는 원본 데이터로 구성해 놓음
+ - 
 */
 class BinaryIndexTree{
-int tree [];
+    int tree [];
+    int orignalSize;
+    int treeLength;
     
-    public BinaryIndexTree(int size) {
-        tree = new int[size];
-    }
-    public void update(int p, int val) {
-        while (p < tree.length) {
-            tree[p] += val;
-            p += p & (-p);
+    public BinaryIndexTree( int[] orignal ) {
+        orignalSize = orignal.length;
+        tree = new int[orignalSize*2+1];
+        treeLength = tree.length-orignalSize;
+        for (int index = 1; index <= orignal.length; index++) {
+            update(index, orignal[index-1]);
         }
     }
-    public int sum(int p) {
+    public void update(int index, int value) {
+        int orignalPosision = orignalSize+index;
+        int beforeValue     = tree[orignalPosision];
+        tree[orignalPosision]   = value;
+        while (index < treeLength) {
+            tree[index] = tree[index] - beforeValue + value;
+         // index & (-index) 는 해당 2진수의 마지막 1의 자리를 찾기 1100 이면 8 , 101이면 1 , 즉 2비트씩 올리는 것
+         // index += (index & -index); 은 index의 마지막 1의자리를 더하는것  즉   7일때 111의 마지막 1의자리 1 을 더하는 것 즉 111 > 1000 (8)이됨  한번 더 연산하면 1000 > 10000 이됨
+         // 더 직관적으로 index += (index & -index)은 가장 가까운 2의 제곱수를 찾는 행위
+         //& 연산자는 양쪽 비트가 모두 1일때만 1, 
+         //-index 음수는 마지막 1의자리 빼고 나머지 1,0 전환
+            index += (index & -index); 
+        }
+    }
+    public int sumTotal(int index) {
         int res = 0;
-        while (p > 0) {
-            res += tree[p];
-            p &= p-1;
+        while (index > 0) {
+            res += tree[index];
+            index &= index-1;
+            // 들어온 수의 1101 -> 1100 -> 1000 마지막 1의자리수를 줄여감 
         }
         return res;
+    }
+    
+    public int sumInterVal(int start , int end) {
+        return sumTotal(end) - sumTotal(start-1);
+    }
+    
+    public void printTotal() {
+        for (int index = 0; index < tree.length; index++) {
+            System.out.print(tree[index] + " ");
+        }
+        System.out.println();
+    }
+    public void printFenwick() {
+        for (int index = 0; index < treeLength; index++) {
+            System.out.print(tree[index] + " ");
+        }
+        System.out.println();
+    }
+    public void printOriginal() {
+        for (int index = treeLength; index < tree.length; index++) {
+            System.out.print(tree[index] + " ");
+        }
+        System.out.println();
     }
 }
 
