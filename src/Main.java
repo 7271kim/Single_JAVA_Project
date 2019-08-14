@@ -12,7 +12,7 @@ public class Main {
          * https://matice.tistory.com/54
          */
        
-         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] fistInput = br.readLine().split(" ");
         int n = Integer.parseInt(fistInput[0]);
         int k = Integer.parseInt(fistInput[1]);
@@ -32,21 +32,22 @@ public class Main {
             }
         }
         for (int index = 0; index < input.length; index++) {
-            //System.out.print(input[index] + " ");
+            System.out.print(input[index] + " ");
         }
         IndexTree tree = new IndexTree(input);
+        System.out.println();
         System.out.println(tree.intervalSum(0, input.length-1));
     }
     public static int getMid( int [] mid) {
         int[] temp = new int[mid.length];
         System.arraycopy(mid, 0, temp, 0, mid.length);
         for (int index = 0; index < mid.length; index++) {
-            //System.out.print(mid[index] + " ");
+            System.out.print(mid[index] + " ");
         }
-        //System.out.println();
+        System.out.println();
         Arrays.sort(temp);
-        int position = (temp.length)/2;
-        //System.out.println("mid[position] : " + temp[position]);
+        int position = (temp.length-1)/2;
+        System.out.println("mid[position] : " + temp[position]);
         return temp[position];
     }
 }
