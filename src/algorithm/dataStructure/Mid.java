@@ -1,7 +1,8 @@
+package algorithm.dataStructure;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Main {
+public class Mid {
     static int N, K, Mid, Len;
     static long SUM;    
     static int Tree[], Data[];
