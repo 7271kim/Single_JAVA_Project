@@ -56,7 +56,7 @@ Index Tree란 (https://matice.tistory.com/54)
          19               7
      5       14      7         0
    1   4   5    9  7   0    0      0
-- IndexTree의 특징 부모가 n 이면 왼쪽자식은 2n , 오른쪽 자식은 2n+1이다.
+- IndexTree의 특징 부모의 인덱스가 n이면 왼쪽자식은 2n , 오른쪽 자식은 2n+1이다.
 - 마지막 리프에 N을 넣어야 한다.
  */
 
