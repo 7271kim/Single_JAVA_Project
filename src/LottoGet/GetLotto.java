@@ -155,6 +155,7 @@ public class GetLotto {
                 totalLotto.add(orderedResult);
             } else {
                 System.out.println("조건이 이상합니다. 조건을 확인해주세요");
+                break;
             }
         }
         String show = "";
