@@ -14,175 +14,43 @@ public class Main {
                 int dvd     = Integer.parseInt(dvdShow[0]);
                 int show    = Integer.parseInt(dvdShow[1]);
                 int[] dvdPosition = new int[dvd+1];
-                int[] treeData  = new int[ dvd + show + 1 ];
+                FenwickTree tree = new FenwickTree(dvd + show + 1);
                 for (int index = 1; index <= dvd; index++) {
-                    treeData[show+index] = 1;
                     dvdPosition[index] = show+index;
+                    tree.update(dvdPosition[index], 1);
                 }
-                String result = "";
-                IndexTree tree = new IndexTree(treeData);
+                
                 for (int index = 0; index < shows.length; index++) {
                     int item = Integer.parseInt(shows[index]);
-                    result += tree.sumTotal(dvdPosition[item]-1);
-                    if(index != shows.length-1) result += " ";
-                    tree.update(show, 1);
-                    tree.update(dvdPosition[item], 0);
-                    
-                    dvdPosition[item] = show;
-                    show--;
+                    System.out.println(tree.sum(dvdPosition[item]-1));
+                    tree.update(dvdPosition[item], -1);
+                    dvdPosition[item] = show - index;
+                    tree.update(dvdPosition[item], 1);
                 }
-                System.out.println(result);
             } 
-            /*int []temp = {4,5,6,7,17};
-            BinaryIndexTree tree = new BinaryIndexTree(temp);
-            tree.printTotal();
-            System.out.println(tree.sumTotal(4)); // 39
-            System.out.println(tree.sumInterVal(1,3)); // 18
-            
-            tree.update(2, 0); // 6-> 0
-            tree.printTotal();
-            System.out.println(tree.sumTotal(4)); //33
-            System.out.println(tree.sumInterVal(1,3)); //12
-            */        } catch (Exception e) {
-        } 
-        
+      } catch (Exception e) {
+    } 
     }
 }
 
-class BinaryIndexTree{
+class FenwickTree{
     int tree [];
-    int orignalSize;
-    int treeLength;
     
-    public BinaryIndexTree( int[] orignal ) {
-        orignalSize = orignal.length;
-        tree = new int[orignalSize*2+1];
-        treeLength = tree.length-orignalSize;
-        for (int index = 0; index < orignal.length; index++) {
-            update(index, orignal[index]);
+    public FenwickTree(int size) {
+        tree = new int[size];
+    }
+    public void update(int p, int val) {
+        while (p < tree.length) {
+            tree[p] += val;
+            p += p & (-p);
         }
     }
-    public void update(int index, int value) {
-        int orignalPosision = orignalSize+index+1;
-        int beforeValue     = tree[orignalPosision];
-        index += 1;
-        tree[orignalPosision]   = value;
-        while (index < treeLength) {
-            tree[index] = tree[index] - beforeValue + value;
-            index += (index & -index); 
-        }
-    }
-    public int sumTotal(int index) {
+    public int sum(int p) {
         int res = 0;
-        index++;
-        while (index > 0) {
-            res += tree[index];
-            index &= index-1;
+        while (p > 0) {
+            res += tree[p];
+            p &= p-1;
         }
         return res;
-    }
-    
-    public int sumInterVal(int start , int end) {
-        return sumTotal(end) - sumTotal(start-1);
-    }
-    
-    public void printTotal() {
-        for (int index = 0; index < tree.length; index++) {
-            System.out.print(tree[index] + " ");
-        }
-        System.out.println();
-    }
-    public void printFenwick() {
-        for (int index = 0; index < treeLength; index++) {
-            System.out.print(tree[index] + " ");
-        }
-        System.out.println();
-    }
-    public void printOriginal() {
-        for (int index = treeLength; index < tree.length; index++) {
-            System.out.print(tree[index] + " ");
-        }
-        System.out.println();
-    }
-}
-
-class IndexTree {
-    private int data[];
-    private int originalStart;
-    
-    public IndexTree( int[] orignal ) {
-        int originalSize = orignal.length;
-        originalStart = 1;
-        
-        while (originalStart < originalSize)
-            originalStart <<= 1;
-        
-        data = new int[originalStart*2];
-        
-        for( int index = 0; index < orignal.length; index++ ) {
-            update( index, orignal[index] );
-        }
-    }
-    
-    public void update( int index, int value) {
-        index += originalStart;
-        int beforeValue = data[index];
-        while(index > 0) {
-            data[index] = data[index] - beforeValue + value;
-            index>>=1;
-        }
-    }
-    
-    public int sumTotal( int end ) {
-        int start = 0;
-        start += originalStart;
-        end += originalStart;
-        int sum = 0;
-        while ( start < end ) {
-            if( start%2 == 1) {
-                sum += data[start]; 
-                start++;
-            }
-            if( end%2 == 0) {
-                sum += data[end];
-                end--;
-            }
-            start>>=1;
-            end>>=1;
-        }
-        if( start == end ) {
-            sum += data[start];
-        }
-        
-        return sum;
-    }
-   public int sumInterVal( int start, int end ) {
-       start += originalStart;
-       end += originalStart;
-       int sum = 0;
-       while ( start < end ) {
-           if( start%2 == 1) {
-               sum += data[start]; 
-               start++;
-           }
-           if( end%2 == 0) {
-               sum += data[end];
-               end--;
-           }
-           start>>=1;
-           end>>=1;
-       }
-       if( start == end ) {
-           sum += data[start];
-       }
-       
-       return sum;
-   }
-   
-    public void printOriginal() {
-        for (int index = 0; index < data.length; index++) {
-            System.out.print(data[index] + " ");
-        }
-        System.out.println();
     }
 }
