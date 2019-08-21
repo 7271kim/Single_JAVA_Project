@@ -7,7 +7,7 @@ public class Main {
     public static void main(String args[]){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-             int exams = Integer.parseInt(br.readLine());
+            int exams = Integer.parseInt(br.readLine());
             for (int exam = 0; exam < exams; exam++) {
                 String[] dvdShow = br.readLine().split(" ");
                 String[] shows   = br.readLine().split(" ");
@@ -25,18 +25,25 @@ public class Main {
                     int item = Integer.parseInt(shows[index]);
                     result += tree.sumTotal(dvdPosition[item]-1);
                     if(index != shows.length-1) result += " ";
-                    tree.printOriginal();
                     tree.update(show, 1);
-                    tree.printOriginal();
                     tree.update(dvdPosition[item], 0);
-                    tree.printOriginal();
                     
                     dvdPosition[item] = show;
                     show--;
                 }
                 System.out.println(result);
             } 
-        } catch (Exception e) {
+            /*int []temp = {4,5,6,7,17};
+            BinaryIndexTree tree = new BinaryIndexTree(temp);
+            tree.printTotal();
+            System.out.println(tree.sumTotal(4)); // 39
+            System.out.println(tree.sumInterVal(1,3)); // 18
+            
+            tree.update(2, 0); // 6-> 0
+            tree.printTotal();
+            System.out.println(tree.sumTotal(4)); //33
+            System.out.println(tree.sumInterVal(1,3)); //12
+            */        } catch (Exception e) {
         } 
         
     }
@@ -58,8 +65,6 @@ class BinaryIndexTree{
     public void update(int index, int value) {
         int orignalPosision = orignalSize+index+1;
         int beforeValue     = tree[orignalPosision];
-        //System.out.println("orignalPosision" + orignalPosision);
-        //System.out.println("beforeValue" + beforeValue);
         index += 1;
         tree[orignalPosision]   = value;
         while (index < treeLength) {
@@ -69,6 +74,7 @@ class BinaryIndexTree{
     }
     public int sumTotal(int index) {
         int res = 0;
+        index++;
         while (index > 0) {
             res += tree[index];
             index &= index-1;
@@ -128,7 +134,7 @@ class IndexTree {
     }
     
     public int sumTotal( int end ) {
-        int start = 1;
+        int start = 0;
         start += originalStart;
         end += originalStart;
         int sum = 0;

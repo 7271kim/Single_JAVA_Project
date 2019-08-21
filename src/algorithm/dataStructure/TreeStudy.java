@@ -77,11 +77,11 @@ class IndexTree {
         data = new int[originalStart*2];
         
         for( int index = 0; index < orignal.length; index++ ) {
-            updateTree( index, orignal[index] );
+            update( index, orignal[index] );
         }
     }
     
-    public void updateTree( int index, int value) {
+    public void update( int index, int value) {
         index += originalStart;
         int beforeValue = data[index];
         while(index > 0) {
@@ -99,7 +99,7 @@ class IndexTree {
 만약 구간의 시작이 홀수라면 부모노드가 바로 앞 짝수 값도 포함하고 있으므로, 해당 시작 값(홀수)를 따로 합한 다음 구간을 [a+1, b]로 변경하여 다시 합을 구해야 합니다.
 마찬가지로 구간의 끝이 짝수라면 구간을 [a, b-1]로 재설정하여 다시 합을 구하는 과정을 반복해야 합니다.
 */
-   public int intervalSum( int start, int end ) {
+   public int sumInterVal( int start, int end ) {
        start += originalStart;
        end += originalStart;
        int sum = 0;
@@ -122,8 +122,30 @@ class IndexTree {
        
        return sum;
    }
-   
-    public void print() {
+   public int sumTotal( int end ) {
+       int start = 0;
+       start += originalStart;
+       end += originalStart;
+       int sum = 0;
+       while ( start < end ) {
+           if( start%2 == 1) {
+               sum += data[start]; 
+               start++;
+           }
+           if( end%2 == 0) {
+               sum += data[end];
+               end--;
+           }
+           start>>=1;
+           end>>=1;
+       }
+       if( start == end ) {
+           sum += data[start];
+       }
+       
+       return sum;
+   }
+    public void printOriginal() {
         for (int index = 0; index < data.length; index++) {
             System.out.print(data[index] + " ");
         }
@@ -149,11 +171,14 @@ class BinaryIndexTree{
         orignalSize = orignal.length;
         tree = new int[orignalSize*2+1];
         treeLength = tree.length-orignalSize;
-        for (int index = 1; index <= orignal.length; index++) {
-            update(index, orignal[index-1]);
+        for (int index = 0; index < orignal.length; index++) {
+            update(index, orignal[index]);
         }
     }
+
+    //int [] temp = {1,7,3,4}; tree.update(1,2) => 7 -> 2로 변경됨 
     public void update(int index, int value) {
+        index += 1; // 팬윅트리는 A[1] 부터 시작
         int orignalPosision = orignalSize+index;
         int beforeValue     = tree[orignalPosision];
         tree[orignalPosision]   = value;
@@ -167,8 +192,10 @@ class BinaryIndexTree{
             index += (index & -index); 
         }
     }
+    //int [] temp = {1,7,3,4}; tree.sumTotal(2); => 1+7+3;
     public int sumTotal(int index) {
         int res = 0;
+        index++; // A[1]부터기 때문
         while (index > 0) {
             res += tree[index];
             index &= index-1;
