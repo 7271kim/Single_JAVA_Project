@@ -64,4 +64,15 @@ class BinaryTree {
         return orignalTree;
     }
     
+    public void post() {
+        if(left != null) left.post();
+        if(right != null) right.post();
+        System.out.println(node);
+    }
+    public void pre() {
+        System.out.println(node);
+        if(left != null) left.pre();
+        if(right != null) right.pre();
+    }
+    
 }
