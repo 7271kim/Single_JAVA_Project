@@ -228,6 +228,62 @@ class BinaryIndexTree{
     }
 }
 
+class FenwickTreeOrignal{
+    int tree [];
+    
+    public FenwickTreeOrignal(int size) {
+        tree = new int[size];
+    }
+    public void update(int p, int val) {
+        while (p < tree.length) {
+            tree[p] += val;
+            p += p & (-p);
+        }
+    }
+    public int sum(int p) {
+        int res = 0;
+        while (p > 0) {
+            res += tree[p];
+            p &= p-1;
+        }
+        return res;
+    }
+}
 
+class IndexTreeOrignal{
+    int tree [];
+    
+    public IndexTreeOrignal(int size) {
+        tree = new int[size];
+    }
+    
+    public int sum(int b, int c) {
+        int sum = 0;
+        while (b < c) {
+            if ((b & 1) == 1) {
+                sum += tree[b];
+                b++;
+            }
+            if ((c & 1) == 0) {
+                sum += tree[c];
+                c--;
+            }
+            b /= 2;
+            c /= 2;
+        }
+        if (b == c)
+            sum += tree[b];
+        return sum;
+    }
+ 
+    public void update(int idx, int val) {
+        int minus = tree[idx];
+        int P = idx;
+        while (P != 0) {
+            tree[P] = tree[P] - minus + val;
+            P /= 2;
+        }
+    }
+}
 
 

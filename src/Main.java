@@ -13,16 +13,19 @@ public class Main {
                 String[] shows   = br.readLine().split(" ");
                 int dvd     = Integer.parseInt(dvdShow[0]);
                 int show    = Integer.parseInt(dvdShow[1]);
-                int[] dvdPosition = new int[dvd+1];
-                FenwickTree tree = new FenwickTree(dvd + show + 1);
-                for (int index = 1; index <= dvd; index++) {
-                    dvdPosition[index] = show+index;
-                    tree.update(dvdPosition[index], 1);
+                int[] dvdPosition = new int[dvd];
+                int originalSize = dvd + show + 1;
+                int originalStart = 1;
+                while (originalStart < originalSize)
+                    originalStart <<= 1;
+                IndexTreeOrignal tree = new IndexTreeOrignal(originalStart*2);
+                for (int index = 0; index < dvd; index++) {
+                    tree.update(originalStart+index, 1);
                 }
                 
                 for (int index = 0; index < shows.length; index++) {
                     int item = Integer.parseInt(shows[index]);
-                    System.out.println(tree.sum(dvdPosition[item]-1));
+                    System.out.println(tree.sum(1,dvdPosition[item]-1));
                     tree.update(dvdPosition[item], -1);
                     dvdPosition[item] = show - index;
                     tree.update(dvdPosition[item], 1);
@@ -52,5 +55,41 @@ class FenwickTree{
             p &= p-1;
         }
         return res;
+    }
+}
+
+class IndexTreeOrignal{
+    int tree [];
+    
+    public IndexTreeOrignal(int size) {
+        tree = new int[size];
+    }
+    
+    public int sum(int b, int c) {
+        int sum = 0;
+        while (b < c) {
+            if ((b & 1) == 1) {
+                sum += tree[b];
+                b++;
+            }
+            if ((c & 1) == 0) {
+                sum += tree[c];
+                c--;
+            }
+            b /= 2;
+            c /= 2;
+        }
+        if (b == c)
+            sum += tree[b];
+        return sum;
+    }
+ 
+    public void update(int idx, int val) {
+        int minus = tree[idx];
+        int P = idx;
+        while (P != 0) {
+            tree[P] = tree[P] - minus + val;
+            P /= 2;
+        }
     }
 }
