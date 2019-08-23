@@ -11,64 +11,105 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         //Scanner sc = new Scanner(System.in);
         try {
-            String[] firstLow = br.readLine().split(" ");
-            String[] toatalInput = br.readLine().split(" ");
-            FrequencySort datas = new FrequencySort();
-            for (int index = 0; index < toatalInput.length; index++) {
-                int number = Integer.parseInt(toatalInput[index]);
-                datas.update(number, index);
+            String [] firstInput = br.readLine().split(" ");
+            int total =  Integer.parseInt(firstInput[0]);
+            int range =  Integer.parseInt(firstInput[1]);
+            int[] ori   = new int[65537];
+            int[] indexPosition   = new int[total];
+            IndexTreeOrignal tree = new IndexTreeOrignal(ori.length);
+            int resut = 0;
+            for (int index = 0; index < total; index++) {
+                int number =Integer.parseInt(br.readLine());
+                ori[number] +=1;
+                indexPosition[index] = number;
+                if( index < range ) {
+                    tree.update(number, ori[number]);
+                } else {
+                    tree.update(number, ori[number]);
+                    if(index != range) {
+                        int beforeNumber    = indexPosition[index-range-1];
+                        ori[beforeNumber]  -= 1;      
+                        tree.update(beforeNumber, ori[beforeNumber]);
+                    }
+                    resut += tree.getMid((range+1)/2);
+                }
             }
-            datas.sort();
-            datas.sortPrint();
+            System.out.println(resut);
         } catch (Exception e) {
             System.out.println(e);
         } 
     }
 }
 
-class FrequencySort {
-    // Map< 숫자,{인덱스,횟수 저장} >
-    Map<Integer, int[]> datas = new HashMap<Integer, int[]>();
-    ArrayList<Integer> sorted = new ArrayList<Integer>();
+class IndexTreeOrignal{
+    int tree [];
+    int originalStart;
     
-    public void update(int number , int index) {
-        if(datas.containsKey(number)) {
-            int[] temp = datas.get(number);
-            temp[1] += 1;
-            datas.replace(number, temp);
-        }else {
-            int[] temp = {index,1};
-            datas.put(number, temp);
-        }
+    public IndexTreeOrignal(int originalSize) {
+        originalStart = 1;
+        while (originalStart < originalSize)
+            originalStart <<= 1;
+        tree = new int[originalStart*2];
     }
-    public void sort() {
-        sorted = new ArrayList<Integer>(datas.keySet());
-        Collections.sort(sorted, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer first, Integer second) {
-                // {인덱스,횟수저장 } => 횟수가 높은것 먼저 저장, 그다음 인덱스가 먼저 나온것 상위
-                // 리턴 1 : 오름 차순
-                // 리턴 -1 : 내림차순
-                // 리턴 0 : 같음 아무일 안함
-                int firstSize       = datas.get(first)[1];
-                int secondSize      = datas.get(second)[1];
-                int firstShowIndex      =  datas.get(first)[0];
-                int secondShowIndex     =  datas.get(second)[0];
-                if( firstSize != secondSize ) {
-                    return firstSize < secondSize ? 1 : -1;
-                } else {
-                    return firstShowIndex < secondShowIndex ? -1 : 1;
-                }
-            }
-        });
+    public int sumTotal ( int endIndex ) {
+        return sumInterVal(0, endIndex);
     }
     
-    public void sortPrint() {
-        for (Integer key : sorted) {
-            int count = datas.get(key)[1];
-            for (int index = 0; index < count; index++) {
-                System.out.println(key);
+    public int getMid(int midIndex) {
+        int mid = 0;
+        int root = 1;
+        while ( root < tree.length ) {
+            if(  midIndex <= tree[root] ) {
+                root <<= 1;
+            } else if( midIndex > tree[root] ){
+                root        +=1;
+                midIndex    -=1;
+                root <<= 1;
             }
         }
+        root>>=1;
+        System.out.println("length : " + tree.length);
+        System.out.println("root : " + root);
+        System.out.println("originalStart : " + originalStart);
+        mid = root-originalStart;
+        return mid;
+    }
+ 
+    public void update(int index, int val) {
+        index += originalStart;
+        int minus = tree[index];
+        int pointer = index;
+        while (pointer != 0) {
+            tree[pointer] = tree[pointer] - minus + val;
+            pointer /= 2;
+        }
+    }
+    
+    public int sumInterVal(int startIndex, int endIndex) {
+        int sum = 0;
+        startIndex += originalStart;
+        endIndex += originalStart;
+        while (startIndex < endIndex) {
+            if ((startIndex & 1) == 1) {
+                sum += tree[startIndex];
+                startIndex++;
+            }
+            if ((endIndex & 1) == 0) {
+                sum += tree[endIndex];
+                endIndex--;
+            }
+            startIndex /= 2;
+            endIndex /= 2;
+        }
+        if (startIndex == endIndex)
+            sum += tree[startIndex];
+        return sum;
+    }
+    
+    public void printOriginal() {
+        for (int index = 0; index < tree.length; index++) {
+            System.out.print(tree[index] + " ");
+        }
+        System.out.println();
     }
 }
