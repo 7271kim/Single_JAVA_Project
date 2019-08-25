@@ -316,3 +316,51 @@ class IndexTreeOrignal{
         System.out.println();
     }
 }
+
+class BinaryTreeOri {
+    int node;
+    BinaryTree left;
+    BinaryTree right;
+    
+    public BinaryTreeOri( int node ) {
+        this.node   = node;
+        this.left  = null;
+        this.right  = null;
+    }
+    
+    /*
+     CORE : Tree 또한 저장된 데이터 형식이다. >>  BinaryTree result = new BinaryTree(Integer.parseInt(inputData)); 결과 하나하나 나무 데이터가 만들어지는 것.
+     Defaul : 노드가 1개일 경우 ( 50 30 60 >> 정상 노출 ) : 핵심로직 >> 여러개일때 동기화작전 >> 회귀 >> 왼쪽 오른쪽 로직이 반복된다. >> 반복하는 것을 종료 조건과 더불어 회귀한다. >> 핵심은 . 달아 놓을것이 무엇인가. 왼쪽 오른쪽은 트리데이터가 달릴수 있다.
+     public BinaryTree addTree ( BinaryTree orignalTree, int value ) {
+        BinaryTree tempBinaryTree = new BinaryTree(value);
+        if( value < orignalTree.node ) {
+            orignalTree.lefet = tempBinaryTree;
+        } else if( value > orignalTree.node ) {
+            orignalTree.right = tempBinaryTree;
+        }
+        return orignalTree;
+    }*/
+    
+    // 반복해야 하는 것을 종료 조건과 더불어 회귀시긴다.
+    public BinaryTree addTree ( BinaryTree orignalTree, int value ) {
+        if( orignalTree == null ) return new BinaryTree(value);
+        if( value < orignalTree.node ) {
+            orignalTree.left = addTree(orignalTree.left, value);
+        } else if( value > orignalTree.node ) {
+            orignalTree.right = addTree(orignalTree.right,value);
+        }
+        return orignalTree;
+    }
+    
+    public void post() {
+        if(left != null) left.post();
+        if(right != null) right.post();
+        System.out.println(node);
+    }
+    public void pre() {
+        System.out.println(node);
+        if(left != null) left.pre();
+        if(right != null) right.pre();
+    }
+    
+}

@@ -1,15 +1,10 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Stack;
 
 /*
- * https://www.acmicpc.net/problem/9012
- * 스택
+ * https://www.acmicpc.net/problem/4949
+ * 균형잡힌 세상
  */
 
 public class Main {
@@ -17,26 +12,37 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         //Scanner sc = new Scanner(System.in);
         try {
-            int number = Integer.parseInt(br.readLine());
-            for (int index = 0; index < number; index++) {
-                Stack<Integer> stack = new Stack<Integer>();
-                String result        = "YES";
-                //int line = Integer.parseInt(br.readLine());
-                String[] next = br.readLine().split("");
+            String inputData;
+            while ( (inputData = br.readLine()) != null && inputData.length() != 0) {    //EOF까지 입력받음
+                Stack<String> brackets = new Stack<String>();
+                String result        = "yes";
+                String[] next = inputData.split("");
                 for (int inner = 0; inner < next.length; inner++) {
-                    if( next[inner].indexOf("(") > -1 ) {
-                        stack.push(1);
-                    } else {
-                        if( stack.isEmpty() ) {
-                            result        = "NO";
-                            break;
+                    String temp = next[inner];
+                    if( temp.indexOf("(") > -1 ) {
+                        brackets.push("(");
+                    } else if( temp.indexOf("[") > -1 ) {
+                        brackets.push("[");
+                    } else if(temp.indexOf(")") > -1 ) {
+                        if( !brackets.isEmpty() && brackets.get(brackets.size()-1) == "(" ) {
+                            brackets.pop();
                         } else {
-                            stack.pop();
+                            result        = "no";
+                            break;
+                        }
+                    } else if(temp.indexOf("]") > -1 ) {
+                        if( !brackets.isEmpty() && brackets.get(brackets.size()-1) == "[" ) {
+                            brackets.pop();
+                        } else {
+                            result        = "no";
+                            break;
                         }
                     }
                 }
-                if(!stack.isEmpty()) result = "NO";
-                System.out.println(result);
+                if(!brackets.isEmpty()) result = "no";
+                if(!(inputData.length() == 1 && inputData.equals("."))) {
+                    System.out.println(result);
+                }
             }
             
         } catch (Exception e) {
