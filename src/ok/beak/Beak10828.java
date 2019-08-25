@@ -1,3 +1,4 @@
+package ok.beak;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Map;
  * 스택 - JAVA에서 제공해주는 것이 있음
  */
 
-public class Main {
+public class Beak10828 {
     public static void main(String args[]){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         //Scanner sc = new Scanner(System.in);
