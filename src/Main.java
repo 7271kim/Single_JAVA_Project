@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Stack;
 
 /*
- * https://www.acmicpc.net/problem/10773
+ * https://www.acmicpc.net/problem/9012
  * 스택
  */
 
@@ -18,18 +18,27 @@ public class Main {
         //Scanner sc = new Scanner(System.in);
         try {
             int number = Integer.parseInt(br.readLine());
-            Stack<Integer> stack = new Stack<Integer>();
-            int sum    = 0;
             for (int index = 0; index < number; index++) {
-                int line = Integer.parseInt(br.readLine());
-                if( line == 0 ) {
-                    sum -= stack.pop();
-                } else {
-                    sum += line;
-                    stack.push(line);
+                Stack<Integer> stack = new Stack<Integer>();
+                String result        = "YES";
+                //int line = Integer.parseInt(br.readLine());
+                String[] next = br.readLine().split("");
+                for (int inner = 0; inner < next.length; inner++) {
+                    if( next[inner].indexOf("(") > -1 ) {
+                        stack.push(1);
+                    } else {
+                        if( stack.isEmpty() ) {
+                            result        = "NO";
+                            break;
+                        } else {
+                            stack.pop();
+                        }
+                    }
                 }
+                if(!stack.isEmpty()) result = "NO";
+                System.out.println(result);
             }
-            System.out.println(sum);
+            
         } catch (Exception e) {
             System.out.println(e);
         } 
