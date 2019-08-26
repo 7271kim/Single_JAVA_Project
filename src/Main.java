@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.util.Stack;
 
 /*
- * https://www.acmicpc.net/problem/2164
+ * https://www.acmicpc.net/problem/11866
  * 큐 - 순회 돌기
  */
 

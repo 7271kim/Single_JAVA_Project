@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.Stack;
 
 /*
- * https://www.acmicpc.net/problem/2164
+ * https://www.acmicpc.net/problem/11866
  * 큐 - 순회 돌기
  */
 
@@ -31,10 +31,13 @@ public class Beak11866Que {
                 que.add(index);
             }
             while(que.size() > 0) {
+                // 큐의 순회 돌기
                 for (int index = 0; index < k-1; index++) {
                     int temp = que.poll();
                     que.add(temp);
                 }
+                
+                // 맨 위에 있는 친구 넣기
                 result.append(que.poll());
                 if( que.size() == 0 ) {
                     result.append(">");
