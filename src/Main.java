@@ -16,6 +16,7 @@ public class Main {
             int[] inputNum = new int[total]; // 들어오는 배열
             int min     = 0; // 업데이트해야할 최소값
             Stack<Integer> stack = new Stack<Integer>(); // 업데이트 해야할 것들
+            StringBuilder result  = new StringBuilder();
             
             for (int index = 0; index < total; index++) {
                 int number = sc.nextInt();
@@ -29,6 +30,8 @@ public class Main {
                             A[stack.get(stackIndex)] = number;
                             stack.pop();
                             if(stack.size() == 0) break;
+                        } else {
+                            break;
                         }
                     }
                 }
@@ -37,8 +40,9 @@ public class Main {
             }
             
             for (int index = 0; index < inputNum.length; index++) {
-                System.out.print(A[inputNum[index]] + " ");
+                result.append(A[inputNum[index]] + " ");
             }
+            System.out.println(result);
         } catch (Exception e) {
             System.out.println(e);
         } 
