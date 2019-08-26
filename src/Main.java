@@ -9,8 +9,9 @@ import java.util.Scanner;
 import java.util.Stack;
 
 /*
- * https://www.acmicpc.net/problem/11866
+ * https://www.acmicpc.net/problem/1966
  * 큐 - 순회 돌기
+ * 메모리 초과
  */
 
 public class Main {
@@ -18,30 +19,42 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         //Scanner sc = new Scanner(System.in);
         try {
-            String[] input = br.readLine().split(" ");
-            int total = Integer.parseInt(input[0]);
-            int k = Integer.parseInt(input[1]);
-            int tempt = 0;
-            Queue<Integer> que = new LinkedList<Integer>();
-            StringBuilder result = new StringBuilder();
-            result.append("<");
-            
+            int total = Integer.parseInt(br.readLine());
             for (int index = 1; index <= total; index++) {
-                que.add(index);
-            }
-            while(que.size() > 0) {
-                for (int index = 0; index < k-1; index++) {
-                    int temp = que.poll();
-                    que.add(temp);
+                String[] input = br.readLine().split(" ");
+                String[] queSize = br.readLine().split(" ");
+                int result       = 0;
+                Queue<int[]> ques = new LinkedList<int[]>();
+                int find    = Integer.parseInt(input[1]);
+                int prioryMax   = 1;
+                for (int indexQue = 0; indexQue < queSize.length; indexQue++) {
+                    int findPri = Integer.parseInt(queSize[indexQue]);
+                    int [] temp = { indexQue, findPri };
+                    ques.add(temp);
+                    if( prioryMax <= findPri ) prioryMax = findPri; // 찾으려는 친구보다 더 큰 우선순위를 갖는 친구 저장
                 }
-                result.append(que.poll());
-                if( que.size() == 0 ) {
-                    result.append(">");
-                } else {
-                    result.append(", ");
+                Boolean isGo = true;
+                int nextPriory = 1;
+                while( isGo ) {
+                    for (int cy = 0; cy < ques.size(); cy++) {
+                        if(ques.peek()[1] == prioryMax) {
+                            // 최고치부터 출력 그외는 순회
+                            result++;
+                            cy = 0;
+                            if( ques.peek()[0] == find ) {
+                                System.out.println(result);
+                                isGo = false;
+                                break;
+                            }
+                            ques.poll();
+                        } 
+                        if( nextPriory <= ques.peek()[1] ) nextPriory = ques.peek()[1]; // 그다음 최고치확인
+                        int[] temp = ques.poll();
+                        ques.add(temp);
+                    }
+                    prioryMax = nextPriory;
                 }
             }
-            System.out.println(result);
         } catch (Exception e) {
             System.out.println(e);
         } 
