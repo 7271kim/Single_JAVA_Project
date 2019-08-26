@@ -1,48 +1,44 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
 
 /*
- * https://www.acmicpc.net/problem/17298
- * 로직에 대한 고민
+ * https://www.acmicpc.net/problem/10845
+ * 큐
  */
 
 public class Main {
     public static void main(String args[]){
-        //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        //Scanner sc = new Scanner(System.in);
+        //  1 : peak,poll
+        //  2
+        //  3
         try {
-            int total       = sc.nextInt();
-            int[] A     = new int[ 1000001]; // 구하는 A[i] 조합 인덱스가 inputNum
-            int[] inputNum = new int[total]; // 들어오는 배열
-            int min     = 0; // 업데이트해야할 최소값
-            Stack<Integer> stack = new Stack<Integer>(); // 업데이트 해야할 것들
-            StringBuilder result  = new StringBuilder();
-            
+            int total = Integer.parseInt(br.readLine());
+            Queue<Integer> que  = new LinkedList<Integer>();
+            int last    = -1;
             for (int index = 0; index < total; index++) {
-                int number = sc.nextInt();
-                inputNum[index] = number;
-                
-                if(A[number] == 0) A[number] =-1;
-                if( number > min && stack.size() > 0) {
-                    for (int stackIndex = stack.size()-1; stackIndex >= 0; stackIndex--) {
-                        int stackNumb = stack.get(stackIndex);
-                        if( stackNumb < number ) {
-                            A[stack.get(stackIndex)] = number;
-                            stack.pop();
-                            if(stack.size() == 0) break;
-                        } else {
-                            break;
-                        }
-                    }
-                }
-                stack.add(number);
-                min = number;
+                String line = br.readLine();
+                if( line.indexOf("push") > -1 ) {
+                    int temp =Integer.parseInt(line.split(" ")[1]); 
+                    que.add(temp);
+                    last = temp;
+                } else if( line.indexOf("pop") > -1 ) {
+                    System.out.println(que.isEmpty()?-1:que.poll());
+                } else if( line.indexOf("size") > -1 ) {
+                    System.out.println(que.size());
+                } else if( line.indexOf("empty") > -1 ) {
+                    System.out.println(que.isEmpty()?1:0);
+                } else if( line.indexOf("front") > -1 ) {
+                    System.out.println(que.isEmpty()?-1:que.peek());
+                }  else if( line.indexOf("back") > -1 ) {
+                    System.out.println(que.isEmpty()?-1:last);
+                } 
             }
-            
-            for (int index = 0; index < inputNum.length; index++) {
-                result.append(A[inputNum[index]] + " ");
-            }
-            System.out.println(result);
         } catch (Exception e) {
             System.out.println(e);
         } 
