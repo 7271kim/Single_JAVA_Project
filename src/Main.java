@@ -1,44 +1,47 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
 
 /*
- * https://www.acmicpc.net/problem/10845
- * 큐
+ * https://www.acmicpc.net/problem/2164
+ * 큐 - 순회 돌기
  */
 
 public class Main {
     public static void main(String args[]){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         //Scanner sc = new Scanner(System.in);
-        //  1 : peak,poll
-        //  2
-        //  3
         try {
-            int total = Integer.parseInt(br.readLine());
-            Queue<Integer> que  = new LinkedList<Integer>();
-            int last    = -1;
-            for (int index = 0; index < total; index++) {
-                String line = br.readLine();
-                if( line.indexOf("push") > -1 ) {
-                    int temp =Integer.parseInt(line.split(" ")[1]); 
-                    que.add(temp);
-                    last = temp;
-                } else if( line.indexOf("pop") > -1 ) {
-                    System.out.println(que.isEmpty()?-1:que.poll());
-                } else if( line.indexOf("size") > -1 ) {
-                    System.out.println(que.size());
-                } else if( line.indexOf("empty") > -1 ) {
-                    System.out.println(que.isEmpty()?1:0);
-                } else if( line.indexOf("front") > -1 ) {
-                    System.out.println(que.isEmpty()?-1:que.peek());
-                }  else if( line.indexOf("back") > -1 ) {
-                    System.out.println(que.isEmpty()?-1:last);
-                } 
+            String[] input = br.readLine().split(" ");
+            int total = Integer.parseInt(input[0]);
+            int k = Integer.parseInt(input[1]);
+            int tempt = 0;
+            Queue<Integer> que = new LinkedList<Integer>();
+            StringBuilder result = new StringBuilder();
+            result.append("<");
+            
+            for (int index = 1; index <= total; index++) {
+                que.add(index);
             }
+            while(que.size() > 0) {
+                for (int index = 0; index < k-1; index++) {
+                    int temp = que.poll();
+                    que.add(temp);
+                }
+                result.append(que.poll());
+                if( que.size() == 0 ) {
+                    result.append(">");
+                } else {
+                    result.append(", ");
+                }
+            }
+            System.out.println(result);
         } catch (Exception e) {
             System.out.println(e);
         } 
