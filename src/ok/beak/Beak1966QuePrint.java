@@ -3,7 +3,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
  
-public class Beak1966 {
+public class Beak1966QuePrint {
 
     /*
      * https://www.acmicpc.net/problem/1966

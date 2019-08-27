@@ -1,58 +1,53 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Deque;
 import java.util.LinkedList;
- 
-public class Main {
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Stack;
 
-    /*
-     * https://www.acmicpc.net/problem/1966
-     * 큐 - 메모리 초과이슈 .. 어딘지 못찾겠음 ㅠ
-     * 다른 사람 코드참고  
-     */
-    public static void main(String[] args) throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int total = Integer.parseInt(reader.readLine());
-        StringBuilder result = new StringBuilder();
-        
-        for( int index = 0 ; index<total; index++ ){
-            LinkedList<Integer> queue = new LinkedList<>();
-            String[] input = reader.readLine().split(" ");
-            String[] priority = reader.readLine().split(" ");
-            int findeNumber = Integer.parseInt(input[1]);
-            int count = 0;
-            
-            for(int cycle=0 ; cycle<priority.length ; cycle++) {
-                // 큐 추가
-                queue.add(Integer.parseInt(priority[cycle]));
+/*
+ * https://www.acmicpc.net/problem/10866
+ * Deque 
+ *
+ */
+
+public class Main {
+    public static void main(String args[]){
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        //Scanner sc = new Scanner(System.in);
+        //  1 : peak,poll
+        //  2
+        //  3
+        try {
+            int total = Integer.parseInt(br.readLine());
+            Deque<Integer> deque   = new LinkedList<Integer>();
+            int last    = -1;
+            for (int index = 0; index < total; index++) {
+                String line = br.readLine();
+                if( line.indexOf("push_front") > -1 ) {
+                    int temp =Integer.parseInt(line.split(" ")[1]); 
+                    deque.addFirst(temp);
+                    last = temp;
+                } else if( line.indexOf("push_back") > -1 ) {
+                    int temp =Integer.parseInt(line.split(" ")[1]); 
+                    deque.addLast(temp);
+                } else if( line.indexOf("pop_front") > -1 ) {
+                    System.out.println(deque.isEmpty()?-1:deque.pop());
+                } else if( line.indexOf("pop_back") > -1 ) {
+                    System.out.println(deque.isEmpty()?-1:deque.removeLast());
+                } else if( line.indexOf("size") > -1 ) {
+                    System.out.println(deque.size());
+                } else if( line.indexOf("front") > -1 ) {
+                    System.out.println(deque.isEmpty()?-1:deque.peek());
+                }  else if( line.indexOf("back") > -1 ) {
+                    System.out.println(deque.isEmpty()?-1:deque.peekLast());
+                } else if( line.indexOf("empty") > -1 ) {
+                    System.out.println(deque.isEmpty()?1:0);
+                } 
             }
-            
-            while(!queue.isEmpty()){
-                boolean isPriority = true;
-                
-                for(int indexQue=1 ; indexQue < queue.size() ; indexQue++){ 
-                    // 현재 맨 위 큐가 우선순위가 높은지 확인
-                    if(queue.peek() < queue.get(indexQue)){
-                        isPriority = false;
-                        break;
-                    }
-                }
-                
-                if(isPriority){
-                    // 맨위큐가 우선순위가 높을 시 
-                    count++;
-                    queue.poll(); // 제거 및 최종 +1
-                    
-                    if(findeNumber == 0) 
-                        break; // 해당 찾는 번호라면 종료 
-                }
-                else { 
-                    // 중요도가 떨어진다면 순회
-                    queue.add(queue.poll());
-                }
-                findeNumber = (findeNumber==0) ? queue.size()-1 : --findeNumber;
-            }
-            result.append(count).append("\n");
-        }
-        System.out.println(result);
+        } catch (Exception e) {
+            System.out.println(e);
+        } 
     }
 }
