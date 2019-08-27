@@ -1,60 +1,52 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
-import java.util.Queue;
-
-/*
- * https://www.acmicpc.net/problem/1966
- * 큐 - 순회 돌기
- * 메모리 초과
- */
-
+ 
 public class Main {
-    public static void main(String args[]){
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        //Scanner sc = new Scanner(System.in);
-        try {
-            int total = Integer.parseInt(br.readLine());
-            StringBuilder temp  =  new StringBuilder();
-            for (int index = 1; index <= total; index++) {
-                String[] input      = br.readLine().split(" ");
-                String[] queSize    = br.readLine().split(" ");
-                Queue<Integer> que  = new LinkedList<Integer>();
-                long result       = 0;
-                int find    = Integer.parseInt(input[1]);
-                int prioryMax   = 1;
-                for (int indexQue = 0; indexQue < queSize.length; indexQue++) {
-                    int findPri = Integer.parseInt(queSize[indexQue]);
-                    que.add(findPri);
-                    if( prioryMax <= findPri ) prioryMax = findPri; // 찾으려는 친구보다 더 큰 우선순위를 갖는 친구 저장
-                }
-                Boolean isGo = true;
-                int nextPriory = 1; // 그 다음 우선순위 저장
-                while( isGo ) {
-                    for (int cy = 0; cy < que.size(); cy++) {
-                        if(que.peek() == prioryMax) {
-                            // 최고치부터 출력 그 외는 순회
-                            result++;
-                            cy = -1; // 출력되면 다시 시작
-                            if( find == 0 ) {
-                                temp.append(result+"\n");
-                                isGo = false;
-                                break;
-                            }
-                            que.poll();
-                        } else {
-                            if( nextPriory <= que.peek()) nextPriory = que.peek(); // 그다음 최고치확인
-                            if(find == 0) find = que.size();
-                            que.add(que.poll()); // 순회
-                        }
-                        find--; // find 한칸 올리기
+    public static void main(String[] args) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(reader.readLine());
+        LinkedList<Integer> queue = new LinkedList<>();
+        StringBuilder builder = new StringBuilder();
+        
+        for(int n=0 ; n<T ; n++){
+            String[] input = reader.readLine().split(" ");
+            String[] priority = reader.readLine().split(" ");
+            int N = Integer.parseInt(input[0]);
+            int M = Integer.parseInt(input[1]);
+            int count = 0;
+            queue.clear(); // 큐 초기화
+            
+            for(int i=0 ; i<N ; i++)
+                queue.add(Integer.parseInt(priority[i])); // 큐에 중요도 데이터 추가
+            
+            while(!queue.isEmpty()){
+                boolean isPriority = true;
+                
+                for(int i=1 ; i<queue.size() ; i++){ // 맨 앞 데이터의 중요도가 가장 높은지 확인
+                    if(queue.peek() < queue.get(i)){
+                        isPriority = false;
+                        break;
                     }
-                    prioryMax = nextPriory; // 그 다음 최고치 제거
+                }
+                
+                if(isPriority){ // 가장 높다면 큐에서 제거, 구하려는 값이 아니라면 M값 갱신
+                    count++;
+                    queue.poll();
+                    
+                    if(M == 0)
+                        break;
+                    else 
+                        M -= 1;
+                }
+                else { // 중요도가 가장 높은 문서가 아니라면 뒤로 보내고 M값 갱신
+                    int temp = queue.poll();
+                    queue.add(temp);
+                    M = (M==0) ? queue.size()-1 : --M;
                 }
             }
-            System.out.println(temp);
-        } catch (Exception e) {
-            System.out.println(e);
-        } 
+            builder.append(count).append("\n");
+        }
+        System.out.println(builder);
     }
 }
