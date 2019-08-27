@@ -3,50 +3,56 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
  
 public class Main {
+
+    /*
+     * https://www.acmicpc.net/problem/1966
+     * 큐 - 메모리 초과이슈 .. 어딘지 못찾겠음 ㅠ
+     * 다른 사람 코드참고  
+     */
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int T = Integer.parseInt(reader.readLine());
-        LinkedList<Integer> queue = new LinkedList<>();
-        StringBuilder builder = new StringBuilder();
+        int total = Integer.parseInt(reader.readLine());
+        StringBuilder result = new StringBuilder();
         
-        for(int n=0 ; n<T ; n++){
+        for( int index = 0 ; index<total; index++ ){
+            LinkedList<Integer> queue = new LinkedList<>();
             String[] input = reader.readLine().split(" ");
             String[] priority = reader.readLine().split(" ");
-            int N = Integer.parseInt(input[0]);
-            int M = Integer.parseInt(input[1]);
+            int findeNumber = Integer.parseInt(input[1]);
             int count = 0;
-            queue.clear(); // 큐 초기화
             
-            for(int i=0 ; i<N ; i++)
-                queue.add(Integer.parseInt(priority[i])); // 큐에 중요도 데이터 추가
+            for(int cycle=0 ; cycle<priority.length ; cycle++) {
+                // 큐 추가
+                queue.add(Integer.parseInt(priority[cycle]));
+            }
             
             while(!queue.isEmpty()){
                 boolean isPriority = true;
                 
-                for(int i=1 ; i<queue.size() ; i++){ // 맨 앞 데이터의 중요도가 가장 높은지 확인
-                    if(queue.peek() < queue.get(i)){
+                for(int indexQue=1 ; indexQue < queue.size() ; indexQue++){ 
+                    // 현재 맨 위 큐가 우선순위가 높은지 확인
+                    if(queue.peek() < queue.get(indexQue)){
                         isPriority = false;
                         break;
                     }
                 }
                 
-                if(isPriority){ // 가장 높다면 큐에서 제거, 구하려는 값이 아니라면 M값 갱신
+                if(isPriority){
+                    // 맨위큐가 우선순위가 높을 시 
                     count++;
-                    queue.poll();
+                    queue.poll(); // 제거 및 최종 +1
                     
-                    if(M == 0)
-                        break;
-                    else 
-                        M -= 1;
+                    if(findeNumber == 0) 
+                        break; // 해당 찾는 번호라면 종료 
                 }
-                else { // 중요도가 가장 높은 문서가 아니라면 뒤로 보내고 M값 갱신
-                    int temp = queue.poll();
-                    queue.add(temp);
-                    M = (M==0) ? queue.size()-1 : --M;
+                else { 
+                    // 중요도가 떨어진다면 순회
+                    queue.add(queue.poll());
                 }
+                findeNumber = (findeNumber==0) ? queue.size()-1 : --findeNumber;
             }
-            builder.append(count).append("\n");
+            result.append(count).append("\n");
         }
-        System.out.println(builder);
+        System.out.println(result);
     }
 }
