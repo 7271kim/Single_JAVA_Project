@@ -55,39 +55,56 @@ public class Main {
 }
 
 class AC {
-    Deque<Integer> data = new LinkedList<Integer>();
+   int[] data;
+   int reverseIndex = 0;
+   int direction = 0; // 0은 오른쪽 , 1은 왼쪽
     
     public AC ( String[] arrayNumber ) {
+        data = new int [arrayNumber.length];
         for (int index = 0; index < arrayNumber.length; index++) {
             String num  = arrayNumber[index].replaceAll("\\[", "").replaceAll("\\]", "");
             if(!num.equals("")) {
-                data.add(Integer.parseInt(num));
+                data[index] = Integer.parseInt(num);
             }
         }
     }
     
     public void reverse() {
-        Deque<Integer> temp = new LinkedList<Integer>();
-        for (int index = data.size()-1; index >= 0; index--) {
-            temp.addLast(data.pollLast());
+        if(--reverseIndex < 0) {
+            reverseIndex = data.length-1;
+            direction = direction == 0 ? 1 : 0;
         }
-        data = temp;
     }
     
     public Boolean destroy() {
        Boolean result = true;
-       if(!data.isEmpty()) {
-           data.pollFirst(); 
+       if(data[reverseIndex] != -1) {
+           data[reverseIndex] = -1;
+           findStart();
        } else {
            result = false;
        }
        return result;
     }
     
+    public void findStart() {
+        while(data[reverseIndex] == -1) {
+            if( direction == 0 ) {
+                if(++reverseIndex >= data.length ) {
+                    reverseIndex = 0;
+                }
+            } else {
+                if(--reverseIndex < 0 ) {
+                    reverseIndex = data.length-1;
+                }
+            }
+        }
+    }
+    
     public void print() {
         StringBuilder result = new StringBuilder();
         result.append("[");
-        int totalSize = data.size();
+        int totalSize = data.length;
         for (int index = 0; index < totalSize; index++) {
             result.append(data.pollFirst());
             if( data.size() != 0 ) {
