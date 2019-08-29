@@ -60,7 +60,11 @@ class AC {
    int direction = 0; // 0은 오른쪽 , 1은 왼쪽
     
     public AC ( String[] arrayNumber ) {
-        data = new int [arrayNumber.length];
+        if(!arrayNumber[0].equals("[]")) {
+            data = new int [arrayNumber.length];
+        } else {
+            data = new int[0];
+        }
         for (int index = 0; index < arrayNumber.length; index++) {
             String num  = arrayNumber[index].replaceAll("\\[", "").replaceAll("\\]", "");
             if(!num.equals("")) {
@@ -70,15 +74,25 @@ class AC {
     }
     
     public void reverse() {
-        if(--reverseIndex < 0) {
-            reverseIndex = data.length-1;
-            direction = direction == 0 ? 1 : 0;
+        if(data.length !=0 ) {
+            if( direction == 0 ) {
+                if(--reverseIndex < 0 ) {
+                    reverseIndex = data.length-1;
+                    direction = direction == 0 ? 1 : 0;
+                }
+                
+            } else {
+                if(++reverseIndex >= data.length ) {
+                    reverseIndex = 0;
+                    direction = direction == 0 ? 1 : 0;
+                }
+            }
         }
     }
     
     public Boolean destroy() {
        Boolean result = true;
-       if(data[reverseIndex] != -1) {
+       if( data.length != 0 && data[reverseIndex] != -1 ) {
            data[reverseIndex] = -1;
            findStart();
        } else {
@@ -88,7 +102,8 @@ class AC {
     }
     
     public void findStart() {
-        while(data[reverseIndex] == -1) {
+        int total = 0;
+        while(data[reverseIndex] == -1 && total < data.length) {
             if( direction == 0 ) {
                 if(++reverseIndex >= data.length ) {
                     reverseIndex = 0;
@@ -98,21 +113,40 @@ class AC {
                     reverseIndex = data.length-1;
                 }
             }
+            total++;
         }
     }
     
     public void print() {
         StringBuilder result = new StringBuilder();
         result.append("[");
-        int totalSize = data.length;
-        for (int index = 0; index < totalSize; index++) {
-            result.append(data.pollFirst());
-            if( data.size() != 0 ) {
-                result.append( ",");
-            } else {
-                result.append( "]");
+        int dataLength = data.length;
+        if( data.length != 0 ) {
+            result.append(data[reverseIndex]);
+            result.append(",");
+            for (int index = 1; index < data.length; index++) {
+                if( direction == 0 ) {
+                    if(++reverseIndex >= data.length ) {
+                        reverseIndex = 0;
+                    }
+                    if( data[reverseIndex] != -1 ) {
+                        result.append( data[reverseIndex]);
+                        result.append(",");
+                    }
+                } else {
+                    if(--reverseIndex < 0 ) {
+                        reverseIndex = data.length-1;
+                    }
+                    if( data[reverseIndex] != -1 ) {
+                        result.append( data[reverseIndex]);
+                        result.append(",");
+                    }
+                }
             }
         }
+        int lastIndex = result.lastIndexOf(",");
+        result.replace(lastIndex, lastIndex+1, "");
+        result.append("]");
         System.out.println(result);
     }
 }
