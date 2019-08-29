@@ -27,20 +27,16 @@ public class Main {
                 String[] arrayNumber = br.readLine().split(",");
                 AC acData = new AC(arrayNumber);
                 Boolean result = true;
-                if( order.length + secondLine <= 700000 ) {
-                    for (int orderIndex = 0; orderIndex < order.length; orderIndex++) {
-                        if( order[orderIndex].indexOf("R") > -1 ) {
-                            acData.reverse();
-                        } else {
-                            if(!acData.destroy()) {
-                                result = false;
-                                break;
-                            }
-                            
+                for (int orderIndex = 0; orderIndex < order.length; orderIndex++) {
+                    if( order[orderIndex].indexOf("R") > -1 ) {
+                        acData.reverse();
+                    } else {
+                        if(!acData.destroy()) {
+                            result = false;
+                            break;
                         }
+                        
                     }
-                } else {
-                    result = false;
                 }
                 if(result) {
                     acData.print();
@@ -78,15 +74,15 @@ class AC {
             if( direction == 0 ) {
                 if(--reverseIndex < 0 ) {
                     reverseIndex = data.length-1;
-                    direction = direction == 0 ? 1 : 0;
                 }
                 
             } else {
                 if(++reverseIndex >= data.length ) {
                     reverseIndex = 0;
-                    direction = direction == 0 ? 1 : 0;
                 }
             }
+            direction = direction == 0 ? 1 : 0;
+            findStart();
         }
     }
     
@@ -121,12 +117,12 @@ class AC {
         StringBuilder result = new StringBuilder();
         result.append("[");
         int dataLength = data.length;
-        if( data.length != 0 ) {
-            result.append(data[reverseIndex]);
+        if( dataLength != 0 ) {
+            if(data[reverseIndex] != -1) result.append(data[reverseIndex]);
             result.append(",");
-            for (int index = 1; index < data.length; index++) {
+            for (int index = 1; index < dataLength; index++) {
                 if( direction == 0 ) {
-                    if(++reverseIndex >= data.length ) {
+                    if(++reverseIndex >= dataLength ) {
                         reverseIndex = 0;
                     }
                     if( data[reverseIndex] != -1 ) {
@@ -135,7 +131,7 @@ class AC {
                     }
                 } else {
                     if(--reverseIndex < 0 ) {
-                        reverseIndex = data.length-1;
+                        reverseIndex = dataLength-1;
                     }
                     if( data[reverseIndex] != -1 ) {
                         result.append( data[reverseIndex]);
@@ -143,9 +139,9 @@ class AC {
                     }
                 }
             }
+            int lastIndex = result.lastIndexOf(",");
+            result.replace(lastIndex, lastIndex+1, "");
         }
-        int lastIndex = result.lastIndexOf(",");
-        result.replace(lastIndex, lastIndex+1, "");
         result.append("]");
         System.out.println(result);
     }
