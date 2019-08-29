@@ -53,11 +53,15 @@ public class Main {
 class AC {
    int[] data;
    int reverseIndex = 0;
-   int direction = 0; // 0은 오른쪽 , 1은 왼쪽
+   int direction    = 0; // 0은 오른쪽 , 1은 왼쪽
+   int left         = -1;
+   int right        = -1;
     
     public AC ( String[] arrayNumber ) {
         if(!arrayNumber[0].equals("[]")) {
-            data = new int [arrayNumber.length];
+            data    = new int [arrayNumber.length];
+            left    = 0;
+            right   = data.length-1;
         } else {
             data = new int[0];
         }
@@ -70,77 +74,53 @@ class AC {
     }
     
     public void reverse() {
-        if(data.length !=0 ) {
-            if( direction == 0 ) {
-                if(--reverseIndex < 0 ) {
-                    reverseIndex = data.length-1;
-                }
-                
-            } else {
-                if(++reverseIndex >= data.length ) {
-                    reverseIndex = 0;
-                }
-            }
-            direction = direction == 0 ? 1 : 0;
-            findStart();
-        }
+        direction = direction == 0 ? 1 : 0;
+        findStart();
     }
     
     public Boolean destroy() {
-       Boolean result = true;
-       if( data.length != 0 && data[reverseIndex] != -1 ) {
+       Boolean result = left != -1 && data[reverseIndex] != -1;
+       if( result ) {
            data[reverseIndex] = -1;
+           if(left != right) {
+               if(direction == 0) {
+                   left++;
+               } else {
+                   right--;
+               }
+           }
            findStart();
-       } else {
-           result = false;
-       }
+       } 
        return result;
     }
     
     public void findStart() {
-        int total = 0;
-        while(data[reverseIndex] == -1 && total < data.length) {
-            if( direction == 0 ) {
-                if(++reverseIndex >= data.length ) {
-                    reverseIndex = 0;
-                }
-            } else {
-                if(--reverseIndex < 0 ) {
-                    reverseIndex = data.length-1;
-                }
+        if( direction == 0 ) {
+            if(++reverseIndex > right ) {
+                reverseIndex = left;
             }
-            total++;
+        } else {
+            if(--reverseIndex < left ) {
+                reverseIndex = right;
+            }
         }
     }
     
     public void print() {
         StringBuilder result = new StringBuilder();
         result.append("[");
-        int dataLength = data.length;
-        if( dataLength != 0 ) {
-            if(data[reverseIndex] != -1) result.append(data[reverseIndex]);
-            result.append(",");
-            for (int index = 1; index < dataLength; index++) {
-                if( direction == 0 ) {
-                    if(++reverseIndex >= dataLength ) {
-                        reverseIndex = 0;
-                    }
-                    if( data[reverseIndex] != -1 ) {
-                        result.append( data[reverseIndex]);
-                        result.append(",");
-                    }
-                } else {
-                    if(--reverseIndex < 0 ) {
-                        reverseIndex = dataLength-1;
-                    }
-                    if( data[reverseIndex] != -1 ) {
-                        result.append( data[reverseIndex]);
-                        result.append(",");
-                    }
+        if( left != -1 && data[reverseIndex] != -1 ) {
+            if( direction == 0 ) {
+                for (int index = left; index <= right; index++) {
+                    result.append(data[index]);
+                    if(index != right) result.append(",");
+                }
+            } else {
+                for (int index = right; index >= left; index--) {
+                    result.append(data[index]);
+                    if(index != left) result.append(",");
                 }
             }
-            int lastIndex = result.lastIndexOf(",");
-            result.replace(lastIndex, lastIndex+1, "");
         }
         result.append("]");
         System.out.println(result);
