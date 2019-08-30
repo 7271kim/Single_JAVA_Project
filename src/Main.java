@@ -24,24 +24,21 @@ public class Main {
             //int total = sc.nextInt();
             //String result = "mixed";
             
-            br.readLine();
-            String[] secondeLine = br.readLine().split(" ");
-            int[] temp = new int[secondeLine.length];
-            int max    = -1; 
-            BigDecimal sum      = new BigDecimal("0");
-            BigDecimal length   = new BigDecimal(String.valueOf(secondeLine.length));
-            for (int index = 0; index < secondeLine.length; index++) {
-                int number = Integer.parseInt(secondeLine[index]);
-                temp[index] = Integer.parseInt(secondeLine[index]);
-                if(max <= number) max = number;
+            int total = Integer.parseInt(br.readLine());
+            for (int index = 0; index < total; index++) {
+                String[] firstLine = br.readLine().split("");
+                int temp = 0;
+                int result = 0;
+                for (int indexO = 0; indexO < firstLine.length; indexO++) {
+                    if(firstLine[indexO].indexOf("O") > -1) {
+                        temp++;
+                    } else {
+                        temp=0;
+                    }
+                    result+=temp;
+                }
+                System.out.println(result);
             }
-            BigDecimal maxBix = new BigDecimal(String.valueOf(max));
-            for (int index = 0; index < temp.length; index++) {
-                BigDecimal tempNumber = new BigDecimal(String.valueOf(temp[index]));
-                sum = sum.add( tempNumber.multiply(new BigDecimal("100")).divide(maxBix, 4, RoundingMode.HALF_EVEN ) );
-            }
-            System.out.println(sum.divide(length, 4, RoundingMode.HALF_EVEN));
-            
         } catch (Exception e) {
             System.out.println(e);
         } 
