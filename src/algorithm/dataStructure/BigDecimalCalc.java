@@ -20,6 +20,13 @@ public class BigDecimalCalc {
             // 더하기 : add
             // 곱하기 : multiply
             // 나누기 : divide
+            //BigDecimal.ROUND_UP : 올림
+            //BigDecimal.ROUND_DOWN : 버림
+            //BigDecimal.ROUND_HALF_UP : 반올림 ( 5 이상 올림 )
+            //BigDecimal.ROUND_HALF_DOWN : 반내림 ( 5 이하 내림 )
+
+
+
             br.readLine();
             String[] secondeLine = br.readLine().split(" ");
             int[] temp = new int[secondeLine.length];

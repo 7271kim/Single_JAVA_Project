@@ -26,18 +26,24 @@ public class Main {
             
             int total = Integer.parseInt(br.readLine());
             for (int index = 0; index < total; index++) {
-                String[] firstLine = br.readLine().split("");
-                int temp = 0;
-                int result = 0;
-                for (int indexO = 0; indexO < firstLine.length; indexO++) {
-                    if(firstLine[indexO].indexOf("O") > -1) {
-                        temp++;
-                    } else {
-                        temp=0;
-                    }
-                    result+=temp;
+                String[] firstLine = br.readLine().split(" ");
+                int[] totalData = new int[firstLine.length-1];
+                int sum = 0 ;
+                int average = 0;
+                int upAverage = 0;
+                for (int indexNumber = 1; indexNumber < firstLine.length; indexNumber++) {
+                    int number = Integer.parseInt(firstLine[indexNumber]);
+                    totalData[indexNumber-1] = number;
+                    sum += number;
                 }
-                System.out.println(result);
+                average = sum/totalData.length;
+                for (int indexNumber = 0; indexNumber < totalData.length; indexNumber++) {
+                    if( average < totalData[indexNumber]) upAverage++;
+                }
+                BigDecimal upBig        = new BigDecimal(String.valueOf(upAverage));
+                BigDecimal totalLength  = new BigDecimal(String.valueOf(totalData.length));
+                BigDecimal result       = upBig.multiply(new BigDecimal("100")).divide(totalLength, 3, BigDecimal.ROUND_HALF_UP );
+                System.out.println(result+"%");
             }
         } catch (Exception e) {
             System.out.println(e);
