@@ -1,7 +1,5 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Scanner;
 
 /*
@@ -23,8 +21,11 @@ public class Main {
             //int total = Integer.parseInt(br.readLine());
             //int total = sc.nextInt();
             //String result = "mixed";
-            GetSelfNum dt = new GetSelfNum(10000);
+            
+            
+            ArithmeticSequence dt = new ArithmeticSequence(sc.nextInt());
             dt.print();
+            //dt.print2();
             
         } catch (Exception e) {
             System.out.println(e);
@@ -33,30 +34,48 @@ public class Main {
     
 }
 
-class GetSelfNum {
+class ArithmeticSequence {
     int [] data; 
-    GetSelfNum( int num ){
+    int result = 0;
+    ArithmeticSequence( int num ){
         data = new int[num+1];
         for (int index = 1; index <= num; index++) {
-            if( data[index] > 1 ) continue;
-            int temp = index;
-            while( data[temp] < 2 ) {
-                data[temp] += 1;
-                int sum     = temp;
-                double divide  = 10.0;
-                while( ( sum/divide ) > 0 ) {
-                    temp += sum%divide;
-                    sum /= 10;
+            double divide  = 10.0;
+            int temp        = index;
+            double arithmetic  = 0;
+            double tempfirst   = 0;
+            int count = 0;
+            Boolean isArithmeticSequence = true;
+            while( ( temp/divide ) > 0 ) {
+                double lastNumber = temp % divide;
+                if( count == 1 ){
+                    arithmetic =  lastNumber - tempfirst;
+                } else if( count > 1) {
+                    double twoNum = tempfirst + arithmetic;
+                    if( twoNum != lastNumber ) {
+                        isArithmeticSequence = false;
+                        break; 
+                    }
                 }
-                if( temp > num ) break;
+                tempfirst = lastNumber;
+                temp /= 10;
+                count++;
+            }
+            if( isArithmeticSequence ) {
+                data[index] =1;
+                result++;
             }
         }
     }
     public void print() {
-        StringBuffer temp = new StringBuffer();
+        System.out.println(result);
+    }
+    public void print2() {
         for (int index = 0; index < data.length; index++) {
-            if(data[index] == 1) temp.append(index+"\n");
+            if( data[index] == 1 ) {
+                System.out.println(index);
+            }
         }
-        System.out.println(temp);
+        
     }
 }
