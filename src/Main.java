@@ -23,31 +23,40 @@ public class Main {
             //int total = Integer.parseInt(br.readLine());
             //int total = sc.nextInt();
             //String result = "mixed";
+            GetSelfNum dt = new GetSelfNum(10000);
+            dt.print();
             
-            int total = Integer.parseInt(br.readLine());
-            for (int index = 0; index < total; index++) {
-                String[] firstLine = br.readLine().split(" ");
-                int[] totalData = new int[firstLine.length-1];
-                int sum = 0 ;
-                int average = 0;
-                int upAverage = 0;
-                for (int indexNumber = 1; indexNumber < firstLine.length; indexNumber++) {
-                    int number = Integer.parseInt(firstLine[indexNumber]);
-                    totalData[indexNumber-1] = number;
-                    sum += number;
-                }
-                average = sum/totalData.length;
-                for (int indexNumber = 0; indexNumber < totalData.length; indexNumber++) {
-                    if( average < totalData[indexNumber]) upAverage++;
-                }
-                BigDecimal upBig        = new BigDecimal(String.valueOf(upAverage));
-                BigDecimal totalLength  = new BigDecimal(String.valueOf(totalData.length));
-                BigDecimal result       = upBig.multiply(new BigDecimal("100")).divide(totalLength, 3, BigDecimal.ROUND_HALF_UP );
-                System.out.println(result+"%");
-            }
         } catch (Exception e) {
             System.out.println(e);
         } 
     }
     
+}
+
+class GetSelfNum {
+    int [] data; 
+    GetSelfNum( int num ){
+        data = new int[num+1];
+        for (int index = 1; index <= num; index++) {
+            if( data[index] > 1 ) continue;
+            int temp = index;
+            while( data[temp] < 2 ) {
+                data[temp] += 1;
+                int sum     = temp;
+                double divide  = 10.0;
+                while( ( sum/divide ) > 0 ) {
+                    temp += sum%divide;
+                    sum /= 10;
+                }
+                if( temp > num ) break;
+            }
+        }
+    }
+    public void print() {
+        StringBuffer temp = new StringBuffer();
+        for (int index = 0; index < data.length; index++) {
+            if(data[index] == 1) temp.append(index+"\n");
+        }
+        System.out.println(temp);
+    }
 }
