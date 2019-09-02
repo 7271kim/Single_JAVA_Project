@@ -25,6 +25,21 @@ class Digit {
     int [] data; 
     int result = 0;
     
+    /*
+    
+    Digit( int num ){
+        int totalLength = String.valueOf(num).split("").length;
+        data = new int[totalLength];
+        int count = 0;
+        while( num / 10.0 > 0 ) {
+            data[count] = num%10;
+            num /= 10;
+            count++;
+        }
+    }
+    
+    */
+    
     //  123 position 0 이라면 data[0] = 1의자리부터  3 2 1 
     //  123 position 0 이라면 data[0] = 맨 윗차리부터 1 2 3 
     Digit( int num ){
