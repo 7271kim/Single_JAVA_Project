@@ -22,37 +22,26 @@ public class Main {
             //int total = sc.nextInt();
             //String result = "mixed";
             
-            
-            Digit dt = new Digit(sc.nextInt());
-            dt.print();
-            //dt.print2();
+            int total = sc.nextInt();
+            System.out.println( ( 1 << total ) -1);
+            System.out.println(showHawoi( total, 1,2,3 ));
             
         } catch (Exception e) {
             System.out.println(e);
         } 
     }
     
-}
-
-class Digit {
-    int [] data; 
-    int result = 0;
+    public static StringBuilder showHawoi( int number, int first, int middle, int last ) {
+        StringBuilder result = new StringBuilder();
+        if( number == 1 ) {
+            result.append(first + " " + last + "\n");
+            return result;
+        }
+        --number;
+        result.append(showHawoi( number, first, last, middle ));
+        result.append(first + " " + last  + "\n");
+        result.append(showHawoi( number, middle, first, last ));
+        return result;
+    }
     
-    // position 0 이라면 data[0] = 1의자리부터
-    // position 0 이라면 data[0] = 1의자리부터
-    Digit( int num ){
-        int totalLength = String.valueOf(num).split("").length;
-        data = new int[totalLength];
-        int count = 0;
-        while( num / 10.0 > 0 ) {
-            data[count] = num%10;
-            num /= 10;
-            count++;
-        }
-    }
-    public void print() {
-        for (int index = 0; index < data.length; index++) {
-            System.out.println(data[index]);
-        }
-    }
 }
