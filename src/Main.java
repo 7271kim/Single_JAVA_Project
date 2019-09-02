@@ -23,7 +23,9 @@ public class Main {
             //String result = "mixed";
             
             
-            ArithmeticSequence dt = new ArithmeticSequence(sc.nextInt());
+            Digit dt = new Digit(sc.nextInt());
+            dt.print();
+            dt = new Digit(sc.nextInt(),1);
             dt.print();
             //dt.print2();
             
@@ -34,48 +36,36 @@ public class Main {
     
 }
 
-class ArithmeticSequence {
+class Digit {
     int [] data; 
     int result = 0;
-    ArithmeticSequence( int num ){
-        data = new int[num+1];
-        for (int index = 1; index <= num; index++) {
-            double divide  = 10.0;
-            int temp        = index;
-            double arithmetic  = 0;
-            double tempfirst   = 0;
-            int count = 0;
-            Boolean isArithmeticSequence = true;
-            while( ( temp/divide ) > 0 ) {
-                double lastNumber = temp % divide;
-                if( count == 1 ){
-                    arithmetic =  lastNumber - tempfirst;
-                } else if( count > 1) {
-                    double twoNum = tempfirst + arithmetic;
-                    if( twoNum != lastNumber ) {
-                        isArithmeticSequence = false;
-                        break; 
-                    }
-                }
-                tempfirst = lastNumber;
-                temp /= 10;
-                count++;
+    
+    //  123 position 0 이라면 data[0] = 1의자리부터  3 2 1 
+    //  123 position 0 이라면 data[0] = 맨 윗차리부터 1 2 3 
+    Digit( int num ){
+        String[] spilt = String.valueOf(num).split("");
+        data = new int[spilt.length];
+        for ( int index = 0; index < spilt.length; index++ ) {
+            data[index] = Integer.parseInt(spilt[spilt.length - index -1]);
+        }
+    }
+    
+    Digit( int num, int position ){
+        String[] spilt = String.valueOf(num).split("");
+        data = new int[spilt.length];
+        if( position == 0) {
+            for ( int index = 0; index < spilt.length; index++ ) {
+                data[index] = Integer.parseInt(spilt[spilt.length - index -1]);
             }
-            if( isArithmeticSequence ) {
-                data[index] =1;
-                result++;
+        } else {
+            for ( int index = 0; index < spilt.length; index++ ) {
+                data[index] = Integer.parseInt(spilt[index]);
             }
         }
     }
     public void print() {
-        System.out.println(result);
-    }
-    public void print2() {
         for (int index = 0; index < data.length; index++) {
-            if( data[index] == 1 ) {
-                System.out.println(index);
-            }
+            System.out.println(data[index]);
         }
-        
     }
 }
