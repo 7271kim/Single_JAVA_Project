@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 /*
- * https://www.acmicpc.net/problem/5430
+ * https://www.acmicpc.net/problem/1065
  * Deque 
  *
  */

@@ -6,7 +6,7 @@ import java.math.RoundingMode;
 import java.util.Scanner;
 
 /*
- * https://www.acmicpc.net/problem/5430
+ * https://www.acmicpc.net/problem/4673
  * Deque 
  *
  */

@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -24,24 +25,26 @@ public class Main {
             //int total = sc.nextInt();
             //String result = "mixed";
             
-            int total = Integer.parseInt(br.readLine());
-            int result = 0;
-            for (int index = 0; index < total; index++) {
-                Map<String, Integer> data = new HashMap<String, Integer>();
-                String[] temp = br.readLine().split("");
-                data.put(temp[0], 1);
-                Boolean isCount = true;
-                for (int indexInner = 1; indexInner < temp.length; indexInner++) {
-                    if( data.containsKey(temp[indexInner]) && !temp[indexInner-1].equals(temp[indexInner]) ) {
-                        isCount = false;
-                        break;
-                    } else {
-                        data.put(temp[indexInner], 1);
-                    }
-                }
-                if(isCount) result++;
+            int total   = sc.nextInt();
+            
+            //계차수열 일반항 
+            // a1 + n-1시그마 ak (등차 혹은 등비수열의 합)
+            // 여기같은 경우 n이 1보다 클때 3n(n-1) + 1 이 일반항임
+            // n와 n+1 사이의 해당 숫자를 찾는 문제
+            int result = 1;
+            
+            while( true ) {
+                int before = 3*result*result - 3*result + 1;
+                int next   = 3*result*result + 3*result + 1;
+                if( before < total &&  total <= next ) break;
+                result++;
             }
-            System.out.println(result);
+            if( total == 1 ) {
+                System.out.println( 1 );
+            } else {
+                System.out.println(result + 1);
+            }
+            
         } catch (Exception e) {
             System.out.println(e);
         } 
