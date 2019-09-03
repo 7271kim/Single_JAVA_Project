@@ -7,8 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 /*
- * https://www.acmicpc.net/problem/1316
- * Deque 
+ * https://www.acmicpc.net/problem/1193
  *
  */
 
