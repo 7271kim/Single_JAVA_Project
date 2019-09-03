@@ -6,9 +6,16 @@ import java.util.Map;
 import java.util.Scanner;
 
 /*
- * https://www.acmicpc.net/problem/1316
- * Deque 
- *
+ * https://www.acmicpc.net/problem/1011
+ * 데칼 코마니는 N의 제곱승이다.
+ * 1^1 = 1
+ * 2^2 = 1 + 2 + 1
+ * 3^2 = 1 + 2 + 3 + 2 + 1
+ * 4^2 = 1 + 2 + 3 + 4 + 3 + 2 + 1
+ * n^2 = 1+2+ ... + n + n-1 ... + 1
+ * http://blog.naver.com/PostView.nhn?blogId=occidere&logNo=220982644540&categoryNo=0&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
+ * https://jaimemin.tistory.com/1170
+ *  
  */
 
 public class Main {
@@ -27,35 +34,15 @@ public class Main {
             
             int total   = sc.nextInt();
             
-            //계차수열 일반항 
-            // a1 + n-1시그마 ak (등차 혹은 등비수열의 합)
-            // 여기같은 경우 n이 1보다 클때  1+ n(n-1)/2 이 일반항임
-            int result = 1;
-            int up = 1;
-            int down = 1;
-            
-            while( true ) {
-                int temp =  1 + result * (result-1) / 2 ;
-                if( total < temp ) break;
-                result++;
-                // total보다 큰 n을 찾고 
+            for (int index = 0; index < total; index++) {
+                double first    = sc.nextInt();
+                double second   = sc.nextInt();
+                double interval = second - first;
+                double n        = 1;
+                while( n*n < interval ) 
+                    n++;
+                System.out.println( n );
             }
-            if( total != 1 ) {
-                result--;
-                // 시작점을 잡음 
-                
-                int temp = total - ( 1 + result * (result-1) /2 );
-                // 시작점부터 몇 떨어져 있나 확인
-                
-                if( result % 2 == 0 ) {
-                    up      = 1 + temp;
-                    down    = result-temp;
-                } else {
-                    up      = result-temp;
-                    down    = 1 + temp;
-                }
-            }
-            System.out.println( up + "/" +down);
             
         } catch (Exception e) {
             System.out.println(e);
