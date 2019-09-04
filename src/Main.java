@@ -35,14 +35,28 @@ public class Main {
             int total   = sc.nextInt();
             
             for (int index = 0; index < total; index++) {
-                double first    = sc.nextInt();
-                double second   = sc.nextInt();
-                double interval = second - first;
-                double n        = 1;
-                while( n*n < interval ) 
+                int first    = sc.nextInt();
+                int second   = sc.nextInt();
+                int interval = second - first;
+                int n        = 1;
+                
+                // 그룹 찾기
+                n = (int)Math.sqrt(interval); // n에 가장 근사한 값부터 시작하기
+                while( true ) {
+                    if( interval <= n*n ) break;
                     n++;
-                System.out.println( n );
+                }
+                
+                
+                // n을 찾으면 최소 워프횟수는 아래로 n번 반복된다.
+                // total <= n*n - n 작을 시 한단계 아래 번호 ( 2*n -2 ) , 아닐시 그냥 번호  ( 2*n -1 )
+                if( total <= n*(n-1) ) {
+                    resultString.append(2*n -2 + "\n");
+                } else {
+                    resultString.append(2*n -1  + "\n");
+                }
             }
+            System.out.println(resultString);
             
         } catch (Exception e) {
             System.out.println(e);
