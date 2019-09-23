@@ -6,22 +6,14 @@ import java.util.Map;
 import java.util.Scanner;
 
 /*
- * https://www.acmicpc.net/problem/1011
- * 데칼 코마니는 N의 제곱승이다.
- * 1^1 = 1
- * 2^2 = 1 + 2 + 1
- * 3^2 = 1 + 2 + 3 + 2 + 1
- * 4^2 = 1 + 2 + 3 + 4 + 3 + 2 + 1
- * n^2 = 1+2+ ... + n + n-1 ... + 1
- * http://blog.naver.com/PostView.nhn?blogId=occidere&logNo=220982644540&categoryNo=0&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
- * https://jaimemin.tistory.com/1170
- *  
+ * https://www.acmicpc.net/problem/6064
+ * 시간초과 소스
  */
 
 public class Main {
     public static void main(String args[]){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
         //StringBuilder resultString = new StringBuilder();
         try {
             //String[] firstLine = br.readLine().split(" ");
@@ -32,19 +24,32 @@ public class Main {
             //int total = sc.nextInt();
             //String result = "mixed";
             
-            int firstNumber     = sc.nextInt();
-            int secondNumber    = sc.nextInt();
-            int sum             = firstNumber*secondNumber;
-            while( secondNumber / 10 > 0 ) {
-                int digitOne = secondNumber %10;
-                int temp = firstNumber*digitOne;
-                System.out.println( temp );
-                secondNumber /= 10;
+            int total = Integer.parseInt(br.readLine());
+            for (int index = 0; index < total; index++) {
+                String[] firstLine = br.readLine().split(" ");
+                int M = Integer.parseInt(firstLine[0]);
+                int N = Integer.parseInt(firstLine[1]);
+                int x = Integer.parseInt(firstLine[2]);
+                int y = Integer.parseInt(firstLine[3]);
+                int tempX = 1;
+                int tempY = 1;
+                int result = 1;
+                while( !(tempX == x && tempY == y) && !( tempX == M && tempY == N ) ) {
+                    result++;
+                    if( tempX < M ) {
+                        tempX++;
+                    } else {
+                        tempX = 1;
+                    } 
+                    if( tempY < N ) {
+                        tempY++;
+                    } else {
+                        tempY = 1;
+                    }
+                }
+                if( tempX == M && tempY == N && x != M &&  y != N ) result = -1;
+                System.out.println(result);
             }
-            System.out.println(firstNumber*secondNumber);
-            System.out.println(sum);
-            
-            
             
         } catch (Exception e) {
             System.out.println(e);
