@@ -8,8 +8,6 @@ import java.util.Scanner;
 
 /*
  * https://www.acmicpc.net/problem/6064
- * https://sexycoder.tistory.com/26
- * https://mygumi.tistory.com/325
  * 시간초과 소스
  */
 
