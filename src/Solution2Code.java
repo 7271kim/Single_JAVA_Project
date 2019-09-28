@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Solution {
+class Solution2Code {
     public int solution(String[] bishops) {
         int answer = 0;
         int[][] board = new int[8][8];
