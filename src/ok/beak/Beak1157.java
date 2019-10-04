@@ -1,9 +1,10 @@
+package ok.beak;
 import java.util.Scanner;
 /*
  * https://www.acmicpc.net/problem/1157
  * 종은 풀이
  */
-public class Main {
+public class Beak1157 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String str = sc.nextLine().toUpperCase();

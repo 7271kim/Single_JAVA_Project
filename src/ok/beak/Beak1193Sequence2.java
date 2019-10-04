@@ -60,5 +60,33 @@ public class Beak1193Sequence2 {
         } catch (Exception e) {
             System.out.println(e);
         } 
+        
+        // 위의 방법은 안좋은 방법 일반항을 왜쓰냐... 그냥 하면되지..
+        //아래가 내가 변형한 코드
+        
+        /* 
+        int total   = sc.nextInt();
+        
+        int count  = 1;
+        int first  = 0;
+        while( true ) {
+            first += count;
+            if( total <= first ) break;  
+            count++;
+        }
+        
+        int up      = 1;
+        int down    = 1;
+        int temp    = first - total; 
+        if( count % 2 != 0 ) {
+            up      = 1 + temp;
+            down    = count-temp;
+        } else {
+            up      = count-temp;
+            down    = 1 + temp;
+        }
+        
+        System.out.println( up + "/" +down);
+        */
     }
 }
