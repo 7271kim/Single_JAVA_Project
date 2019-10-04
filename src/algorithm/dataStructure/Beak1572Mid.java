@@ -2,7 +2,9 @@ package algorithm.dataStructure;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Mid {
+//Index Tree 응용
+// 
+public class Beak1572Mid {
     static int N, K, Mid, Len;
     static long SUM;    
     static int Tree[], Data[];
