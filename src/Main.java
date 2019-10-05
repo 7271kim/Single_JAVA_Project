@@ -1,109 +1,75 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Scanner;
-/*
- * https://www.acmicpc.net/problem/1316
- * 종은 풀이
- */
 public class Main {
     public static void main(String[] args) {
-       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        Scanner sc = new Scanner(System.in);
-        StringBuilder resultString = new StringBuilder();
-        try {
-            //String[] firstLine = br.readLine().split(" ");
-            //int total   = Integer.parseInt(firstLine[0]);
-            //int compare = Integer.parseInt(firstLine[1]);
-            //String[] secondeLine = br.readLine().split(" ");
-            //int total = Integer.parseInt(br.readLine());
-            //int total = sc.nextInt();
-            int[] or = {1,4,5,9,7};
-             IndexTree temp = new IndexTree(or);
-             temp.printOriginal();
-        } catch (Exception e) {
-        }     
-    }
+       Scanner sc = new Scanner(System.in);
+       
+       int N = sc.nextInt();
+       int K = sc.nextInt();
+       int findNumver = (K+1)/2;
+       long result = 0;
+       
+       int[] lowData = new int[N+1];
+       
+       // 0 ~ 65536까지가 마지막 노드 범위
+       IndexTreeOrignal tree = new IndexTreeOrignal(65537);
+       
+       for(int i = 1 ; i <= N ; i++) {
+           int inputNumber = sc.nextInt();
+           int treeData    = tree.getTreeData(inputNumber);
+           lowData[i] = inputNumber;
+           
+           if(i < K) {
+               tree.update(inputNumber, treeData+1);
+           } else {
+               if(i > K) {
+                   int removeIndex = lowData[i-K];
+                   int beforeData = tree.getTreeData(removeIndex);
+                   tree.update(removeIndex, beforeData-1);
+                   
+               }
+               treeData    = tree.getTreeData(inputNumber);
+               tree.update(inputNumber, treeData+1);
+               result += tree.search(findNumver);
+           }
+       }
+       System.out.println(result);
+       sc.close();     
+   }     
 }
 
-class IndexTree {
-    private int data[];
-    private int originalStart;
-    
-    public IndexTree( int[] orignal ) {
-        int originalSize = orignal.length;
+class IndexTreeOrignal{
+    int tree [];
+    int originalStart;
+    public IndexTreeOrignal(int originalSize) {
         originalStart = 1;
-        
-        // 1 + 2 + 2^2 + 2^3 + 2^4....마지막 리프를 제외한 부모리프까지의 합을 구하는 방법 5개인 경우 2^3 보다 작으니 딱 2^3 = 8이 시작위치임 
         while (originalStart < originalSize)
             originalStart <<= 1;
-        
-        //data의 크기는 originalStart의 2배
-        data = new int[originalStart*2];
-        
-        for( int index = 0; index < orignal.length; index++ ) {
-            update( index, orignal[index] );
-        }
+        tree = new int[originalStart*2];
     }
-    
-    public void update( int index, int value) {
+    public void update(int index, int val) {
         index += originalStart;
-        int beforeValue = data[index];
-        while(index > 0) {
-            data[index] = data[index] - beforeValue + value;
-            index>>=1;
+        int minus = tree[index];
+        int pointer = index;
+        while (pointer != 0) {
+            tree[pointer] = tree[pointer] - minus + val;
+            pointer /= 2;
         }
     }
-
-   public int sumInterVal( int start, int end ) {
-       start += originalStart;
-       end += originalStart;
-       int sum = 0;
-       while ( start < end ) {
-           if( start%2 == 1) {
-               sum += data[start]; 
-               start++;
-           }
-           if( end%2 == 0) {
-               sum += data[end];
-               end--;
-           }
-           start>>=1;
-           end>>=1;
-       }
-       if( start == end ) {
-           // 같은 노드내 탐색일 경우 합치기
-           sum += data[start];
-       }
-       
-       return sum;
-   }
-   public int sumTotal( int end ) {
-       int start = 0;
-       start += originalStart;
-       end += originalStart;
-       int sum = 0;
-       while ( start < end ) {
-           if( start%2 == 1) {
-               sum += data[start]; 
-               start++;
-           }
-           if( end%2 == 0) {
-               sum += data[end];
-               end--;
-           }
-           start>>=1;
-           end>>=1;
-       }
-       if( start == end ) {
-           sum += data[start];
-       }
-       
-       return sum;
-   }
-    public void printOriginal() {
-        for (int index = 0; index < data.length; index++) {
-            System.out.print(data[index] + " ");
+    public int search( int findNumber ) {
+        int findIndex = 1;
+        int leftChild;
+        while(findIndex < originalStart) {
+            leftChild = tree[findIndex*2]; 
+            if(findNumber <= leftChild) {
+                findIndex = findIndex * 2;
+            } else {
+                findNumber = findNumber - leftChild;
+                findIndex = findIndex * 2 + 1; 
+            }
         }
-        System.out.println();
+        return findIndex - originalStart;
+    }
+    public int getTreeData ( int index ) {
+        return tree[originalStart + index];
     }
 }

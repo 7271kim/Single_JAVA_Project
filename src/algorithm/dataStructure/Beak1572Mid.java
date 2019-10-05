@@ -28,30 +28,33 @@ public class Beak1572Mid {
         int N = sc.nextInt();
         int K = sc.nextInt();
         int findNumver = (K+1)/2;
-        int result = 0;
+        long result = 0;
         
         int[] lowData = new int[N+1];
         
-        
-        // 0 ~ 65536까지의 정수가 맨 바닥층
+        // 0 ~ 65536까지가 마지막 노드 범위
         IndexTreeOrignal tree = new IndexTreeOrignal(65537);
         
         for(int i = 1 ; i <= N ; i++) {
             int inputNumber = sc.nextInt();
+            int treeData    = tree.getTreeData(inputNumber);
             lowData[i] = inputNumber;
+            
             if(i < K) {
-                tree.update(inputNumber, 1);
-                // k가 넘어가기 전까진 데이터를 트리에 넣기만 함.
+                tree.update(inputNumber, treeData+1);
             } else {
-                
-                //만약 K보다 크면  수는 바로 앞에 수를 제거해 주어야 한다.
-                if(i > K) tree.update(lowData[i-K], -1);
-                
-                tree.update(inputNumber, 1);
+                if(i > K) {
+                    int removeIndex = lowData[i-K];
+                    int beforeData = tree.getTreeData(removeIndex);
+                    tree.update(removeIndex, beforeData-1);
+                    
+                }
+                treeData    = tree.getTreeData(inputNumber);
+                tree.update(inputNumber, treeData+1);
                 result += tree.search(findNumver);
             }
         }
         System.out.println(result);
         sc.close();     
-    }
+    }     
 }

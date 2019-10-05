@@ -154,11 +154,24 @@ class IndexTree {
         }
         System.out.println();
     }
+    
+    // 특수 케이스 찾기 
+    // https://www.acmicpc.net/problem/1572
+    /*             
+                5 
+        2                  3
+      1        1          1          2
+    1   0   0     1    0     1    1      1
+    (1   2   3    4    5     6    7      8) 
+    int[] tree = { 0, 5, 2, 3, 1, 1, 2, 1, 0, 0, 1, 0, 1, 1, 1};
+    5의 중간인 3의 위치에 있는 1을 구하고 
+    그 1의 마지막 노드의 index값이 mid가 되는것을 응용 3의 위치의 1은 index = 6 이기 때문에 중간값은 6을 응용
+    
+    */
     public int search( int findNumber ) {
         int findIndex = 1;
         int leftChild;
-        while(findIndex < originalStart)
-        {
+        while(findIndex < originalStart) {
             //findNumber를 찾아가는 과정 
             // 1. findeNumber = 3 , leftChild = 2
             // 2. findeNumber = 1 , leftChild = 1
@@ -187,6 +200,11 @@ class IndexTree {
 
         // 최종 index의 위치인 i에서 시작점을 빼면 중간 값을 추출할 수 있음
         return findIndex - originalStart;
+    }
+    
+   // 트리에 바닥에 저장된 값 확인
+    public int getTreeData ( int index ) {
+        return tree[originalStart + index];
     }
 }
 
@@ -352,11 +370,23 @@ class IndexTreeOrignal{
         }
         System.out.println();
     }
+    // 특수 케이스 찾기 
+    // https://www.acmicpc.net/problem/1572
+    /*             
+                5 
+           2                  3
+       1        1          1          2
+    1   0   0     1    0     1    1      1
+    (1   2   3    4    5     6    7      8) 
+    int[] tree = { 0, 5, 2, 3, 1, 1, 2, 1, 0, 0, 1, 0, 1, 1, 1};
+    5의 중간인 3의 위치에 있는값을 구하는 방법.
+    5의 좌우 노드를 확인 후 최종 3에 맞는 index를 찾기 3의 위치에 맞는 인덱스는 index = 6 이기 때문에 중간값은 6
+    
+    */
     public int search( int findNumber ) {
         int findIndex = 1;
         int leftChild;
-        while(findIndex < originalStart)
-        {
+        while(findIndex < originalStart) {
             //findNumber를 찾아가는 과정 
             // 1. findeNumber = 3 , leftChild = 2
             // 2. findeNumber = 1 , leftChild = 1
@@ -385,6 +415,10 @@ class IndexTreeOrignal{
 
         // 최종 index의 위치인 i에서 시작점을 빼면 중간 값을 추출할 수 있음
         return findIndex - originalStart;
+    }
+    // 트리에 바닥에 저장된 값 확인
+    public int getTreeData ( int index ) {
+        return tree[originalStart + index];
     }
 }
 
