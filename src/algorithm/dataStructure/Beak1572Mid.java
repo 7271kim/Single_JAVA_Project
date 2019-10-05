@@ -51,7 +51,7 @@ public class Beak1572Mid {
          * https://www.acmicpc.net/problem/1572
          * 중앙값 
          * 앞뒤 빼고 넣기
-         * https://matice.tistory.com/54
+         * https://7271kim.github.io/algorithm/java/2019/08/15/algorithm-5.html
          */
         Scanner sc = new Scanner(System.in);
         
