@@ -62,7 +62,7 @@ Index Tree란 (https://matice.tistory.com/54)
 
 // 구간합을 저장해 놓는 IndexTree
 class IndexTree {
-    private int data[];
+    private int tree[];
     private int originalStart;
     
     public IndexTree( int[] orignal ) {
@@ -74,18 +74,21 @@ class IndexTree {
             originalStart <<= 1;
         
         //data의 크기는 originalStart의 2배
-        data = new int[originalStart*2];
+        tree = new int[originalStart*2];
         
         for( int index = 0; index < orignal.length; index++ ) {
             update( index, orignal[index] );
         }
     }
     
+    // 오리지널에서 수정되어야 할  index와 수정할 값  value
+    // ex) int[] ori = {1,2,3,4} >> {0,2,3,4}
+    // update( 0, 1 );
     public void update( int index, int value) {
         index += originalStart;
-        int beforeValue = data[index];
+        int beforeValue = tree[index];
         while(index > 0) {
-            data[index] = data[index] - beforeValue + value;
+            tree[index] = tree[index] - beforeValue + value;
             index>>=1;
         }
     }
@@ -105,11 +108,11 @@ class IndexTree {
        int sum = 0;
        while ( start < end ) {
            if( start%2 == 1) {
-               sum += data[start]; 
+               sum += tree[start]; 
                start++;
            }
            if( end%2 == 0) {
-               sum += data[end];
+               sum += tree[end];
                end--;
            }
            start>>=1;
@@ -117,7 +120,7 @@ class IndexTree {
        }
        if( start == end ) {
            // 같은 노드내 탐색일 경우 합치기
-           sum += data[start];
+           sum += tree[start];
        }
        
        return sum;
@@ -129,27 +132,61 @@ class IndexTree {
        int sum = 0;
        while ( start < end ) {
            if( start%2 == 1) {
-               sum += data[start]; 
+               sum += tree[start]; 
                start++;
            }
            if( end%2 == 0) {
-               sum += data[end];
+               sum += tree[end];
                end--;
            }
            start>>=1;
            end>>=1;
        }
        if( start == end ) {
-           sum += data[start];
+           sum += tree[start];
        }
        
        return sum;
    }
     public void printOriginal() {
-        for (int index = 0; index < data.length; index++) {
-            System.out.print(data[index] + " ");
+        for (int index = 0; index < tree.length; index++) {
+            System.out.print(tree[index] + " ");
         }
         System.out.println();
+    }
+    public int search( int findNumber ) {
+        int findIndex = 1;
+        int leftChild;
+        while(findIndex < originalStart)
+        {
+            //findNumber를 찾아가는 과정 
+            // 1. findeNumber = 3 , leftChild = 2
+            // 2. findeNumber = 1 , leftChild = 1
+            // 3. findeNumber = 1 , leftChild = 0
+            // 4. break; 
+            
+            // 자식을 확인  
+            leftChild = tree[findIndex*2]; 
+            // 왼쪽 자식노드 확인 자식노드에 저장된 수 확인 
+            
+            // 자식노드에 저장된 수가  ( ex) 5 ) 중간값 (ex ) 2 )보다 크거나 같다면 계속 자식 탐색
+            // 5의 왼쪽 자식은 2 , 오른쪽자식은 3 , findNumber = 3
+            
+            if(findNumber <= leftChild) {
+                findIndex = findIndex * 2; // 자식 노드의 왼쪽 값
+            } else {
+                // 맨 처음 findNumber = 3 , leftChild = 2임으로 여기 로직 수행
+                // 다음 찾는 값은 왼쪽값을 빼고 진행 
+                // 3에서 2를 제외한 1을 찾으면 된다.
+                findNumber = findNumber - leftChild;
+                // 자식의 오른쪽 노드를 탐색한다.
+                findIndex = findIndex * 2 + 1; 
+                //자식 노드의 오른쪽 값부터 다시 시작
+            }
+        }
+
+        // 최종 index의 위치인 i에서 시작점을 빼면 중간 값을 추출할 수 있음
+        return findIndex - originalStart;
     }
 }
 
@@ -314,6 +351,40 @@ class IndexTreeOrignal{
             System.out.print(tree[index] + " ");
         }
         System.out.println();
+    }
+    public int search( int findNumber ) {
+        int findIndex = 1;
+        int leftChild;
+        while(findIndex < originalStart)
+        {
+            //findNumber를 찾아가는 과정 
+            // 1. findeNumber = 3 , leftChild = 2
+            // 2. findeNumber = 1 , leftChild = 1
+            // 3. findeNumber = 1 , leftChild = 0
+            // 4. break; 
+            
+            // 자식을 확인  
+            leftChild = tree[findIndex*2]; 
+            // 왼쪽 자식노드 확인 자식노드에 저장된 수 확인 
+            
+            // 자식노드에 저장된 수가  ( ex) 5 ) 중간값 (ex ) 2 )보다 크거나 같다면 계속 자식 탐색
+            // 5의 왼쪽 자식은 2 , 오른쪽자식은 3 , findNumber = 3
+            
+            if(findNumber <= leftChild) {
+                findIndex = findIndex * 2; // 자식 노드의 왼쪽 값
+            } else {
+                // 맨 처음 findNumber = 3 , leftChild = 2임으로 여기 로직 수행
+                // 다음 찾는 값은 왼쪽값을 빼고 진행 
+                // 3에서 2를 제외한 1을 찾으면 된다.
+                findNumber = findNumber - leftChild;
+                // 자식의 오른쪽 노드를 탐색한다.
+                findIndex = findIndex * 2 + 1; 
+                //자식 노드의 오른쪽 값부터 다시 시작
+            }
+        }
+
+        // 최종 index의 위치인 i에서 시작점을 빼면 중간 값을 추출할 수 있음
+        return findIndex - originalStart;
     }
 }
 
