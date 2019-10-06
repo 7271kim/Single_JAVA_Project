@@ -51,7 +51,11 @@ public class Beak1572Mid {
                 }
                 treeData    = tree.getTreeData(inputNumber);
                 tree.update(inputNumber, treeData+1);
-                result += tree.search(findNumver);
+                //1번 시
+                //result += tree.search(findNumver);
+                
+                // 2번 회귀시 
+                result += tree.search(1, findNumver);
             }
         }
         System.out.println(result);

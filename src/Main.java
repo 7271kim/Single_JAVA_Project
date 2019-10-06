@@ -29,7 +29,7 @@ public class Main {
                }
                treeData    = tree.getTreeData(inputNumber);
                tree.update(inputNumber, treeData+1);
-               result += tree.search(findNumver);
+               result += tree.search(1, findNumver);
            }
        }
        System.out.println(result);
@@ -55,19 +55,15 @@ class IndexTreeOrignal{
             pointer /= 2;
         }
     }
-    public int search( int findNumber ) {
-        int findIndex = 1;
-        int leftChild;
-        while(findIndex < originalStart) {
-            leftChild = tree[findIndex*2]; 
-            if(findNumber <= leftChild) {
-                findIndex = findIndex * 2;
-            } else {
-                findNumber = findNumber - leftChild;
-                findIndex = findIndex * 2 + 1; 
-            }
+    public int search( int rootIndex, int findNumber ) {
+        if( rootIndex >= originalStart ) return rootIndex - originalStart;
+        
+        int leftChild =  tree[rootIndex*2];
+        if( findNumber <=leftChild  ) {
+            return search( rootIndex*2, findNumber );
+        } else {
+            return search( rootIndex*2+1, findNumber - leftChild );
         }
-        return findIndex - originalStart;
     }
     public int getTreeData ( int index ) {
         return tree[originalStart + index];

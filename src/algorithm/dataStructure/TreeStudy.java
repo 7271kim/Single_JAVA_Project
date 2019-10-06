@@ -201,6 +201,17 @@ class IndexTree {
         // 최종 index의 위치인 i에서 시작점을 빼면 중간 값을 추출할 수 있음
         return findIndex - originalStart;
     }
+    // 위 함수랑 동일한데 회귀로 둘림
+    public int search( int rootIndex, int findNumber ) {
+        if( rootIndex >= originalStart ) return rootIndex - originalStart;
+        
+        int leftChild =  tree[rootIndex*2];
+        if( findNumber <=leftChild  ) {
+            return search( rootIndex*2, findNumber );
+        } else {
+            return search( rootIndex*2+1, findNumber - leftChild );
+        }
+    }
     
    // 트리에 바닥에 저장된 값 확인
     public int getTreeData ( int index ) {
@@ -416,6 +427,18 @@ class IndexTreeOrignal{
         // 최종 index의 위치인 i에서 시작점을 빼면 중간 값을 추출할 수 있음
         return findIndex - originalStart;
     }
+    // 위에 함수랑 동일인데 회귀로 처리시
+    public int search( int rootIndex, int findNumber ) {
+        if( rootIndex >= originalStart ) return rootIndex - originalStart;
+        
+        int leftChild =  tree[rootIndex*2];
+        if( findNumber <=leftChild  ) {
+            return search( rootIndex*2, findNumber );
+        } else {
+            return search( rootIndex*2+1, findNumber - leftChild );
+        }
+    }
+    
     // 트리에 바닥에 저장된 값 확인
     public int getTreeData ( int index ) {
         return tree[originalStart + index];
