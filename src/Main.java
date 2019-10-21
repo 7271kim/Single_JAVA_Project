@@ -1,71 +1,53 @@
+import java.util.Arrays;
 import java.util.Scanner;
 public class Main {
-    public static void main(String[] args) {
-       Scanner sc = new Scanner(System.in);
-       
-       int N = sc.nextInt();
-       int K = sc.nextInt();
-       int findNumver = (K+1)/2;
-       long result = 0;
-       
-       int[] lowData = new int[N+1];
-       
-       // 0 ~ 65536까지가 마지막 노드 범위
-       IndexTreeOrignal tree = new IndexTreeOrignal(65537);
-       
-       for(int i = 1 ; i <= N ; i++) {
-           int inputNumber = sc.nextInt();
-           int treeData    = tree.getTreeData(inputNumber);
-           lowData[i] = inputNumber;
-           
-           if(i < K) {
-               tree.update(inputNumber, treeData+1);
-           } else {
-               if(i > K) {
-                   int removeIndex = lowData[i-K];
-                   int beforeData = tree.getTreeData(removeIndex);
-                   tree.update(removeIndex, beforeData-1);
-                   
-               }
-               treeData    = tree.getTreeData(inputNumber);
-               tree.update(inputNumber, treeData+1);
-               result += tree.search(1, findNumver);
-           }
-       }
-       System.out.println(result);
-       sc.close();     
-   }     
-}
-
-class IndexTreeOrignal{
-    int tree [];
-    int originalStart;
-    public IndexTreeOrignal(int originalSize) {
-        originalStart = 1;
-        while (originalStart < originalSize)
-            originalStart <<= 1;
-        tree = new int[originalStart*2];
-    }
-    public void update(int index, int val) {
-        index += originalStart;
-        int minus = tree[index];
-        int pointer = index;
-        while (pointer != 0) {
-            tree[pointer] = tree[pointer] - minus + val;
-            pointer /= 2;
-        }
-    }
-    public int search( int rootIndex, int findNumber ) {
-        if( rootIndex >= originalStart ) return rootIndex - originalStart;
+    static int[] sorted = new int[8];
+    public static void merge(int a[], int m, int middle, int n) {
+        int i = m;             // 첫 번째 부분집합의 시작 위치 설정
+        int j = middle+1;     // 두 번째 부분집합의 시작 위치 설정
+        int k = m;             // 배열 sorted에 정렬된 원소를 저장할 위치 설정
         
-        int leftChild =  tree[rootIndex*2];
-        if( findNumber <=leftChild  ) {
-            return search( rootIndex*2, findNumber );
-        } else {
-            return search( rootIndex*2+1, findNumber - leftChild );
+        while(i<=middle && j<=n) {
+            if(a[i]<=a[j]) {
+                sorted[k] = a[i];
+                i++;
+            }else {
+                sorted[k] = a[j];
+                j++;
+            }
+            k++;
+        }
+        if(i>middle) {
+            for(int t=j;t<=n;t++,k++) {
+                sorted[k] = a[t];
+            }
+        }else {
+            for(int t=i;t<=middle;t++,k++) {
+                sorted[k] = a[t];
+            }
+        }
+        
+        for(int t=m;t<=n;t++) {
+            a[t] = sorted[t];
+        }
+        System.out.println("병합 정렬 후: "+Arrays.toString(a));
+    }
+        
+    
+    public static void mergeSort(int a[], int m, int n) {
+        int middle;
+        if(m<n) {
+            middle = (m+n)/2;
+            mergeSort(a, m, middle);    // 앞 부분에 대한 분할 작업 수행
+            mergeSort(a, middle+1, n);    // 뒷 부분에 대한 분할 작업 수행
+            merge(a, m, middle, n);        // 부분집합에 대하여 정렬과 병합 작업 수행
         }
     }
-    public int getTreeData ( int index ) {
-        return tree[originalStart + index];
-    }
+    public static void main(String[] args) {
+        int[] list = {58,8,28,3,18,6,33,20};
+        int size = list.length;
+        System.out.println("정렬 수행 전: "+Arrays.toString(list));
+        System.out.println("-----------------병합 정렬 수행 시작------------------");
+        mergeSort(list, 0, size-1);
+    }     
 }
