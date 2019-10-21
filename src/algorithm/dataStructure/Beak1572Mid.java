@@ -41,21 +41,21 @@ public class Beak1572Mid {
             lowData[i] = inputNumber;
             
             if(i < K) {
-                tree.update(inputNumber, treeData+1);
+                tree.update(inputNumber, treeData+1); // logN
             } else {
                 if(i > K) {
                     int removeIndex = lowData[i-K];
                     int beforeData = tree.getTreeData(removeIndex);
-                    tree.update(removeIndex, beforeData-1);
+                    tree.update(removeIndex, beforeData-1); // logN
                     
                 }
                 treeData    = tree.getTreeData(inputNumber);
-                tree.update(inputNumber, treeData+1);
+                tree.update(inputNumber, treeData+1); // logN
                 //1번 시
                 //result += tree.search(findNumver);
                 
                 // 2번 회귀시 
-                result += tree.search(1, findNumver);
+                result += tree.search(1, findNumver); // logN
             }
         }
         System.out.println(result);

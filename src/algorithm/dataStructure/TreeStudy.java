@@ -335,6 +335,8 @@ class IndexTreeOrignal{
     int originalStart;
     
     public IndexTreeOrignal(int originalSize) {
+        // 총 크기는 2^h(깊이)
+        // originalStart 위치를 찾아주고 *2해주면 됨.
         originalStart = 1;
         while (originalStart < originalSize)
             originalStart <<= 1;

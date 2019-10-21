@@ -1,53 +1,56 @@
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
+/*
+ * https://www.acmicpc.net/problem/1011
+ * 데칼 코마니는 N의 제곱승이다.
+ * 1^1 = 1
+ * 2^2 = 1 + 2 + 1
+ * 3^2 = 1 + 2 + 3 + 2 + 1
+ * 4^2 = 1 + 2 + 3 + 4 + 3 + 2 + 1
+ * n^2 = 1+2+ ... + n + n-1 ... + 1
+ * http://blog.naver.com/PostView.nhn?blogId=occidere&logNo=220982644540&categoryNo=0&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
+ * https://jaimemin.tistory.com/1170
+ *  
+ */
+
 public class Main {
-    static int[] sorted = new int[8];
-    public static void merge(int a[], int m, int middle, int n) {
-        int i = m;             // 첫 번째 부분집합의 시작 위치 설정
-        int j = middle+1;     // 두 번째 부분집합의 시작 위치 설정
-        int k = m;             // 배열 sorted에 정렬된 원소를 저장할 위치 설정
-        
-        while(i<=middle && j<=n) {
-            if(a[i]<=a[j]) {
-                sorted[k] = a[i];
-                i++;
-            }else {
-                sorted[k] = a[j];
-                j++;
+    public static void main(String args[]){
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
+        StringBuilder resultString = new StringBuilder();
+        try {
+            //String[] firstLine = br.readLine().split(" ");
+            //int total   = Integer.parseInt(firstLine[0]);
+            //int compare = Integer.parseInt(firstLine[1]);
+            //String[] secondeLine = br.readLine().split(" ");
+            //int total = Integer.parseInt(br.readLine());
+            //int total = sc.nextInt();
+            //String result = "mixed";
+            
+            int total  = Integer.parseInt(br.readLine());
+            int result = 0;
+            
+            for (int index = 0; index < total; index++) {
+                String line = br.readLine();
+                int[] temp = new int[26];
+                int beforeText = -1;
+                for (int indexInnner = 0; indexInnner < line.length(); indexInnner++) {
+                    int inputIndex  = line.charAt(indexInnner) - 97;
+                    if( indexInnner != 0 ) beforeText = inputIndex;
+                    if( temp[inputIndex] == 0 ) {
+                        temp[inputIndex] = 1;
+                    } else {
+                        
+                    }
+                }
             }
-            k++;
-        }
-        if(i>middle) {
-            for(int t=j;t<=n;t++,k++) {
-                sorted[k] = a[t];
-            }
-        }else {
-            for(int t=i;t<=middle;t++,k++) {
-                sorted[k] = a[t];
-            }
-        }
-        
-        for(int t=m;t<=n;t++) {
-            a[t] = sorted[t];
-        }
-        System.out.println("병합 정렬 후: "+Arrays.toString(a));
+        } catch (Exception e) {
+            System.out.println(e);
+        } 
     }
-        
-    
-    public static void mergeSort(int a[], int m, int n) {
-        int middle;
-        if(m<n) {
-            middle = (m+n)/2;
-            mergeSort(a, m, middle);    // 앞 부분에 대한 분할 작업 수행
-            mergeSort(a, middle+1, n);    // 뒷 부분에 대한 분할 작업 수행
-            merge(a, m, middle, n);        // 부분집합에 대하여 정렬과 병합 작업 수행
-        }
-    }
-    public static void main(String[] args) {
-        int[] list = {58,8,28,3,18,6,33,20};
-        int size = list.length;
-        System.out.println("정렬 수행 전: "+Arrays.toString(list));
-        System.out.println("-----------------병합 정렬 수행 시작------------------");
-        mergeSort(list, 0, size-1);
-    }     
 }
