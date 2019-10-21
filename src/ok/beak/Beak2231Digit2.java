@@ -1,3 +1,4 @@
+package ok.beak;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ import java.util.Scanner;
  * 합이 찾는 숫자일 경우 값을 바꾼다.
  */
 
-public class Main {
+public class Beak2231Digit2 {
     public static void main(String args[]){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);

@@ -1,3 +1,4 @@
+package ok.beak;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ import java.util.Scanner;
  * 합이 찾는 숫자일 경우 값을 바꾼다.
  */
 
-public class Main {
+public class Beak2231Digit {
     public static void main(String args[]){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
@@ -32,7 +33,11 @@ public class Main {
             int result      = 0;
             while( --total > 0 ) {
                 int comp  = total;
-                comp += digitSum ( total );
+                int digit = total;
+                while( digit!= 0 ) {
+                    comp += digit%10;
+                    digit /= 10;
+                }
                 if( comp == findNumber ) result = total;
             }
             System.out.println(result);
@@ -40,16 +45,4 @@ public class Main {
             System.out.println(e);
         } 
     }
-    
-    public static int digitSum( int input ) {
-        int result = 0;
-        int digit = input;
-        while( digit!= 0 ) {
-            result += digit%10;
-            digit /= 10;
-        }
-        return result;
-    }
 }
-
-
