@@ -1,3 +1,4 @@
+package ok.beak;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.PriorityQueue;
@@ -12,7 +13,7 @@ import java.util.Scanner;
  * O( N^2 )
  */
 
-public class Main {
+public class Beak7568Ori {
     public static void main(String args[]){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
@@ -52,27 +53,4 @@ public class Main {
         } 
     }
 }
-
-class xySet implements Comparable<xySet>{
-    int x;
-    int y;
-    public xySet( int x, int y ) {
-        this.x = x;
-        this.y = y;
-        
-    }
-    @Override
-    public int compareTo(xySet target) {
-        // return : 1 이면 지금 객체를 우선순위 큐 아래로 내린다.
-        // return : 0 이면 지금 객체는 움직이지 않는다.
-        // return : -1 이면 지금 객체를 우선순위 큐 위로 올린다.
-        
-        int result = 1; // 1이면 지금 객체를 우선순위 큐 아래로 내린다. 
-        if ( this.x >= target.x && this.y >= target.y ) {
-            result = -1; // -1이면 지금 지금 객체를 우선순위 큐 위로 올린다.
-        } 
-        return result;
-    }
-}
-
 

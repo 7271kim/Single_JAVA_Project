@@ -1,18 +1,21 @@
+package ok.beak;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
 /*
  * https://www.acmicpc.net/problem/7568
- * 기본이 잘안됨.
- * 그냥 쉽게 생각하면 자기 데이터 기준으로 rank를 구한다.
- * [ [x,y] , [ x,y ] ..] 우선 데이터를 다 담고 1개 1개의 우선순위 rank를 구한다.
- * 시간복잡도 
- * O( N^2 )
+ * 들어온 수들 index로 하여 > 2차원 배열로 구성
+ * [ [ x , y ] , [ x , y ] ] >> int[][] oriData = new int[N][2]; 
+ * 우선순위 큐를 이용해 데이터가 들어오면 MaxHeap으로 구성
+ * 우선순위에서 하나 빼서 원본데이터가 몇등인지 확인한다.
+ * 공통 순위가 있을 수 있으니 이전 랭크의 x y와 지금 뽑은 x y 와 둘 사이를 비교해서 우선순위가 없다면 같은 등수이다.
+ * O( NlogN + N^2 )
  */
 
-public class Main {
+public class Beak7568PriorityQueue {
     public static void main(String args[]){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
@@ -27,26 +30,46 @@ public class Main {
             
             int total = Integer.parseInt(br.readLine());
             int[][] oriData = new int[total][2];
+            PriorityQueue<xySet> priorityQueue = new PriorityQueue<>();
             for (int index = 0; index < total; index++) {
                 String[] line = br.readLine().split(" ");
                 int x         = Integer.parseInt(line[0]);
                 int y         = Integer.parseInt(line[1]);
                 oriData[index] =  new int [] { x, y }; // 오리지널 데이터 
+                xySet temp = new xySet(x, y);
+                priorityQueue.offer(temp);// 우선순위 큐에 담기
             }
-            for (int index = 0; index < oriData.length; index++) {
-                int rank = 1;
-                for (int indexInner = 0; indexInner < oriData.length; indexInner++) {
-                    int aa  = oriData[index][0];
-                    int bb  = oriData[indexInner][0];
-                    int cc  = oriData[index][1] ;
-                    int dd  = oriData[indexInner][1];
-                    if( oriData[index][0] < oriData[indexInner][0] && oriData[index][1] < oriData[indexInner][1] ) {
-                        rank++;
+            
+            int beforeX = 201;
+            int beforeY = 201;
+            int beforeRank = 1;
+            int rank[] = new int[total];
+            int indexTemp  = 0;
+            
+            while (!priorityQueue.isEmpty()) {
+                xySet temp = priorityQueue.poll();
+                int tempX = temp.x;
+                int tempY = temp.y;
+                System.out.println(" X :  " + tempX + " Y : " + tempY);
+                indexTemp++;
+                for (int index = 0; index < oriData.length; index++) {
+                    int oriX = oriData[index][0];
+                    int oriY = oriData[index][1];
+                    if( oriX == tempX && oriY == tempY ) {
+                        if( beforeX > oriX && beforeY > oriY ) {
+                            rank[index] = indexTemp;
+                            beforeX = oriX;
+                            beforeY = oriY;
+                            beforeRank = indexTemp;
+                        } else {
+                            rank[index] = beforeRank;
+                        }
                     }
                 }
-                resultString.append(rank + " ");
             }
-            System.out.println(resultString.toString());
+            for (int index = 0; index < rank.length; index++) {
+                System.out.println(rank[index]);
+            }
         } catch (Exception e) {
             System.out.println(e);
         } 
