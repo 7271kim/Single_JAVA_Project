@@ -46,7 +46,7 @@ public class Main {
             test2.add("ee");
             
             while(!test2.isEmpty()) {
-                System.out.println(test2.remove());
+                System.out.println(test2.poll());
                 
             }
             
