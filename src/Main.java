@@ -27,19 +27,31 @@ public class Main {
             //String[] secondeLine = br.readLine().split(" ");
             //int total = Integer.parseInt(br.readLine());
             //int total = sc.nextInt();
-            int findCount = sc.nextInt();
-            int result = 666;
-            int count = 1;
-            while(count!=findCount) {
-                result++;
-                String checkNum = String.valueOf(result);
-                if(checkNum.indexOf("666") >-1 )  count++;
+            MystackLinked test = new MystackLinked();
+            test.push(1);
+            test.push(2);
+            test.push(3);
+            test.push("dd");
+            test.push("ee");
+            
+            while(!test.isEmpty()) {
+                System.out.println(test.pop());
             }
-            System.out.println(result);
+            
+            System.out.println("sssss");
+            MystackArray test2 = new MystackArray(5);
+            test2.push(1);
+            test2.push(2);
+            test2.push(3);
+            test2.push("dd");
+            test2.push("ee");
+            
+            while(!test2.isEmpty()) {
+                System.out.println(test2.pop());
+            }
+            
         } catch (Exception e) {
             System.out.println(e);
         } 
     }
 }
-
-
