@@ -11,14 +11,14 @@ public class MyQueueArray {
         this.maxSize = size;
         this.stackArray = new Object[size];
     }
-    //remove(),  add() , peek() , isEmpty() 4가지의 함수 구현
+    //poll(),  add() , peek() , isEmpty() 4가지의 함수 구현
     public void add( Object item ) {
        //시간 복잡도 O(1)
        if(tail >= maxSize-1) throw new ArrayIndexOutOfBoundsException();
        stackArray[++tail] = item;
     }
     
-    public Object remove() {
+    public Object poll() {
         // top을 바꿔주고 top 데이터를 가지고옴
         //시간 복잡도 O(1)
         if(isEmpty()) {

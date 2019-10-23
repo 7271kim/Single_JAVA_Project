@@ -18,7 +18,7 @@ public class MyQueueLinked {
         tail = null;
     }
     
-    //remove(),  add() , peek() , isEmpty() 4가지의 함수 구현
+    //poll(),  add() , peek() , isEmpty() 4가지의 함수 구현
     public void add( Object item ) {
        // 새로운 노드를 만들고 기존 tail을 해당으로 교체하면서 기존 tail.link를 신규 노드로 변경
        // 첫 진입 시 top이랑 테일은 같다.
@@ -33,7 +33,7 @@ public class MyQueueLinked {
        }
     }
     
-    public Object remove() {
+    public Object poll() {
         // top을 탑에 연결된 link로 바꿔주고 top데이터 가지고 오기
         // 시간 복잡도 O(1)
         if(isEmpty()) {
