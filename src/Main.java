@@ -27,27 +27,27 @@ public class Main {
             //String[] secondeLine = br.readLine().split(" ");
             //int total = Integer.parseInt(br.readLine());
             //int total = sc.nextInt();
-            MystackLinked test = new MystackLinked();
-            test.push(1);
-            test.push(2);
-            test.push(3);
-            test.push("dd");
-            test.push("ee");
+            /*MyQueueLinked test = new MyQueueLinked();
+            test.add(1);
+            test.add(2);
+            test.add(3);
+            test.add("dd");
+            test.add("ee");
             
             while(!test.isEmpty()) {
-                System.out.println(test.pop());
-            }
+                System.out.println(test.remove());
+            }*/
             
-            System.out.println("sssss");
-            MystackArray test2 = new MystackArray(5);
-            test2.push(1);
-            test2.push(2);
-            test2.push(3);
-            test2.push("dd");
-            test2.push("ee");
+            MyQueueArray test2 = new MyQueueArray(5);
+            test2.add(1);
+            test2.add(2);
+            test2.add(3);
+            test2.add("dd");
+            test2.add("ee");
             
             while(!test2.isEmpty()) {
-                System.out.println(test2.pop());
+                System.out.println(test2.remove());
+                
             }
             
         } catch (Exception e) {
@@ -55,3 +55,4 @@ public class Main {
         } 
     }
 }
+

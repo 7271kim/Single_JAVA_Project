@@ -1,10 +1,10 @@
-public class MystackArray {
+public class MyStackArray {
     private int top;
     private int maxSize;
     private Object[] stackArray;
     
     // 배열이다보니 크기지정이 필요하다.
-    MystackArray(int size){
+    MyStackArray(int size){
         this.top = -1;
         this.maxSize = size;
         this.stackArray = new Object[size];

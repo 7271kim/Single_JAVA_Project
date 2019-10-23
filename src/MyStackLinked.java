@@ -1,4 +1,4 @@
-public class MystackLinked {
+public class MyStackLinked {
     // 연결 리스트를 위한 Node클래스
     private class NodeClass { 
         Object data; 
@@ -13,7 +13,7 @@ public class MystackLinked {
     // 맨 위에 있는 데이터를 위한 변수
     private NodeClass top;
     
-    MystackLinked(){
+    MyStackLinked(){
         top = null;
     }
     // pop() ,  push() , peek() , isEmpty() 4가지의 함수 구현
