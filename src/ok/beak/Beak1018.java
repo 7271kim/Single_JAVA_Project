@@ -9,7 +9,7 @@ import java.util.Scanner;
  * 하나하나 8*8 조각으로 잘라 몇개를 칠해야하는지 확인한다.
  * 64 - 결과는 반대로 칠할때
  * 준비 : [ N , N,...N ] >> char[][] oriData = new char[N][M]
- * 
+ *  O(N^2*8*8) >> 50*50*8*8 >> 16만번 OK
  */
 
 public class Beak1018 {
