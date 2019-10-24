@@ -1,3 +1,4 @@
+package ok.beak;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Scanner;
@@ -9,7 +10,7 @@ import java.util.Scanner;
  * intput방식을 Scanner로 할 시 시간초과 발생
  */
 
-public class Main {
+public class Beak10989Sort3Special {
     public static void main(String args[]){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
