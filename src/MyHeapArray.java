@@ -17,6 +17,7 @@ public class MyHeapArray {
     //insertMaxHeap(), insertMinHeap(), remove(), print(), isFull(), isEmpty() 6가지의 함수 구현
     
     // 항상 마지막 노드에 값을 붙인 후 부모노드와 비교를 통해 교체한다.
+    // 시간 복잡도 : logN
     public void insertMaxHeap( int item ) {
         if(isFull()) {
             throw new ArrayIndexOutOfBoundsException();
@@ -43,6 +44,7 @@ public class MyHeapArray {
     
     // 삭제로직 : root노드를 가지고 오고 마지막 노드를 root노드의 값과 변경
     // 자식들을 찾아가며 비교 로직을 수행한다.
+    // logN
     public int removeMax() {
         if(isEmpty()) {
             throw new ArrayIndexOutOfBoundsException();
