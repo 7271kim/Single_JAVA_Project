@@ -12,9 +12,53 @@
 
 public class Main {
     public static void main(String args[]){
-      Solution temp = new Solution();
-      String[] priorities = {"123", "456", "789"};
-      //System.out.println(temp.solution(priorities));
+        
+        /*
+         * MyHeapArray temp = new MyHeapArray(5); for (int index = 1; index <= 5;
+         * index++) { temp.insertMaxHeap(index); } temp.print();
+         * 
+         * System.out.println(temp.removeMax()); temp.print();
+         * 
+         * System.out.println(temp.removeMax()); temp.print();
+         * 
+         * System.out.println(temp.removeMax()); temp.print();
+         * 
+         * System.out.println(temp.removeMax()); temp.print();
+         */
+        
+        MyHeapArray temp = new MyHeapArray(7);
+        temp.insertMaxHeap(1);
+        temp.insertMaxHeap(1);
+        temp.insertMaxHeap(2);
+        temp.insertMaxHeap(1);
+        temp.insertMaxHeap(4);
+        temp.insertMaxHeap(4);
+        temp.insertMaxHeap(4);
+        
+        temp.print();
+        
+        System.out.println(temp.removeMax());
+        temp.print();
+        
+        System.out.println(temp.removeMax());
+        temp.print();
+        
+        System.out.println(temp.removeMax());
+        temp.print();
+        
+        System.out.println(temp.removeMax());
+        temp.print();
+        
+        System.out.println(temp.removeMax());
+        temp.print();
+        
+        System.out.println(temp.removeMax());
+        temp.print();
+        
+        System.out.println(temp.removeMax());
+        temp.print();
+        
+        System.out.println(temp.removeMax());
     }
 }
 
