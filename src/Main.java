@@ -13,13 +13,13 @@
 public class Main {
     public static void main(String args[]){
         int[] data = {2,3,1,45,5};
-        SelectionSort selection = new SelectionSort(data);
+        InsertionSort insertion = new InsertionSort(data);
         
-        selection.ascendingSrot();
-        selection.print();
+        insertion.ascendingSrot();
+        insertion.print();
         
-        selection.descendingSrot();
-        selection.print();
+        insertion.descendingSrot();
+        insertion.print();
     }
 }
 
