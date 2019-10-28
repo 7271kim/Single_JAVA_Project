@@ -12,31 +12,14 @@
 
 public class Main {
     public static void main(String args[]){
-        /* MyGraphHashMap data = new MyGraphHashMap();
-        data.push("왕십리역", "서울역", 20);
-        data.push("왕십리역", "부천역", 100);
-        data.push("부천역", "서울역", 100);
-        data.push("부천역", "서울역", 10);
-        data.push("서울역", "판교역", 40);
-        data.print();*/
+        int[] data = {2,3,1,45,5};
+        SelectionSort selection = new SelectionSort(data);
         
-        /*MyGraphLinked data2 = new MyGraphLinked(3);
-        data2.push(1, 2);
-        data2.push(1, 3);
-        data2.push(2, 1);
-        data2.push(2, 3);
-        data2.push(3, 2);
+        selection.ascendingSrot();
+        selection.print();
         
-        data2.print();*/
-        
-        MyGraphArray data3 = new MyGraphArray(3);
-        data3.push(1, 2);
-        data3.push(1, 3);
-        data3.push(2, 1);
-        data3.push(2, 3);
-        data3.push(3, 2);
-        
-        data3.print();
+        selection.descendingSrot();
+        selection.print();
     }
 }
 
