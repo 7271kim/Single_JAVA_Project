@@ -25,9 +25,8 @@ class InsertionSort {
                 // 조건에 안맞으면 정렬된 상태라 더이상의 로직은 불필요함
                 if( next ) {
                     // 데이터 변경
-                    int temp    = beforeValue;
                     data[beforIndex] = thisValue;
-                    data[indexNext] = temp;
+                    data[indexNext] = beforeValue;
 
                     //초기화
                     beforIndex  = indexNext;
