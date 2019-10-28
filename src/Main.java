@@ -12,53 +12,31 @@
 
 public class Main {
     public static void main(String args[]){
+        /* MyGraphHashMap data = new MyGraphHashMap();
+        data.push("왕십리역", "서울역", 20);
+        data.push("왕십리역", "부천역", 100);
+        data.push("부천역", "서울역", 100);
+        data.push("부천역", "서울역", 10);
+        data.push("서울역", "판교역", 40);
+        data.print();*/
         
-        /*
-         * MyHeapArray temp = new MyHeapArray(5); for (int index = 1; index <= 5;
-         * index++) { temp.insertMaxHeap(index); } temp.print();
-         * 
-         * System.out.println(temp.removeMax()); temp.print();
-         * 
-         * System.out.println(temp.removeMax()); temp.print();
-         * 
-         * System.out.println(temp.removeMax()); temp.print();
-         * 
-         * System.out.println(temp.removeMax()); temp.print();
-         */
+        /*MyGraphLinked data2 = new MyGraphLinked(3);
+        data2.push(1, 2);
+        data2.push(1, 3);
+        data2.push(2, 1);
+        data2.push(2, 3);
+        data2.push(3, 2);
         
-        MyHeapArray temp = new MyHeapArray(7);
-        temp.insertMaxHeap(1);
-        temp.insertMaxHeap(1);
-        temp.insertMaxHeap(2);
-        temp.insertMaxHeap(1);
-        temp.insertMaxHeap(4);
-        temp.insertMaxHeap(4);
-        temp.insertMaxHeap(4);
+        data2.print();*/
         
-        temp.print();
+        MyGraphArray data3 = new MyGraphArray(3);
+        data3.push(1, 2);
+        data3.push(1, 3);
+        data3.push(2, 1);
+        data3.push(2, 3);
+        data3.push(3, 2);
         
-        System.out.println(temp.removeMax());
-        temp.print();
-        
-        System.out.println(temp.removeMax());
-        temp.print();
-        
-        System.out.println(temp.removeMax());
-        temp.print();
-        
-        System.out.println(temp.removeMax());
-        temp.print();
-        
-        System.out.println(temp.removeMax());
-        temp.print();
-        
-        System.out.println(temp.removeMax());
-        temp.print();
-        
-        System.out.println(temp.removeMax());
-        temp.print();
-        
-        System.out.println(temp.removeMax());
+        data3.print();
     }
 }
 
