@@ -1,4 +1,3 @@
-package algorithm.sort;
 class MergeSort {
     private int[] data;
     private int[] forSort;
