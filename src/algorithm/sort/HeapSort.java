@@ -1,3 +1,4 @@
+package algorithm.sort;
 class HeapSort {
     private int [] heap;
     private int [] data;
