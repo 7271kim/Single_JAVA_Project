@@ -10,10 +10,10 @@ package algorithm.sort;
  */
 
 class QuickSort {
-    int [] data; 
-    int size;
+    private int [] data; 
+    private int size;
    
-    QuickSort( int[] data ){
+    public QuickSort( int[] data ){
         this.data = data;
         size      = data.length;
     }

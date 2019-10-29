@@ -5,10 +5,10 @@ gap 크기 만큼 떨어진 원소들을 삽입정렬로 정렬한다. ( 0 ~ gap
 gap 크기가 0이될 때 까지 반복한다.
 */
 class ShellSort {
-    int [] data;
-    int size;
+    private int [] data;
+    private int size;
    
-    ShellSort( int[] data ){
+    public ShellSort( int[] data ){
         this.data = data;
         size      = data.length;
     }

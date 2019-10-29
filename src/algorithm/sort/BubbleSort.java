@@ -6,9 +6,9 @@ intput 배열 준비
 
 package algorithm.sort;
 class BubbleSort {
-    int [] data; 
+    private int [] data; 
    
-    BubbleSort( int[] data ){
+    public BubbleSort( int[] data ){
         this.data = data;
     }
     // 오름차순 정렬 1 2 3 4 5

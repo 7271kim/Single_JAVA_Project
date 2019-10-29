@@ -13,7 +13,7 @@
 public class Main {
     public static void main(String args[]){
         int[] data = {10, 8, 6, 20, 4, 3, 22, 1, 0, 15, 16};
-        ShellSort sortData = new ShellSort(data);
+        HeapSort sortData = new HeapSort(data);
 
         sortData.ascendingSrot();
         sortData.print();

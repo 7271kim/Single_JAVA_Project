@@ -5,9 +5,9 @@ intput 배열 준비
 */
 package algorithm.sort;
 class SelectionSort {
-    int [] data; 
+    private int [] data; 
    
-    SelectionSort( int[] data ){
+    public SelectionSort( int[] data ){
         this.data = data;
     }
     // 오름차순 정렬 1 2 3 4 5

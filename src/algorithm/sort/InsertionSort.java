@@ -6,9 +6,9 @@ N까지 반복한다.
 */
 package algorithm.sort;
 class InsertionSort {
-    int [] data; 
+    private int [] data; 
    
-    InsertionSort( int[] data ){
+    public InsertionSort( int[] data ){
         this.data = data;
     }
     // 오름차순 정렬 1 2 3 4 5
