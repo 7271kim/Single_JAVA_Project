@@ -1,3 +1,15 @@
+/*
+정렬을 위한 원본과 같은 크기의 배열 준비 sorted[]
+2개로 나누기 위한 함수 sortPartial(시작점,끝점) 생각
+2개로 나누기 위한 기준점 mid를 정한다 ( mid = 시작점 + 끝점 / 2)
+sortPartial( 시작점, mid ) , sortPartial( mid+1, 끝점 )을 통해 시작점 <끝점 일때까지 계속 반복한다.
+최종 분할 후 sortMerge( leftStart, endPoint, rightEnd ) 함수를 통해 왼쪽과 오른쪽 분할을 정렬하며 합친다.
+방법은 왼쪽은 leftStart부터 endPoint 인덱스 , 오른쪽은 endPoint+1부터 right까지 비교를 진행하는것
+orignalleftStart < orignalendPoint+1 비교 후 작은것을 sorted 배열에 집어넣고 해당 인덱스를 증가 시간다
+ex) 왼쪽이 작다면 sorted[특정인덱스] = 왼쪽값 , 왼쪽 인덱스 +1 증가, 왼쪽 혹은 오른쪽이 index를 벗어날때 까지 진행
+왼쪽과 오른쪽 중 남은 것을 sorted에 이어 붙인다 (정렬된 데이터라 이어붙임 됨)
+sorted를 orignal에 복사한다.*/
+
 package algorithm.sort;
 class MergeSort {
     private int[] data;
