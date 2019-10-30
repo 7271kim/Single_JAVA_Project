@@ -9,10 +9,12 @@ import java.util.ArrayList;
 */
 public class MyGraphLinked {
     private ArrayList<ArrayList<int[]>> graph;
+    private Boolean isEmpty;
     
     // 정점의 개수
     public MyGraphLinked( int size) {
         this.graph = new ArrayList<ArrayList<int[]>>(); // 그래프 생성
+        isEmpty = true;
         
         // 각각의 정점들 초기화
         for(int i=0; i<size+1; i++) {
@@ -25,10 +27,12 @@ public class MyGraphLinked {
         int weight = 0;
         int[] temp = { end, weight };
         graph.get(start).add(temp);
+        isEmpty = false;
     }
     public void pushOnly( int start, int end, int weight ) {
         int[] temp = { end, weight };
         graph.get(start).add(temp);
+        isEmpty = false;
     }
     
     
@@ -53,5 +57,9 @@ public class MyGraphLinked {
             }
             System.out.println();
         }
+    }
+    
+    public Boolean isEmpty() {
+        return isEmpty;
     }
 }
