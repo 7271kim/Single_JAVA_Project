@@ -12,8 +12,8 @@
 
 public class Main {
     public static void main(String args[]){
-        int[] data = {10, 8, 6, 20, 4, 3, 22, 1, 0, 15, 16};
-        HeapSort sortData = new HeapSort(data);
+        int[] data = {254,3,213,64,75,56,4,324,65,78,9,5,76,3410,8,342,76};
+        IndexSort sortData = new IndexSort(data, 3410);
 
         sortData.ascendingSrot();
         sortData.print();
