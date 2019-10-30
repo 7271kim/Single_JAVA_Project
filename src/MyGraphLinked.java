@@ -8,7 +8,8 @@ import java.util.ArrayList;
 */
 public class MyGraphLinked {
     private ArrayList<ArrayList<Integer>> graph;
-
+    
+    // 정점의 개수
     public MyGraphLinked( int size) {
         this.graph = new ArrayList<ArrayList<Integer>>(); // 그래프 생성
         

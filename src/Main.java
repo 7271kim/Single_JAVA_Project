@@ -12,14 +12,24 @@
 
 public class Main {
     public static void main(String args[]){
-        int[] data = {254,3,213,64,75,56,4,324,65,78,9,5,76,3410,8,342,76};
-        IndexSort sortData = new IndexSort(data, 3410);
-
-        sortData.ascendingSrot();
-        sortData.print();
-
-        sortData.descendingSrot();
-        sortData.print();
+        // 1->2
+        //  ->3
+        // 2->3
+        // 2->4
+        // 3->4
+        // 4->2
+        GraphSearchDfsBfs graph = new GraphSearchDfsBfs(6);
+        graph.push(1, 2);
+        graph.push(1, 3);
+        graph.push(2, 3);
+        graph.push(2, 4);
+        graph.push(3, 4);
+        graph.push(1, 5);
+        graph.push(4, 6);
+        graph.print();
+        
+        graph.searchBFS(1);
+        graph.searchDFS(1);
     }
 }
 
