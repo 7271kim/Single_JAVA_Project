@@ -1,3 +1,6 @@
+import algorithm.mst.MstKuskal;
+import algorithm.mst.MstPrim;
+
 /*
  * https://www.acmicpc.net/problem/1436
  * 종말의 숫자란 어떤 수에 6이 적어도 3개이상 연속으로 들어가는 수
@@ -33,6 +36,25 @@ public class Main {
         
         System.out.println(" 최소비용 : " + kuskal.getMinValue());
         kuskal.printGraph();
+        
+        System.out.println("-----------------------");
+        
+        MstPrim prim = new MstPrim(7);
+        prim.push(1, 2, 2);
+        prim.push(2, 7, 7);
+        prim.push(7, 6, 9);
+        prim.push(6, 5, 23);
+        prim.push(5, 4, 1);
+        prim.push(4, 1, 10);
+        prim.push(1, 3, 3);
+        prim.push(2, 3, 3);
+        prim.push(3, 7, 4);
+        prim.push(3, 6, 3);
+        prim.push(3, 5, 6);
+        
+        System.out.println(" 최소비용 : " + prim.getMinValue());
+        prim.printGraph();
+        
         
     }
 }

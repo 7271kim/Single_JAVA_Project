@@ -62,4 +62,8 @@ public class MyGraphLinked {
     public Boolean isEmpty() {
         return isEmpty;
     }
+    
+    public ArrayList<int[]> getData( int index ){
+        return graph.get(index);
+    }
 }
