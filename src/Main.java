@@ -1,5 +1,4 @@
-import algorithm.mst.MstKuskal;
-import algorithm.mst.MstPrim;
+import algorithm.shortestPath.SpDijkstra;
 
 /*
  * https://www.acmicpc.net/problem/1436
@@ -15,47 +14,34 @@ import algorithm.mst.MstPrim;
 
 public class Main {
     public static void main(String args[]){
-        // 1->2
-        //  ->3
-        // 2->3
-        // 2->4
-        // 3->4
-        // 4->2
-        MstKuskal kuskal = new MstKuskal(7);
-        kuskal.push(1, 2, 2);
-        kuskal.push(2, 7, 7);
-        kuskal.push(7, 6, 9);
-        kuskal.push(6, 5, 23);
-        kuskal.push(5, 4, 1);
-        kuskal.push(4, 1, 10);
-        kuskal.push(1, 3, 3);
-        kuskal.push(2, 3, 3);
-        kuskal.push(3, 7, 4);
-        kuskal.push(3, 6, 3);
-        kuskal.push(3, 5, 6);
+        /*SpDijkstra dijkstra = new SpDijkstra(5);
+        dijkstra.pushOnly(5, 2, 4);
+        dijkstra.pushOnly(5, 4, 2);
+        dijkstra.pushOnly(4, 2, 1);
+        dijkstra.pushOnly(4, 3, 1);
+        dijkstra.pushOnly(2, 1, 3);
+        dijkstra.pushOnly(1, 3, 6);
+        dijkstra.pushOnly(1, 4, 3);
+        dijkstra.pushOnly(3, 4, 2);
         
-        System.out.println(" 최소비용 : " + kuskal.getMinValue());
-        kuskal.printGraph();
-        
-        System.out.println("-----------------------");
-        
-        MstPrim prim = new MstPrim(7);
-        prim.push(1, 2, 2);
-        prim.push(2, 7, 7);
-        prim.push(7, 6, 9);
-        prim.push(6, 5, 23);
-        prim.push(5, 4, 1);
-        prim.push(4, 1, 10);
-        prim.push(1, 3, 3);
-        prim.push(2, 3, 3);
-        prim.push(3, 7, 4);
-        prim.push(3, 6, 3);
-        prim.push(3, 5, 6);
-        
-        System.out.println(" 최소비용 : " + prim.getMinValue());
-        prim.printGraph();
+        dijkstra.getMinValue(5);
+        dijkstra.print();*/
         
         
+        SpDijkstra dijkstra = new SpDijkstra(7);
+        dijkstra.pushOnly(1, 2, 8);
+        dijkstra.pushOnly(1, 3, 9);
+        dijkstra.pushOnly(2, 3, 3);
+        dijkstra.pushOnly(2, 5, 7);
+        dijkstra.pushOnly(2, 6, 1);
+        dijkstra.pushOnly(3, 4, 3);
+        dijkstra.pushOnly(6, 4, 2);
+        dijkstra.pushOnly(6, 7, 5);
+        dijkstra.pushOnly(5, 4, 4);
+        dijkstra.pushOnly(5, 6, 3);
+        
+        dijkstra.getMinValue(5);
+        dijkstra.print();
     }
 }
 
