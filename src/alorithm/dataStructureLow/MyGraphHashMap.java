@@ -1,4 +1,4 @@
-package algorithm.dataStructure;
+package alorithm.dataStructureLow;
 import java.util.HashMap;
 
 public class MyGraphHashMap {

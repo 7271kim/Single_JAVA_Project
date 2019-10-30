@@ -1,4 +1,4 @@
-package algorithm.dataStructure;
+package alorithm.dataStructureLow;
 public class MyHeapArray {
     private int maxSize;
     private int pointer; // 마지막 노드의 위치를 저장하기 위해 필요

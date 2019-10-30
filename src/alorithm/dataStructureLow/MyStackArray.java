@@ -1,4 +1,4 @@
-package algorithm.dataStructure;
+package alorithm.dataStructureLow;
 public class MyStackArray {
     private int top;
     private int maxSize;

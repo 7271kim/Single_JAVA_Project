@@ -1,4 +1,4 @@
-package algorithm.dataStructure;
+package alorithm.dataStructureLow;
 import java.util.ArrayList;
 
 /* 저장 형식

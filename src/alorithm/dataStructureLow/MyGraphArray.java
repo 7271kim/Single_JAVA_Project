@@ -1,4 +1,4 @@
-package algorithm.dataStructure;
+package alorithm.dataStructureLow;
 public class MyGraphArray {
     private int[][] graph;
 

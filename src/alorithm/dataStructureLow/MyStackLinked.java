@@ -1,4 +1,4 @@
-package algorithm.dataStructure;
+package alorithm.dataStructureLow;
 public class MyStackLinked {
     // 연결 리스트를 위한 Node클래스
     private class NodeClass { 

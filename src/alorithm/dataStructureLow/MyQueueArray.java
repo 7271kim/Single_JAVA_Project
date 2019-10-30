@@ -1,4 +1,4 @@
-package algorithm.dataStructure;
+package alorithm.dataStructureLow;
 public class MyQueueArray {
     private int top; // 맨 위에 있는 데이터를 위한 변수
     private int tail; // 꼬리에 있는 데이터를 위한 변수
