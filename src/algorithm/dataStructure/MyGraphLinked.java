@@ -1,3 +1,4 @@
+package algorithm.dataStructure;
 import java.util.ArrayList;
 
 /* 저장 형식
