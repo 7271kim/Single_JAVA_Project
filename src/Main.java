@@ -18,18 +18,22 @@ public class Main {
         // 2->4
         // 3->4
         // 4->2
-        GraphSearchDfsBfs graph = new GraphSearchDfsBfs(6);
-        graph.push(1, 2, 10);
-        graph.push(1, 3);
-        graph.push(2, 3);
-        graph.push(2, 4);
-        graph.push(3, 4);
-        graph.push(1, 5);
-        graph.push(4, 6);
-        graph.print();
+        MstKuskal kuskal = new MstKuskal(7);
+        kuskal.push(1, 2, 2);
+        kuskal.push(2, 7, 7);
+        kuskal.push(7, 6, 9);
+        kuskal.push(6, 5, 23);
+        kuskal.push(5, 4, 1);
+        kuskal.push(4, 1, 10);
+        kuskal.push(1, 3, 3);
+        kuskal.push(2, 3, 3);
+        kuskal.push(3, 7, 4);
+        kuskal.push(3, 6, 3);
+        kuskal.push(3, 5, 6);
         
-        graph.searchBFS(1);
-        graph.searchDFS(1);
+        System.out.println(" 최소비용 : " + kuskal.getMinValue());
+        kuskal.printGraph();
+        
     }
 }
 
