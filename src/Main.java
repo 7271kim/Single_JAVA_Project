@@ -1,4 +1,4 @@
-import algorithm.shortestPath.SpFloyd;
+import algorithm.shortestPath.SpBellman;
 
 /*
  * https://www.acmicpc.net/problem/1436
@@ -14,21 +14,19 @@ import algorithm.shortestPath.SpFloyd;
 
 public class Main {
     public static void main(String args[]){
-        SpFloyd floyd = new SpFloyd(5);
-        floyd.push(1, 2, 3);
-        floyd.push(1, 4, 2);
-        floyd.push(2, 4, 1);
-        floyd.push(2, 3, 7);
-        floyd.push(3, 5, 0);
-        floyd.push(4, 5, 1);
+        SpBellman bell = new SpBellman(5);
+        bell.pushOnly(1, 2, 3);
+        bell.pushOnly(1, 4, 2);
+        bell.pushOnly(2, 4, 1);
+        bell.pushOnly(2, 3, 7);
+        bell.pushOnly(3, 5, 0);
+        bell.pushOnly(4, 5, 1);
+        bell.pushOnly(5, 4, -3);
+        bell.pushOnly(4, 2, -2);
         
-        floyd.print();
+        bell.getMinValue(1);
+        bell.print();
         System.out.println();
-        
-        floyd.makeFloyd();
-        floyd.print();
-        
-        floyd.minValue(1, 3);
     }
 }
 
