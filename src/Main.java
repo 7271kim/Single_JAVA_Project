@@ -1,4 +1,4 @@
-import algorithm.shortestPath.SpDijkstra;
+import algorithm.shortestPath.SpFloyd;
 
 /*
  * https://www.acmicpc.net/problem/1436
@@ -14,34 +14,21 @@ import algorithm.shortestPath.SpDijkstra;
 
 public class Main {
     public static void main(String args[]){
-        /*SpDijkstra dijkstra = new SpDijkstra(5);
-        dijkstra.pushOnly(5, 2, 4);
-        dijkstra.pushOnly(5, 4, 2);
-        dijkstra.pushOnly(4, 2, 1);
-        dijkstra.pushOnly(4, 3, 1);
-        dijkstra.pushOnly(2, 1, 3);
-        dijkstra.pushOnly(1, 3, 6);
-        dijkstra.pushOnly(1, 4, 3);
-        dijkstra.pushOnly(3, 4, 2);
+        SpFloyd floyd = new SpFloyd(5);
+        floyd.push(1, 2, 3);
+        floyd.push(1, 4, 2);
+        floyd.push(2, 4, 1);
+        floyd.push(2, 3, 7);
+        floyd.push(3, 5, 0);
+        floyd.push(4, 5, 1);
         
-        dijkstra.getMinValue(5);
-        dijkstra.print();*/
+        floyd.print();
+        System.out.println();
         
+        floyd.makeFloyd();
+        floyd.print();
         
-        SpDijkstra dijkstra = new SpDijkstra(7);
-        dijkstra.pushOnly(1, 2, 8);
-        dijkstra.pushOnly(1, 3, 9);
-        dijkstra.pushOnly(2, 3, 3);
-        dijkstra.pushOnly(2, 5, 7);
-        dijkstra.pushOnly(2, 6, 1);
-        dijkstra.pushOnly(3, 4, 3);
-        dijkstra.pushOnly(6, 4, 2);
-        dijkstra.pushOnly(6, 7, 5);
-        dijkstra.pushOnly(5, 4, 4);
-        dijkstra.pushOnly(5, 6, 3);
-        
-        dijkstra.getMinValue(5);
-        dijkstra.print();
+        floyd.minValue(1, 3);
     }
 }
 
