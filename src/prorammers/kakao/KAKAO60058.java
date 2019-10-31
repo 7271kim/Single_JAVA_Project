@@ -1,7 +1,7 @@
-// 핵심 재귀코드 만들기 
-// iput 문자열 w를 두 "균형잡힌 괄호 문자열" u, v로 분리
-// 문자열 u가 "올바른 괄호 문자열" 이라면 문자열 v에 대해 1단계부터 다시 수행합니다.
-class Solution {
+package prorammers.kakao;
+// https://programmers.co.kr/learn/courses/30/lessons/60058
+// 실수한부분 확인 끝
+class KAKAO60058 {
     public String solution(String p) {
         String answer = "";
         answer = getResult(p);
