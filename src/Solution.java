@@ -14,14 +14,13 @@ class Solution {
         if( input.equals("") ) return "";
         if( isRight( input ) ) return input;
         
-        StringBuilder result = new StringBuilder();
         String[] group = divide ( input ); // // iput 문자열 w를 두 "균형잡힌 괄호 문자열" u, v로 분리
         StringBuilder first = new StringBuilder(group[0]);
         StringBuilder next  = new StringBuilder(group[1]);
         if( isRight(first.toString()) ) {
             // 문자열 u가 "올바른 괄호 문자열" 이라면 문자열 v에 대해 1단계부터 다시 수행합니다.
             // 수행한 결과 문자열을 u에 이어 붙인 후 반환합니다. 
-            result.append(first.append( getResult( next.toString() ) )); 
+            return first.append( getResult( next.toString())).toString(); 
         } else {
             //문자열 u가 "올바른 괄호 문자열"이 아니라면 아래 과정을 수행합니다.
 
@@ -39,9 +38,8 @@ class Solution {
             temp.append(reverse( first.toString() ));
             
             //4-5. 생성된 문자열을 반환합니다.
-            result = temp;
+            return temp.toString();
         }
-        return result.toString();
     }
     
     public String reverse ( String input ) {

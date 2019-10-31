@@ -13,7 +13,7 @@
 public class Main {
     public static void main(String args[]){
       Solution temp = new Solution();
-      System.out.println(temp.solution(")((()))(()))(((()())()"));
+      System.out.println(temp.solution("()))((()"));
     }
 }
 
