@@ -1,5 +1,3 @@
-import algorithm.shortestPath.SpBellman;
-
 /*
  * https://www.acmicpc.net/problem/1436
  * 종말의 숫자란 어떤 수에 6이 적어도 3개이상 연속으로 들어가는 수
@@ -14,19 +12,8 @@ import algorithm.shortestPath.SpBellman;
 
 public class Main {
     public static void main(String args[]){
-        SpBellman bell = new SpBellman(5);
-        bell.pushOnly(1, 2, 3);
-        bell.pushOnly(1, 4, 2);
-        bell.pushOnly(2, 4, 1);
-        bell.pushOnly(2, 3, 7);
-        bell.pushOnly(3, 5, 0);
-        bell.pushOnly(4, 5, 1);
-        bell.pushOnly(5, 4, -3);
-        bell.pushOnly(4, 2, -2);
-        
-        bell.getMinValue(1);
-        bell.print();
-        System.out.println();
+      Solution temp = new Solution();
+      System.out.println(temp.solution(")((()))(()))(((()())()"));
     }
 }
 
