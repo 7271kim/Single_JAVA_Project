@@ -44,10 +44,14 @@ class Solution {
     
     public String reverse ( String input ) {
         StringBuilder result = new StringBuilder();
-        int size = input.length();
-        //4-4. u의 첫 번째와 마지막 문자를 제거하고, 나머지 문자열의 괄호 방향을 뒤집어서 리턴
-        for (int index = size-2; index > 0; index--) {
-            result.append(input.charAt(index));
+        //4-4. u의 첫 번째와 마지막 문자를 제거하고, 나머지 문자열의 괄호 방향을 뒤집어서 리턴(여기를 잘못함)
+        for (int index = 0; index < input.length(); index++) {
+            char temp = input.charAt(index);
+            if( temp == '(' ) {
+                result.append(')');
+            } else {
+                result.append('(');
+            }
         }
         return result.toString();
     }
