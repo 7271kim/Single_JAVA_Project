@@ -39,7 +39,7 @@ class Solution {
         }
         
         
-        // key 요약 및 제한(기준점 조정 )
+        // key 요약 및 제한( 기준점 조정 문제는 기준점 조정 후 회전이슈  )
         int leftStartKey = keyTotalLength;
         int topStartKey  = keyTotalLength;
         
@@ -59,7 +59,6 @@ class Solution {
                 }
             }
         }
-        
         // 90도씩  회전 
         ArrayList<int[]> rotation = rotation( keyotision );
         for (int index = 0; index < 4; index++) {
@@ -79,9 +78,9 @@ class Solution {
         
         for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
             int line = inputKey.get(keyIndex)[0];
-            int low  = inputKey.get(keyIndex)[0];
-            int changeLow = line;
-            int changeLine = ( low + keyTotalLength -1 ) % keyTotalLength;
+            int low  = inputKey.get(keyIndex)[1];
+            int changeLine = low;
+            int changeLow = ( keyTotalLength -1 - line );
             
             toatation.add(new int[] {changeLine,changeLow} );
         }
@@ -90,7 +89,7 @@ class Solution {
     
     // 오리지날 건드리지 좌우 움직임
     private boolean leftRightMove(  ArrayList<int[]> inputKey ) {
-        boolean answer = true;
+        boolean answer = false;
         
         // 우로 이동
         for (int lowMove = 0; lowMove < keyTotalLength; lowMove++) {
@@ -99,7 +98,7 @@ class Solution {
             
             for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
                 int line = inputKey.get(keyIndex)[0];
-                int low  = inputKey.get(keyIndex)[0];
+                int low  = inputKey.get(keyIndex)[1];
                 if( low+lowMove < keyTotalLength  ) {
                     low = low+lowMove;
                     checkKeyPosition.add(new int[] {line,low} );
@@ -111,45 +110,43 @@ class Solution {
                 answer = true;
                 break;
             }
-            
+            ArrayList<int[]> checkKeyPositionDown;
             // 아래 이동 
-            ArrayList<int[]> checkKeyPositionDown = new ArrayList<int[]>();
             for (int lineMove = 0; lineMove < keyTotalLength; lineMove++) {
+                checkKeyPositionDown = new ArrayList<int[]>();
                 for (int keyIndex = 0; keyIndex < checkKeyPosition.size(); keyIndex++) {
                     int line = checkKeyPosition.get(keyIndex)[0];
-                    int low  = checkKeyPosition.get(keyIndex)[0];
+                    int low  = checkKeyPosition.get(keyIndex)[1];
                     
                     if( line+lineMove < keyTotalLength  ) {
                         line = line+lineMove;
                         checkKeyPositionDown.add(new int[] {line,low} );
                     }
                 }
+              //아래 이동 키값들 확인
+                if( check(checkKeyPositionDown) ) {
+                    answer = true;
+                    break;
+                }
             }
             
-            //아래 이동 키값들 확인
-            if( check(checkKeyPositionDown) ) {
-                answer = true;
-                break;
-            }
-            
-           // 위 이동 
-            checkKeyPositionDown = new ArrayList<int[]>();
             for (int lineMove = 0; lineMove < keyTotalLength; lineMove++) {
+                // 위 이동 
+                checkKeyPositionDown = new ArrayList<int[]>();
                 for (int keyIndex = 0; keyIndex < checkKeyPosition.size(); keyIndex++) {
                     int line = checkKeyPosition.get(keyIndex)[0];
-                    int low  = checkKeyPosition.get(keyIndex)[0];
+                    int low  = checkKeyPosition.get(keyIndex)[1];
                     
                     if( line-lineMove > -1  ) {
                         line = line-lineMove;
                         checkKeyPositionDown.add(new int[] {line,low} );
                     }
                 }
-            }
-            
-            //위로 이동 키값들 확인
-            if( check(checkKeyPositionDown) ) {
-                answer = true;
-                break;
+                //위로 이동 키값들 확인
+                if( check(checkKeyPositionDown) ) {
+                    answer = true;
+                    break;
+                }
             }
         }
         
@@ -160,8 +157,8 @@ class Solution {
             
             for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
                 int line = inputKey.get(keyIndex)[0];
-                int low  = inputKey.get(keyIndex)[0];
-                if( low-lowMove > -1  ) {
+                int low  = inputKey.get(keyIndex)[1];
+                if( low-lowMove < keyTotalLength  ) {
                     low = low-lowMove;
                     checkKeyPosition.add(new int[] {line,low} );
                 }
@@ -172,47 +169,45 @@ class Solution {
                 answer = true;
                 break;
             }
+            ArrayList<int[]> checkKeyPositionDown;
             // 아래 이동 
-            ArrayList<int[]> checkKeyPositionDown = new ArrayList<int[]>();
             for (int lineMove = 0; lineMove < keyTotalLength; lineMove++) {
+                checkKeyPositionDown = new ArrayList<int[]>();
                 for (int keyIndex = 0; keyIndex < checkKeyPosition.size(); keyIndex++) {
                     int line = checkKeyPosition.get(keyIndex)[0];
-                    int low  = checkKeyPosition.get(keyIndex)[0];
+                    int low  = checkKeyPosition.get(keyIndex)[1];
                     
                     if( line+lineMove < keyTotalLength  ) {
                         line = line+lineMove;
                         checkKeyPositionDown.add(new int[] {line,low} );
                     }
                 }
+              //아래 이동 키값들 확인
+                if( check(checkKeyPositionDown) ) {
+                    answer = true;
+                    break;
+                }
             }
             
-            //아래 이동 키값들 확인
-            if( check(checkKeyPositionDown) ) {
-                answer = true;
-                break;
-            }
-            
-           // 위 이동 
-            checkKeyPositionDown = new ArrayList<int[]>();
             for (int lineMove = 0; lineMove < keyTotalLength; lineMove++) {
+                // 위 이동 
+                checkKeyPositionDown = new ArrayList<int[]>();
                 for (int keyIndex = 0; keyIndex < checkKeyPosition.size(); keyIndex++) {
                     int line = checkKeyPosition.get(keyIndex)[0];
-                    int low  = checkKeyPosition.get(keyIndex)[0];
+                    int low  = checkKeyPosition.get(keyIndex)[1];
                     
                     if( line-lineMove > -1  ) {
                         line = line-lineMove;
                         checkKeyPositionDown.add(new int[] {line,low} );
                     }
                 }
-            }
-            
-            //위로 이동 키값들 확인
-            if( check(checkKeyPositionDown) ) {
-                answer = true;
-                break;
+                //위로 이동 키값들 확인
+                if( check(checkKeyPositionDown) ) {
+                    answer = true;
+                    break;
+                }
             }
         }
-        
         
         return answer;
     }
@@ -225,7 +220,7 @@ class Solution {
         
         for (int index = 0; index < checkKeyPosition.size(); index++) {
             int line = checkKeyPosition.get(index)[0];
-            int low  = checkKeyPosition.get(index)[0];
+            int low  = checkKeyPosition.get(index)[1];
             for (int lokerIndex = 0; lokerIndex < lockerPotision.size(); lokerIndex++) {
                 if( lockerPotision.get(lokerIndex)[0] == line && lockerPotision.get(lokerIndex)[1] == low ) {
                     count++;
