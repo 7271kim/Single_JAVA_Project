@@ -1,103 +1,238 @@
-// 핵심 재귀코드 만들기 
-// iput 문자열 w를 두 "균형잡힌 괄호 문자열" u, v로 분리
-// 문자열 u가 "올바른 괄호 문자열" 이라면 문자열 v에 대해 1단계부터 다시 수행합니다.
-class Solution {
-    public String solution(String p) {
-        String answer = "";
-        answer = getResult(p);
-        return answer;
-    }
-    
-   
-    
-    public String getResult(String input) {
-        if( input.equals("") ) return "";
-        if( isRight( input ) ) return input;
-        
-        String[] group = divide ( input ); // // iput 문자열 w를 두 "균형잡힌 괄호 문자열" u, v로 분리
-        StringBuilder first = new StringBuilder(group[0]);
-        StringBuilder next  = new StringBuilder(group[1]);
-        if( isRight(first.toString()) ) {
-            // 문자열 u가 "올바른 괄호 문자열" 이라면 문자열 v에 대해 1단계부터 다시 수행합니다.
-            // 수행한 결과 문자열을 u에 이어 붙인 후 반환합니다. 
-            return first.append( getResult( next.toString())).toString(); 
-        } else {
-            //문자열 u가 "올바른 괄호 문자열"이 아니라면 아래 과정을 수행합니다.
+//https://programmers.co.kr/learn/courses/30/lessons/60059
 
-            //4-1. 빈 문자열에 첫 번째 문자로 '('를 붙입니다.
-            StringBuilder temp = new StringBuilder();
-            temp.append('(');
-            
-           //4-2. 문자열 v에 대해 1단계부터 재귀적으로 수행한 결과 문자열을 이어 붙입니다.
-            temp.append(getResult(next.toString()));
-            
-            //4-3. ')'를 다시 붙입니다. 
-            temp.append(')');
-            
-            //4-4. u의 첫 번째와 마지막 문자를 제거하고, 나머지 문자열의 괄호 방향을 뒤집어서 뒤에 붙입니다. 
-            temp.append(reverse( first.toString() ));
-            
-            //4-5. 생성된 문자열을 반환합니다.
-            return temp.toString();
-        }
-    }
+import java.util.ArrayList;
+// 확인을 어떻게 할것인가.
+// 요약 및 자물쇠 제한 , 키보다 locker가 큰데 어떻게 할 것인가.
+// 회전
+// 상하 좌우 이동
+class Solution {
+    private  int size        = 0 ;
+    private  int lokerTotalLength = 0 ;
+    private  int keyTotalLength = 0 ;
+    private ArrayList<int[]> lockerPotision = new ArrayList<int[]>();
+    private ArrayList<int[]> keyotision = new ArrayList<int[]>();
     
-    public String reverse ( String input ) {
-        StringBuilder result = new StringBuilder();
-        //4-4. u의 첫 번째와 마지막 문자를 제거하고, 나머지 문자열의 괄호 방향을 뒤집어서 리턴(여기를 잘못함)
-        for (int index = 1; index < input.length()-1; index++) {
-            char temp = input.charAt(index);
-            if( temp == '(' ) {
-                result.append(')');
-            } else {
-                result.append('(');
-            }
-        }
-        return result.toString();
-    }
-    
-    public Boolean isRight ( String input ) {
-        Boolean result = true;
-        int leftCount = 0;
-        for (int index = 0; index < input.length(); index++) {
-            char temp = input.charAt(index);
-            if( index == 0 && temp == ')'  || leftCount < 0) {
-                result = false;
-                break;
-            } else if( temp == '(' ) {
-                leftCount++;
-            } else {
-                leftCount--;
-            }
-        }
-        
-        result = result && leftCount ==0 ? true : false;
-        
-        return result;
-    }
-    
-    public String[] divide ( String input ) {
-        String[] result = new String [2];
-        int left    = 0;
-        int right   = 0;
-        StringBuilder first = new StringBuilder();
-        StringBuilder next  = new StringBuilder();
-        for (int index = 0; index < input.length(); index++) {
-            if( left == right && left != 0 ) {
-                next.append(input.charAt(index));
-            } else {
-                char temp = input.charAt(index);
-                first.append(temp);
-                if( temp == '(' ) {
-                    left++;
-                } else {
-                    right++;
+    public boolean solution( int[][] key, int[][] lock ) {
+        boolean answer = false;
+        lokerTotalLength      = lock.length;
+        keyTotalLength        = key.length;
+       
+        // locker요약 및 제한(기준점 조정 )
+        int leftStart = lokerTotalLength;
+        int topStart  = lokerTotalLength;
+        for (int line = 0; line < lock.length; line++) {
+            for (int row = 0; row < lock[line].length; row++) {
+                if( lock[line][row] == 0 ) {
+                    leftStart = leftStart > row ? row : leftStart;
+                    topStart  = topStart > line ? line : topStart;
                 }
             }
         }
-        result[0] =  first.toString();
-        result[1] =  next.toString();
-                
-        return result;
+        // 기준점 조정한 locker 넣기
+        for (int line = 0; line < lock.length; line++) {
+            for (int row = 0; row < lock[line].length; row++) {
+                if( lock[line][row] == 0 ) {
+                    size++;
+                    lockerPotision.add(new int[] {line-topStart,row-leftStart});
+                }
+            }
+        }
+        
+        
+        // key 요약 및 제한(기준점 조정 )
+        int leftStartKey = keyTotalLength;
+        int topStartKey  = keyTotalLength;
+        
+        for (int line = 0; line < key.length; line++) {
+            for (int row = 0; row < key[line].length; row++) {
+                if( key[line][row] == 1 ) {
+                    leftStartKey = leftStartKey > row ? row : leftStartKey;
+                    topStartKey  = topStartKey > line ? line : topStartKey;
+                }
+            }
+        }
+        
+        for (int line = 0; line < key.length; line++) {
+            for (int row = 0; row < key[line].length; row++) {
+                if( key[line][row] == 1 ) {
+                    keyotision.add(new int[] {line-topStartKey,row-leftStartKey});
+                }
+            }
+        }
+        
+        // 90도씩  회전 
+        ArrayList<int[]> rotation = rotation( keyotision );
+        for (int index = 0; index < 4; index++) {
+            rotation = rotation(rotation);
+            if( leftRightMove(rotation) ) {
+                answer = true;
+                break;
+            } 
+        }
+        
+        return answer;
+    }
+    
+    // 90도 회전하기
+    private  ArrayList<int[]>  rotation( ArrayList<int[]> inputKey) {
+        ArrayList<int[]> toatation = new ArrayList<int[]>();
+        
+        for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
+            int line = inputKey.get(keyIndex)[0];
+            int low  = inputKey.get(keyIndex)[0];
+            int changeLow = line;
+            int changeLine = ( low + keyTotalLength -1 ) % keyTotalLength;
+            
+            toatation.add(new int[] {changeLine,changeLow} );
+        }
+        return toatation;
+    }
+    
+    // 오리지날 건드리지 좌우 움직임
+    private boolean leftRightMove(  ArrayList<int[]> inputKey ) {
+        boolean answer = true;
+        
+        // 우로 이동
+        for (int lowMove = 0; lowMove < keyTotalLength; lowMove++) {
+            //저장된 키값들 좌로 이동시켜서 새로 저장
+            ArrayList<int[]> checkKeyPosition = new ArrayList<int[]>();
+            
+            for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
+                int line = inputKey.get(keyIndex)[0];
+                int low  = inputKey.get(keyIndex)[0];
+                if( low+lowMove < keyTotalLength  ) {
+                    low = low+lowMove;
+                    checkKeyPosition.add(new int[] {line,low} );
+                }
+            }
+            
+            // 우로 이동한 키값들 확인
+            if( check(checkKeyPosition) ) {
+                answer = true;
+                break;
+            }
+            
+            // 아래 이동 
+            ArrayList<int[]> checkKeyPositionDown = new ArrayList<int[]>();
+            for (int lineMove = 0; lineMove < keyTotalLength; lineMove++) {
+                for (int keyIndex = 0; keyIndex < checkKeyPosition.size(); keyIndex++) {
+                    int line = checkKeyPosition.get(keyIndex)[0];
+                    int low  = checkKeyPosition.get(keyIndex)[0];
+                    
+                    if( line+lineMove < keyTotalLength  ) {
+                        line = line+lineMove;
+                        checkKeyPositionDown.add(new int[] {line,low} );
+                    }
+                }
+            }
+            
+            //아래 이동 키값들 확인
+            if( check(checkKeyPositionDown) ) {
+                answer = true;
+                break;
+            }
+            
+           // 위 이동 
+            checkKeyPositionDown = new ArrayList<int[]>();
+            for (int lineMove = 0; lineMove < keyTotalLength; lineMove++) {
+                for (int keyIndex = 0; keyIndex < checkKeyPosition.size(); keyIndex++) {
+                    int line = checkKeyPosition.get(keyIndex)[0];
+                    int low  = checkKeyPosition.get(keyIndex)[0];
+                    
+                    if( line-lineMove > -1  ) {
+                        line = line-lineMove;
+                        checkKeyPositionDown.add(new int[] {line,low} );
+                    }
+                }
+            }
+            
+            //위로 이동 키값들 확인
+            if( check(checkKeyPositionDown) ) {
+                answer = true;
+                break;
+            }
+        }
+        
+         // 좌로 이동
+        for (int lowMove = 0; lowMove < keyTotalLength; lowMove++) {
+            //저장된 키값들 좌로 이동시켜서 새로 저장
+            ArrayList<int[]> checkKeyPosition = new ArrayList<int[]>();
+            
+            for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
+                int line = inputKey.get(keyIndex)[0];
+                int low  = inputKey.get(keyIndex)[0];
+                if( low-lowMove > -1  ) {
+                    low = low-lowMove;
+                    checkKeyPosition.add(new int[] {line,low} );
+                }
+            }
+            
+            // 좌로 이동한 키값들 확인
+            if( check(checkKeyPosition) ) {
+                answer = true;
+                break;
+            }
+            // 아래 이동 
+            ArrayList<int[]> checkKeyPositionDown = new ArrayList<int[]>();
+            for (int lineMove = 0; lineMove < keyTotalLength; lineMove++) {
+                for (int keyIndex = 0; keyIndex < checkKeyPosition.size(); keyIndex++) {
+                    int line = checkKeyPosition.get(keyIndex)[0];
+                    int low  = checkKeyPosition.get(keyIndex)[0];
+                    
+                    if( line+lineMove < keyTotalLength  ) {
+                        line = line+lineMove;
+                        checkKeyPositionDown.add(new int[] {line,low} );
+                    }
+                }
+            }
+            
+            //아래 이동 키값들 확인
+            if( check(checkKeyPositionDown) ) {
+                answer = true;
+                break;
+            }
+            
+           // 위 이동 
+            checkKeyPositionDown = new ArrayList<int[]>();
+            for (int lineMove = 0; lineMove < keyTotalLength; lineMove++) {
+                for (int keyIndex = 0; keyIndex < checkKeyPosition.size(); keyIndex++) {
+                    int line = checkKeyPosition.get(keyIndex)[0];
+                    int low  = checkKeyPosition.get(keyIndex)[0];
+                    
+                    if( line-lineMove > -1  ) {
+                        line = line-lineMove;
+                        checkKeyPositionDown.add(new int[] {line,low} );
+                    }
+                }
+            }
+            
+            //위로 이동 키값들 확인
+            if( check(checkKeyPositionDown) ) {
+                answer = true;
+                break;
+            }
+        }
+        
+        
+        return answer;
+    }
+    
+    // 확인로직 
+    private boolean check( ArrayList<int[]> checkKeyPosition ) {
+        int count      = 0;
+        
+        if( checkKeyPosition.size() != size ) return false;
+        
+        for (int index = 0; index < checkKeyPosition.size(); index++) {
+            int line = checkKeyPosition.get(index)[0];
+            int low  = checkKeyPosition.get(index)[0];
+            for (int lokerIndex = 0; lokerIndex < lockerPotision.size(); lokerIndex++) {
+                if( lockerPotision.get(lokerIndex)[0] == line && lockerPotision.get(lokerIndex)[1] == low ) {
+                    count++;
+                }
+            }
+        }
+        
+        return count == size;
     }
 }
