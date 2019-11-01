@@ -72,16 +72,44 @@ public class Main {
       temp = new Solution();
       int[][] key4 = { 
               {0,1,0},
-              {0,0,1},
-              {0,0,0}
+              {1,1,1},
+              {0,1,0}
           }; // 1이 열쇄
       int[][] lock4 = {
               {1,1,1,1},
-              {1,1,1,1},
-              {1,1,1,0},
-              {1,1,0,1}
+              {1,1,0,1},
+              {1,0,0,1},
+              {1,1,1,1}
              }; // 0이 홈
       System.out.println("false : "+temp.solution(key4, lock4));
+      
+      temp = new Solution();
+      int[][] key5 = { 
+              {0,1,0},
+              {1,1,1},
+              {0,1,0}
+          }; // 1이 열쇄
+      int[][] lock5 = {
+              {1,1,1,1},
+              {1,1,1,1},
+              {1,1,1,0},
+              {1,1,0,0}
+             }; // 0이 홈
+      System.out.println("true : "+temp.solution(key5, lock5));
+      
+      temp = new Solution();
+      int[][] key6 = { 
+              {0,0,0},
+              {0,1,1},
+              {0,1,0}
+          }; // 1이 열쇄
+      int[][] lock6 = {
+              {1,1,1,1},
+              {1,1,0,1},
+              {1,0,0,1},
+              {1,1,1,1}
+             }; // 0이 홈
+      System.out.println("true : "+temp.solution(key6, lock6));
       
     }
 }

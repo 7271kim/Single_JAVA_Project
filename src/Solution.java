@@ -6,6 +6,8 @@ import java.util.ArrayList;
 // 회전
 // 상하 좌우 이동
 // 무엇을 반복시킬것인가.
+// 문제는 좌물쇠 영역 내...에는 ...이라는 문구 
+// 3개가 통과가 안됨 2 4 12 
 class Solution {
     private  int size        = -1 ;
     private  int lokerTotalLength = 0 ;
@@ -21,11 +23,19 @@ class Solution {
         // locker요약 및 제한(기준점 조정 )
         int leftStart = lokerTotalLength;
         int topStart  = lokerTotalLength;
+        Boolean hasPerfect = true;
+        
         for (int line = 0; line < lock.length; line++) {
             for (int row = 0; row < lock[line].length; row++) {
                 if( lock[line][row] == 0 ) {
                     leftStart = leftStart > row ? row : leftStart;
                     topStart  = topStart > line ? line : topStart;
+                    if( hasPerfect ) {
+                        if( line == 0 || line == lokerTotalLength -1 ||  row == 0 || row == lokerTotalLength -1 ) {
+                            hasPerfect = false;
+                        }
+                       
+                    }
                 }
             }
         }
@@ -53,8 +63,16 @@ class Solution {
             }
         }
         
-        if( leftCheck(keyotision) || rightCheck(keyotision) ) {
-            answer = true;
+        // 키는 벗어난는데 열쇠의 영역 안 이라면 이슈가 있다.
+        // 벽면에 하나라도 이슈가 붙은 것이 없다면 항상 꼭 맞아야 한다.
+        if( hasPerfect) {
+            if(repeatRotation(keyotision)) {
+                answer = true;
+            }
+        } else {
+            if( leftCheck(keyotision) || rightCheck(keyotision) ) {
+                answer = true;
+            }
         }
         
         return answer;
