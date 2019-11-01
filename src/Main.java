@@ -12,126 +12,111 @@
 
 public class Main {
     public static void main(String args[]){
-      Solution1 temp = new Solution1();
-      int[][] key = { 
-              {1,1,1},
-              {1,1,1},
-              {1,1,1}
-          }; // 1이 열쇄
-      int[][] lock = {
-              {1,0,0,1},
-              {1,1,1,1},
-              {1,1,1,1},
-              {1,1,1,1}
-             }; // 0이 홈
       
-      System.out.println("false : "+temp.solution(key, lock));
-      
-      temp = new Solution1();
-      int[][] key1 = { 
-              {0,0,0},
-              {0,0,0},
-              {0,0,1}
-          }; // 1이 열쇄
-      int[][] lock1 = {
-              {1,1,1,1},
-              {1,1,1,1},
-              {1,1,1,1},
-              {1,1,1,0}
-             }; // 0이 홈
-      System.out.println("true : "+temp.solution(key1, lock1));
-      
-      temp = new Solution1();
-      int[][] key2 = { 
-              {0,0,0},
-              {0,0,1},
-              {0,0,1}
-          }; // 1이 열쇄
-      int[][] lock2 = {
-              {1,1,1,1},
-              {1,1,1,1},
-              {1,1,1,1},
-              {1,1,0,0}
-             }; // 0이 홈
-      System.out.println("true : "+temp.solution(key2, lock2));
-      
-      temp = new Solution1();
-      int[][] key3 = { 
-              {0,0,0},
-              {1,0,0},
-              {0,1,1}
-          }; // 1이 열쇄
-      int[][] lock3 = {
-              {1,1,1,1},
-              {1,1,1,1},
-              {1,1,1,0},
-              {1,1,0,1}
-             }; // 0이 홈
-      System.out.println("true : "+temp.solution(key3, lock3));
-      
-      temp = new Solution1();
-      int[][] key4 = { 
-              {0,1,0},
-              {1,1,1},
-              {0,1,0}
-          }; // 1이 열쇄
-      int[][] lock4 = {
-              {1,1,1,1},
-              {1,1,0,1},
-              {1,0,0,1},
-              {1,1,1,1}
-             }; // 0이 홈
-      System.out.println("false : "+temp.solution(key4, lock4));
-      
-      temp = new Solution1();
-      int[][] key5 = { 
-              {0,1,0},
-              {1,1,1},
-              {0,1,0}
-          }; // 1이 열쇄
-      int[][] lock5 = {
-              {1,1,1,1},
-              {1,1,1,1},
-              {1,1,1,0},
-              {1,1,0,0}
-             }; // 0이 홈
-      System.out.println("true : "+temp.solution(key5, lock5));
-      
-      temp = new Solution1();
-      int[][] key6 = { 
-              {0,0,0},
-              {0,1,1},
-              {0,1,0}
-          }; // 1이 열쇄
-      int[][] lock6 = {
-              {1,1,1,1},
-              {1,1,0,1},
-              {1,0,0,1},
-              {1,1,1,1}
-             }; // 0이 홈
-      System.out.println("true : "+temp.solution(key6, lock6));
-      System.out.println();
-      System.out.println();
-      System.out.println();
-      System.out.println();
-      
-      
-        /*      
-             temp = new Solution1();
-              int[][] key7 = { 
-              {1,1,1},
-              {1,1,1},
-              {1,1,1}
-          }; // 1이 열쇄
-              int[][] lock7 = {
-              {1,0,0,1},
-              {1,1,1,1},
-              {1,1,1,1},
-              {1,1,1,1}
-             }; // 0이 홈
-              
-              System.out.println("true : "+temp.solution2(key7, lock7));
-              */
+        int size = 3;
+        int total = (int)Math.pow(2, size*size);
+        
+        int big[][][] = new int[total+1][size][size];
+        int  totalIndex = 0;
+        for ( int first = 0; first <= 1; first++ ) {
+            for ( int second = 0; second <= 1; second++ ) {
+                for ( int three = 0; three <= 1; three++ ) {
+                    for ( int four = 0; four <= 1; four++ ) {
+                        for ( int five = 0; five <= 1; five++ ) {
+                            for ( int six = 0; six <= 1; six++ ) {
+                                for ( int seven = 0; seven <= 1; seven++ ) {
+                                    for ( int eight = 0; eight <= 1; eight++ ) {
+                                        for ( int nine = 0; nine <= 1; nine++ ) {
+                                            int[][] serch =  new int[size][size];
+                                            //line , low
+                                            serch[0][0] = nine;
+                                            serch[0][1] = eight;
+                                            serch[0][2] = seven;
+                                            serch[1][0] = six;
+                                            serch[1][1] = five;
+                                            serch[1][2] = four;
+                                            serch[2][0] = three;
+                                            serch[2][1] = second;
+                                            serch[2][2] = first;
+                                            big[totalIndex++] = serch;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        size = 2;
+        int key[][][] = new int[total+1][size][size];
+        int  totalIndex2 = 0;
+        for ( int first = 0; first <= 1; first++ ) {
+            for ( int second = 0; second <= 1; second++ ) {
+                for ( int three = 0; three <= 1; three++ ) {
+                    for ( int four = 0; four <= 1; four++ ) {
+                        int[][] serch =  new int[size][size];
+                        //line , low
+                        serch[0][0] = first;
+                        serch[0][1] = second;
+                        serch[1][0] = three;
+                        serch[1][1] = four;
+                        
+                        key[totalIndex2++] = serch;
+                    }
+                }
+            }
+        }
+        
+        outer : for (int index = 0; index < big.length; index++) {
+            for (int keyIndex = 0; keyIndex < key.length; keyIndex++) {
+                Solution temp = new Solution();
+                Solution3 temp2 = new Solution3();
+                int[][] inputKey  = key[keyIndex]; // 1이 열쇄
+                int[][] lock = big[index]; // 0이 홈
+                
+                Boolean solution1 = temp.solution(inputKey, lock);
+                Boolean solution2 = temp2.solution(inputKey, lock);
+                if( solution1 != solution2 ) {
+                    System.out.println("solution 1 : " + solution1);
+                    System.out.println("solution 2 : " + solution2);
+                    System.out.println("KEY : ");
+                    for (int x = 0; x < inputKey.length; x++) {
+                        for (int y = 0; y < inputKey[x].length; y++) {
+                            System.out.print(inputKey[x][y] + " ");
+                        }
+                        System.out.println();
+                    }
+                    
+                    System.out.println("문제 : ");
+                    for (int x = 0; x < lock.length; x++) {
+                        for (int y = 0; y < lock[x].length; y++) {
+                            System.out.print(lock[x][y] + " ");
+                        }
+                        System.out.println();
+                    }
+                }
+                
+            }
+        }
+        
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println("check");
+        
+        Solution temp = new Solution();
+        int[][] key2 = { 
+                {0,1},
+                {1,1}
+            }; // 1이 열쇄
+        int[][] lock2 = {
+                {1,1,1},
+                {1,1,1},
+                {1,0,0}
+               }; // 0이 홈
+        
+        System.out.println("false : "+temp.solution(key2, lock2));
     }
 }
 
