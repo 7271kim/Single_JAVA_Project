@@ -1,47 +1,78 @@
-// solution("aaaaa") , solution("aaaaabb") 등 인풋이 들어왔을 때 연속된 3글자가 나오는 케이스는 초기화 필요하다고 판단하고 코딩을 진행  
-// 초기화는 연속된 3글자 이상인 경우는 2개로 모든것을 초기화
-// 기존 max와 비교하여 최대값 구함
-
-class Solution1 {
-    public int solution(String S) {
-       String[] temp  = S.split("");
-       int max        = -1;
-       int aCount     = 0;
-       int bCount     = 0;
-       int countText  = 0;
-       
-       for (int index = 0; index < temp.length; index++) {
-           // 전체 카운트
-           countText++;
-           // 글자가 나오는 케이스는 2가지 밖에 없음 a 혹은 b
-           if( temp[index].equals("a") ) {
-               //연속된 a의 갯수 확인
-               aCount++;
-               if( aCount > 2 ) {
-                   aCount    = 2;
-                   // 초기화. a가 연속되도 나올수 있는 conText크기는 2임
-                   countText = 2;
-               }
-               // 이전것이 b가 아니면 b 카운트는 초기화
-               if( index != 0 && temp[index-1].equals("b") ) {
-                   bCount     = 0;
-               }
-           } else {
-               //b도 동일한 방법으로 구현
-               // 반복 로직이라 더 효율적으로 구성할 수 있을것으로 보임
-               bCount++;
-               if( bCount > 2 ) {
-                   bCount    = 2;
-                   countText = 2;
-               }
-               if( index != 0 && temp[index-1].equals("a") ) {
-                   aCount     = 0;
-               }
-           }
-           // 기존 max카운트와 비교
-           max = max < countText ? countText : max;
-       }
-       
-       return max;
+public class Solution1 {
+    static boolean isOk = false;
+ 
+    public boolean solution(int[][] key, int[][] lock) {
+        int len = lock.length;
+        //3배 확장 후 중앙으로 옮기기
+        int[][] copyLock = new int[len*3][len*3];
+        for(int i=0; i<len; i++) {
+            for(int j=0; j<len; j++) {
+                copyLock[i+len][j+len] = lock[i][j];
+            }
+        }
+        
+        dfs(key, copyLock, 0);
+        return isOk;
+    }
+    public void dfs(int[][]key, int [][] lock, int cnt) {
+        check(key, lock, 0, 0);
+        if(isOk) return;
+        if(cnt >= 4) return;
+        int[][] temp = rotate(key);
+        dfs(temp, lock, cnt+1);
+    }
+    
+    public void check(int[][] key, int[][] lock, int x, int y) {
+        if(isOk) return;
+        if(y+key.length>lock.length) {
+            y=0;
+            x++;
+        }
+        if(x+key.length>lock.length) return;
+ 
+        int[][] copyLock = new int[lock.length][lock.length];
+        for(int i=0; i<lock.length; i++) {
+            copyLock[i] = lock[i].clone();
+        }
+ 
+        boolean isFail = false;
+        loop:
+            for(int i=0; i<key.length; i++) {
+                for(int j=0; j<key.length; j++) {
+                    if(key[i][j]==1) {
+                        if(copyLock[i+x][j+y]==1) {
+                            isFail = true;
+                            break loop;
+                        }
+                        copyLock[i+x][j+y] = key[i][j];
+                    }
+                }
+            }
+        if(!isFail) {
+            loop:
+                for(int i=0; i<lock.length/3; i++) {
+                    for(int j=0; j<lock.length/3; j++) {
+                        if(copyLock[i+lock.length/3][j+lock.length/3] != 1) {
+                            isFail = true;
+                            break loop;
+                        }
+                    }
+                }
+        }
+        if(!isFail) {
+            isOk = true;
+        }
+        check(key, lock, x, y+1);
+    }
+    
+    public int[][] rotate(int [][] key) { //회전
+        int len = key.length;
+        int[][] temp = new int[len][len];
+        for(int i=0; i<len; i++) {
+            for(int j=0; j<len; j++) {
+                temp[i][j] = key[len-j-1][i];
+            }
+        }
+        return temp;
     }
 }

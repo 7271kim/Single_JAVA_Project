@@ -12,7 +12,7 @@
 
 public class Main {
     public static void main(String args[]){
-      Solution temp = new Solution();
+      Solution1 temp = new Solution1();
       int[][] key = { 
               {1,1,1},
               {1,1,1},
@@ -25,9 +25,9 @@ public class Main {
               {1,1,1,1}
              }; // 0이 홈
       
-      System.out.println("true : "+temp.solution(key, lock));
+      System.out.println("false : "+temp.solution(key, lock));
       
-      temp = new Solution();
+      temp = new Solution1();
       int[][] key1 = { 
               {0,0,0},
               {0,0,0},
@@ -41,7 +41,7 @@ public class Main {
              }; // 0이 홈
       System.out.println("true : "+temp.solution(key1, lock1));
       
-      temp = new Solution();
+      temp = new Solution1();
       int[][] key2 = { 
               {0,0,0},
               {0,0,1},
@@ -55,7 +55,7 @@ public class Main {
              }; // 0이 홈
       System.out.println("true : "+temp.solution(key2, lock2));
       
-      temp = new Solution();
+      temp = new Solution1();
       int[][] key3 = { 
               {0,0,0},
               {1,0,0},
@@ -69,7 +69,7 @@ public class Main {
              }; // 0이 홈
       System.out.println("true : "+temp.solution(key3, lock3));
       
-      temp = new Solution();
+      temp = new Solution1();
       int[][] key4 = { 
               {0,1,0},
               {1,1,1},
@@ -83,7 +83,7 @@ public class Main {
              }; // 0이 홈
       System.out.println("false : "+temp.solution(key4, lock4));
       
-      temp = new Solution();
+      temp = new Solution1();
       int[][] key5 = { 
               {0,1,0},
               {1,1,1},
@@ -97,7 +97,7 @@ public class Main {
              }; // 0이 홈
       System.out.println("true : "+temp.solution(key5, lock5));
       
-      temp = new Solution();
+      temp = new Solution1();
       int[][] key6 = { 
               {0,0,0},
               {0,1,1},
@@ -117,7 +117,7 @@ public class Main {
       
       
         /*      
-             temp = new Solution();
+             temp = new Solution1();
               int[][] key7 = { 
               {1,1,1},
               {1,1,1},
@@ -132,77 +132,6 @@ public class Main {
               
               System.out.println("true : "+temp.solution2(key7, lock7));
               */
-      
-      temp = new Solution();
-      int[][] key9 = { 
-              {0,0,0},
-              {0,0,1},
-              {0,0,1}
-          }; // 1이 열쇄
-      int[][] lock9 = {
-              {1,1,1,1},
-              {1,1,1,1},
-              {1,1,1,1},
-              {1,1,0,0}
-             }; // 0이 홈
-      System.out.println("true : "+temp.solution2(key9, lock9));
-      
-      temp = new Solution();
-      int[][] key10 = { 
-              {0,0,0},
-              {1,0,0},
-              {0,1,1}
-          }; // 1이 열쇄
-      int[][] lock10 = {
-              {1,1,1,1},
-              {1,1,1,1},
-              {1,1,1,0},
-              {1,1,0,1}
-             }; // 0이 홈
-      System.out.println("true : "+temp.solution2(key10, lock10));
-      
-      temp = new Solution();
-      int[][] key11 = { 
-              {0,1,0},
-              {1,1,1},
-              {0,1,0}
-          }; // 1이 열쇄
-      int[][] lock11 = {
-              {1,1,1,1},
-              {1,1,0,1},
-              {1,0,0,1},
-              {1,1,1,1}
-             }; // 0이 홈
-      System.out.println("false : "+temp.solution2(key11, lock11));
-      
-      temp = new Solution();
-      int[][] key12 = { 
-              {0,1,0},
-              {1,1,1},
-              {0,1,0}
-          }; // 1이 열쇄
-      int[][] lock12 = {
-              {1,1,1,1},
-              {1,1,1,1},
-              {1,1,1,0},
-              {1,1,0,0}
-             }; // 0이 홈
-      System.out.println("true : "+temp.solution2(key12, lock12));
-      
-      temp = new Solution();
-      int[][] key13 = { 
-              {0,0,0},
-              {0,1,1},
-              {0,1,0}
-          }; // 1이 열쇄
-      int[][] lock13 = {
-              {1,1,1,1},
-              {1,1,0,1},
-              {1,0,0,1},
-              {1,1,1,1}
-             }; // 0이 홈
-      System.out.println("true : "+temp.solution2(key13, lock13));
-      
     }
 }
 
