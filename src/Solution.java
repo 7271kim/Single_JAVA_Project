@@ -6,7 +6,7 @@ import java.util.ArrayList;
 // 회전
 // 상하 좌우 이동
 class Solution {
-    private  int size        = 0 ;
+    private  int size        = -1 ;
     private  int lokerTotalLength = 0 ;
     private  int keyTotalLength = 0 ;
     private ArrayList<int[]> lockerPotision = new ArrayList<int[]>();
@@ -32,6 +32,7 @@ class Solution {
         for (int line = 0; line < lock.length; line++) {
             for (int row = 0; row < lock[line].length; row++) {
                 if( lock[line][row] == 0 ) {
+                    size = size == -1 ? 0 : size;
                     size++;
                     lockerPotision.add(new int[] {line-topStart,row-leftStart});
                 }
@@ -216,11 +217,29 @@ class Solution {
     private boolean check( ArrayList<int[]> checkKeyPosition ) {
         int count      = 0;
         
-        if( checkKeyPosition.size() != size ) return false;
+        // 초기화
+        int leftStartKey = 1000000;
+        int topStartKey = 1000000;
+        ArrayList<int[]> temp = new ArrayList<int[]>();
+        for (int index = 0; index < checkKeyPosition.size(); index++) {
+            int line = checkKeyPosition.get(index)[0];
+            int row  = checkKeyPosition.get(index)[1];
+            leftStartKey = leftStartKey > row ? row : leftStartKey;
+            topStartKey  = topStartKey > line ? line : topStartKey;
+        }
         
         for (int index = 0; index < checkKeyPosition.size(); index++) {
             int line = checkKeyPosition.get(index)[0];
-            int low  = checkKeyPosition.get(index)[1];
+            int row  = checkKeyPosition.get(index)[1];
+            temp.add(new int[] {line-topStartKey,row-leftStartKey});
+        }
+        
+        
+        if( temp.size() != size ) return false;
+        
+        for (int index = 0; index < temp.size(); index++) {
+            int line = temp.get(index)[0];
+            int low  = temp.get(index)[1];
             for (int lokerIndex = 0; lokerIndex < lockerPotision.size(); lokerIndex++) {
                 if( lockerPotision.get(lokerIndex)[0] == line && lockerPotision.get(lokerIndex)[1] == low ) {
                     count++;
