@@ -49,6 +49,7 @@ public class Main {
             }
         }
         size = 2;
+        total = (int)Math.pow(2, size*size);
         int key[][][] = new int[total+1][size][size];
         int  totalIndex2 = 0;
         for ( int first = 0; first <= 1; first++ ) {

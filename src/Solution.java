@@ -1,17 +1,21 @@
 // 2 4 12번 실패
+// 자물쇠에....내가 틀렸던 것은 홈이 없는 것은 성공이다. 
+// 큰 판떼기 준비 크기는  2*(key.length) + lock.length - 2 >>  ( M + N + M 2개 겹치는거 제거)
+// 외부 큰 판떼기 하나하나 진행하면서 검사하기
+
 class Solution {
     int[][] lockerBig;
     int[][] keyBig;
     int lockerSize;
     int lockerStart;
     int homeCount = -1;
+    int keyCount  = -1;
     
     public boolean solution(int[][] key, int[][] lock) {
         boolean answer = false;
         lockerSize = 2*(key.length) + lock.length - 2;
         lockerBig = new int[lockerSize][lockerSize];
         lockerStart = key.length -1;
-        
         // 큰 판 세팅
         for (int line = 0; line < lock.length; line++) {
             for (int low = 0; low < lock.length; low++) {
@@ -22,6 +26,10 @@ class Solution {
                     homeCount++;
                 }
             }
+        }
+        
+        if( homeCount == -1 ) {
+            return true;
         }
         
         // 전수조사 최대 60 * 60
