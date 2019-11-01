@@ -1,3 +1,4 @@
+package prorammers.kakao;
 //https://programmers.co.kr/learn/courses/30/lessons/60059
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 // 무엇을 반복시킬것인가.
 // 문제는 좌물쇠 영역 내...에는 ...이라는 문구 
 // 3개가 통과가 안됨 2 4 12 
-class Solution {
+class KAKAOKeyLocker60059 {
     private  int size        = -1 ;
     private  int lokerTotalLength = 0 ;
     private  int keyTotalLength = 0 ;
@@ -280,97 +281,5 @@ class Solution {
         }
         
         return count == size;
-    }
-    
-    int[][] outLockerTotal = new int[60][60];
-    int[][] outKeyTotal;
-    int lockerSize;
-    int keySize;
-    int outKeyStartLine;
-    int outKeyStartLow;
-    int home = 0;
-    
-    public boolean solution2( int[][] key, int[][] lock ) {
-       Boolean result = false;
-       lockerSize = lock.length;
-       keySize    = key.length;
-       
-       // 기본 가운데에  locker세팅
-       for (int lockLine = 0; lockLine < lockerSize; lockLine++) {
-           for (int lockLow = 0; lockLow < lockerSize; lockLow++) {
-               int value = lock[lockLine][lockLow];
-               outLockerTotal[20+lockLine][20+lockLow] = value;
-               if( value == 0 ) home++;
-           }
-       }
-       
-       // 전체 바깥 돌면서 확인하기
-       for (int outTotalLine = 1; outTotalLine < lockerSize+keySize; outTotalLine++ ) {
-           for (int outTotalLow = 1; outTotalLow < lockerSize+keySize; outTotalLow++ ) {
-               outKeyTotal      = new int [60][60];
-               outKeyStartLine  = 20-keySize + outTotalLine; 
-               outKeyStartLow   = 20-keySize + outTotalLow;
-               
-               // 외부 key 판떼기 세팅
-               for (int keyLine = 0; keyLine < keySize; keyLine++) {
-                   for (int keyLow = 0; keyLow < keySize; keyLow++) {
-                       outKeyTotal[outKeyStartLine+keyLine][outKeyStartLow+keyLow] = key[keyLine][keyLow];
-                   }
-               }
-               
-               if( rotationCheck() ){
-                   result = true;
-                   break;
-               }
-           }
-        }
-        return result;
-    }
-    
-    // 돌려 가며 확인하기
-    private  boolean rotationCheck() {
-        Boolean result = false;
-        
-        for (int index = 0; index < 4; index++) {
-            if( checkfor() ) {
-                result =  true;
-                break;
-            } else {
-                roatation2();
-            }
-        }
-       
-        return result;
-    }
-    
-    // 90도 회전하기
-    private  void roatation2() {
-        int[][] temp = new int[60][60];
-        
-        for (int line = 0; line < keySize; line++) {
-            for (int low = 0; low < keySize; low++) {
-               int value = outKeyTotal[outKeyStartLine+line][outKeyStartLow+low];
-               temp[outKeyStartLow+low][outKeyStartLine + keySize -1 - line] = value;
-            }
-        }
-        outKeyTotal = temp;
-    }
-    
- // 확인로직 
-    private boolean checkfor() {
-        int count      = 0;
-        for (int line = 0; line < lockerSize; line++) {
-            for (int low = 0; low < lockerSize; low++) {
-                int outLockerValue = outLockerTotal[20+line][20+low];
-                int outKeyValue = outKeyTotal[20+line][20+low];
-                
-                if ( outLockerValue == 0 && outKeyValue == 1 ) {
-                    count++;
-                } else if(outLockerValue == 1 && outKeyValue == 1) {
-                    return false;
-                }
-            }
-        }
-        return count == home;
     }
 }
