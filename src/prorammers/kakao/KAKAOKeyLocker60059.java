@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 
 /*
+항상 전체 true와 전체 false는 의심해보자 
+
 전체 루프 돌면서 케이스 확인 로직
 int size = 3;
 int total = (int)Math.pow(2, size*size);

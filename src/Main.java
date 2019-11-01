@@ -106,18 +106,18 @@ public class Main {
         System.out.println();
         System.out.println("check");
         
-        Solution temp = new Solution();
+        Solution3 temp = new Solution3();
         int[][] key2 = { 
-                {0,1},
+                {1,0},
                 {1,1}
             }; // 1이 열쇄
         int[][] lock2 = {
                 {1,1,1},
-                {1,1,1},
+                {1,1,0},
                 {1,0,0}
                }; // 0이 홈
         
-        System.out.println("false : "+temp.solution(key2, lock2));
+        System.out.println("True : "+temp.solution(key2, lock2));
     }
 }
 

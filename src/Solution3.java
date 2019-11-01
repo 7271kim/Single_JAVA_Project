@@ -1,92 +1,134 @@
-// 2 4 12번 실패
-// 자물쇠에....내가 틀렸던 것은 홈이 없는 것은 성공이다. 
-// 큰 판떼기 준비 크기는  2*(key.length) + lock.length - 2 >>  ( M + N + M 2개 겹치는거 제거)
-// 외부 큰 판떼기 하나하나 진행하면서 검사하기
-
 class Solution3 {
-    int[][] lockerBig;
-    int[][] keyBig;
-    int lockerSize;
-    int lockerStart;
-    int homeCount = -1;
-    int keyCount  = -1;
-    
+    private static int[][] key_1;
+    private static int[][] key_2;
+    private static int[][] key_3;
+    private static int[][] key_4;
+    private static int[][] lock_2;
+    private static int cnt;
+    private static boolean flag;
+    private static int aa;
+
     public boolean solution(int[][] key, int[][] lock) {
         boolean answer = false;
-        lockerSize = 2*(key.length) + lock.length - 2;
-        lockerBig = new int[lockerSize][lockerSize];
-        lockerStart = key.length -1;
-        // 큰 판 세팅
-        for (int line = 0; line < lock.length; line++) {
-            for (int low = 0; low < lock.length; low++) {
-                int value = lock[line][low];
-                lockerBig[lockerStart+line][lockerStart+low] = value;
-                if( value == 0 ) {
-                    homeCount = homeCount == -1 ? 0 : homeCount;
-                    homeCount++;
-                }
+        // 자물쇠의 맵이 주어졌고.
+        // key맵도 주어졌으니.둘다 최대 20x20 맵
+        // 완탐을 해야할거 같음.
+        // lock 맵의 한칸마다 key맵을 넣어봐야할듯.(최대 22x22x4(각도전환))
+        // 모든 lock의 빈칸을 해결했고, 들어맞는 곳이 있으면 return
+        // 넣는걸 어떻게 구현하는지가 관건?
+
+        // 일단 key를 각도 돌린 애들을 미리 구해놔
+        key_1 = new int[key.length][key.length];
+        key_2 = new int[key.length][key.length];
+        key_3 = new int[key.length][key.length];
+        key_4 = new int[key.length][key.length];
+        for (int i = 0; i < key.length; i++) {
+            for (int j = 0; j < key.length; j++) {
+                key_1[i][j] = key[i][j];
             }
         }
-        
-        if( homeCount == -1 ) {
-            return true;
+        for (int i = 0; i < key.length; i++) {
+            for (int j = 0; j < key.length; j++) {
+                key_2[j][key.length - i - 1] = key_1[i][j];
+            }
         }
-        
-        // 전수조사 최대 60 * 60
-        out: for (int lockerLine = 0; lockerLine < lockerSize-key.length+1; lockerLine++) {
-            for (int lockerLow = 0; lockerLow < lockerSize-key.length+1; lockerLow++) {
-                // 키 판데기 초기화 * 20
-                keyBig    = new int[lockerSize][lockerSize];
-                for (int line = 0; line < key.length; line++) {
-                    for (int low = 0; low < key.length; low++) {
-                        int value = key[line][low];
-                        keyBig[lockerLine+line][lockerLow+low] = value;
-                    }
-                }
-                
-                for (int cycle = 0; cycle < 4; cycle++) {
-                    if( check(lock) ) {
+        for (int i = 0; i < key.length; i++) {
+            for (int j = 0; j < key.length; j++) {
+                key_3[j][key.length - i - 1] = key_2[i][j];
+            }
+        }
+        for (int i = 0; i < key.length; i++) {
+            for (int j = 0; j < key.length; j++) {
+                key_4[j][key.length - i - 1] = key_3[i][j];
+            }
+        }
+
+        for (int i = 0; i < lock.length; i++) { // 채워야 하는 홈의 갯수 세주고
+            for (int j = 0; j < lock.length; j++) {
+                if(lock[i][j] == 0)
+                    cnt++;
+            }
+        }
+
+        // lock의 맵을 더 크게 만들자.
+        lock_2 = new int[lock.length + (key.length - 1) * 2][lock.length + (key.length - 1) * 2];
+        for (int i = 0; i < lock_2.length; i++) {
+            for (int j = 0; j < lock_2.length; j++) {
+                lock_2[i][j] = 2;
+            }
+        }
+        for (int i = 0; i < lock.length; i++) {
+            for (int j = 0; j < lock.length; j++) {
+                lock_2[i + key.length - 1][j + key.length - 1] = lock[i][j];
+            }
+        }
+
+        for (int i = 0; i < lock_2.length; i++) {
+            for (int j = 0; j < lock_2.length; j++) {
+            }
+        }
+        int tempCnt = cnt;
+        loop: for (int i = 0; i < lock.length + (key.length - 1); i++) {
+            for (int j = 0; j < lock.length + (key.length - 1); j++) {
+                for (int p = 0; p < 4; p++) {
+                    go(i, j, p);
+                    if(cnt == 0 && flag == false) {
                         answer = true;
-                        break out;
-                    } else {
-                        rotation( lockerLine, lockerLow, key );
+                        break loop;
                     }
+                    cnt = tempCnt;
+                    flag = false;
                 }
             }
         }
-        
         return answer;
     }
-    
-    private Boolean check( int[][] lock ) {
-        int count = 0;
-        for (int line = 0; line < lock.length; line++) {
-            for (int low = 0; low < lock.length; low++) {
-                int lineIndex   = lockerStart + line;
-                int lowIndex    = lockerStart + low;
-                int lockerValue = lockerBig[lineIndex][lowIndex];
-                int keyValue    = keyBig[lineIndex][lowIndex];
-                if( keyValue == 1 ) {
-                    if( lockerValue == 0 ) {
-                        count++;
-                    } else {
-                        return false;
-                    }
+    private static void go(int i, int j, int p) {
+        // p는 각도
+        if (p == 0) {
+            for (int k = 0; k < key_1.length; k++) {
+                for (int k2 = 0; k2 < key_1.length; k2++) {
+                    if(lock_2[k+i][k2+j] == 2)
+                        continue;
+                    if(lock_2[k+i][k2+j] == 1 && key_1[k][k2] == 1)
+                        flag = true;
+                    if(lock_2[k+i][k2+j] == 0 && key_1[k][k2] == 1)
+                        cnt--;
+                }
+            }
+        } else if (p == 1) {
+            for (int k = 0; k < key_1.length; k++) {
+                for (int k2 = 0; k2 < key_1.length; k2++) {
+                    if(lock_2[k+i][k2+j] == 2)
+                        continue;
+                    if(lock_2[k+i][k2+j] == 1 && key_2[k][k2] == 1)
+                        flag = true;
+                    if(lock_2[k+i][k2+j] == 0 && key_2[k][k2] == 1)
+                        cnt--;
+                }
+            }
+        } else if (p == 2) {
+            for (int k = 0; k < key_1.length; k++) {
+                for (int k2 = 0; k2 < key_1.length; k2++) {
+                    if(lock_2[k+i][k2+j] == 2)
+                        continue;
+                    if(lock_2[k+i][k2+j] == 1 && key_3[k][k2] == 1)
+                        flag = true;
+                    if(lock_2[k+i][k2+j] == 0 && key_3[k][k2] == 1)
+                        cnt--;
+                }
+            }
+        } else if (p == 3) {
+            for (int k = 0; k < key_1.length; k++) {
+                for (int k2 = 0; k2 < key_1.length; k2++) {
+                    if(lock_2[k+i][k2+j] == 2)
+                        continue;
+                    if(lock_2[k+i][k2+j] == 1 && key_4[k][k2] == 1)
+                        flag = true;
+                    if(lock_2[k+i][k2+j] == 0 && key_4[k][k2] == 1)
+                        cnt--;
                 }
             }
         }
-        
-        return homeCount == count;
-    }
-    
-    private void rotation( int lockerLine , int lockerLow, int[][] key) {
-        int [][] temp = new int [lockerSize][lockerSize];
-        for (int line = 0; line < key.length; line++) {
-            for (int low = 0; low < key.length; low++) {
-                int tempValue = keyBig[lockerLine+line][lockerLow+low];
-                temp[lockerLine+low][lockerLow + key.length -1 - line] = tempValue;
-            }
-        }
-        keyBig = temp;
     }
 }
