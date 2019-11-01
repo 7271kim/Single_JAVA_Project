@@ -14,17 +14,75 @@ public class Main {
     public static void main(String args[]){
       Solution temp = new Solution();
       int[][] key = { 
-                      {1,1,1},
-                      {1,1,1},
-                      {1,1,1}
-                  }; // 1이 열쇄
+              {1,1,1},
+              {1,1,1},
+              {1,1,1}
+          }; // 1이 열쇄
       int[][] lock = {
-                      {1,0,0,1},
-                      {1,1,1,1},
-                      {1,1,1,1},
-                      {1,1,1,1}
-                      }; // 0이 홈
-      System.out.println(temp.solution(key, lock));
+              {1,0,0,1},
+              {1,1,1,1},
+              {1,1,1,1},
+              {1,1,1,1}
+             }; // 0이 홈
+      
+      System.out.println("true : "+temp.solution(key, lock));
+      
+      temp = new Solution();
+      int[][] key1 = { 
+              {0,0,0},
+              {0,0,0},
+              {0,0,1}
+          }; // 1이 열쇄
+      int[][] lock1 = {
+              {1,1,1,1},
+              {1,1,1,1},
+              {1,1,1,1},
+              {1,1,1,0}
+             }; // 0이 홈
+      System.out.println("true : "+temp.solution(key1, lock1));
+      
+      temp = new Solution();
+      int[][] key2 = { 
+              {0,0,0},
+              {0,0,1},
+              {0,0,1}
+          }; // 1이 열쇄
+      int[][] lock2 = {
+              {1,1,1,1},
+              {1,1,1,1},
+              {1,1,1,1},
+              {1,1,0,0}
+             }; // 0이 홈
+      System.out.println("true : "+temp.solution(key2, lock2));
+      
+      temp = new Solution();
+      int[][] key3 = { 
+              {0,0,0},
+              {1,0,0},
+              {0,1,1}
+          }; // 1이 열쇄
+      int[][] lock3 = {
+              {1,1,1,1},
+              {1,1,1,1},
+              {1,1,1,0},
+              {1,1,0,1}
+             }; // 0이 홈
+      System.out.println("true : "+temp.solution(key3, lock3));
+      
+      temp = new Solution();
+      int[][] key4 = { 
+              {0,1,0},
+              {0,0,1},
+              {0,0,0}
+          }; // 1이 열쇄
+      int[][] lock4 = {
+              {1,1,1,1},
+              {1,1,1,1},
+              {1,1,1,0},
+              {1,1,0,1}
+             }; // 0이 홈
+      System.out.println("false : "+temp.solution(key4, lock4));
+      
     }
 }
 

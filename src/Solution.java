@@ -5,6 +5,7 @@ import java.util.ArrayList;
 // 요약 및 자물쇠 제한 , 키보다 locker가 큰데 어떻게 할 것인가.
 // 회전
 // 상하 좌우 이동
+// 무엇을 반복시킬것인가.
 class Solution {
     private  int size        = -1 ;
     private  int lokerTotalLength = 0 ;
@@ -41,40 +42,45 @@ class Solution {
         
         
         // key 요약 및 제한( 기준점 조정 문제는 기준점 조정 후 회전이슈  )
-        int leftStartKey = keyTotalLength;
-        int topStartKey  = keyTotalLength;
+        leftStart = keyTotalLength;
+        topStart  = keyTotalLength;
         
         for (int line = 0; line < key.length; line++) {
             for (int row = 0; row < key[line].length; row++) {
                 if( key[line][row] == 1 ) {
-                    leftStartKey = leftStartKey > row ? row : leftStartKey;
-                    topStartKey  = topStartKey > line ? line : topStartKey;
+                    keyotision.add(new int[] {line,row});
                 }
             }
         }
         
-        for (int line = 0; line < key.length; line++) {
-            for (int row = 0; row < key[line].length; row++) {
-                if( key[line][row] == 1 ) {
-                    keyotision.add(new int[] {line-topStartKey,row-leftStartKey});
-                }
-            }
-        }
-        // 90도씩  회전 
-        ArrayList<int[]> rotation = rotation( keyotision );
-        for (int index = 0; index < 4; index++) {
-            rotation = rotation(rotation);
-            if( leftRightMove(rotation) ) {
-                answer = true;
-                break;
-            } 
+        if( leftCheck(keyotision) || rightCheck(keyotision) ) {
+            answer = true;
         }
         
         return answer;
     }
     
+    // 돌려 가며 확인하기
+    private  boolean repeatRotation( ArrayList<int[]> inputKey) {
+        Boolean result = false;
+        
+        //4번 회전시켜 확인하는 로직
+        ArrayList<int[]> rotation = new ArrayList<int[]>();
+        rotation = roatation(inputKey);
+        
+        for (int index = 0; index < 4; index++) {
+            rotation = roatation(rotation);
+            if( check(rotation) ) {
+                result =  true;
+                break;
+            }
+        }
+       
+        return result;
+    }
+    
     // 90도 회전하기
-    private  ArrayList<int[]>  rotation( ArrayList<int[]> inputKey) {
+    private  ArrayList<int[]>  roatation( ArrayList<int[]> inputKey) {
         ArrayList<int[]> toatation = new ArrayList<int[]>();
         
         for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
@@ -88,139 +94,147 @@ class Solution {
         return toatation;
     }
     
-    // 오리지날 건드리지 좌우 움직임
-    private boolean leftRightMove(  ArrayList<int[]> inputKey ) {
-        boolean answer = false;
-        
-        // 우로 이동
-        for (int lowMove = 0; lowMove < keyTotalLength; lowMove++) {
-            //저장된 키값들 좌로 이동시켜서 새로 저장
-            ArrayList<int[]> checkKeyPosition = new ArrayList<int[]>();
-            
-            for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
-                int line = inputKey.get(keyIndex)[0];
-                int low  = inputKey.get(keyIndex)[1];
-                if( low+lowMove < keyTotalLength  ) {
-                    low = low+lowMove;
-                    checkKeyPosition.add(new int[] {line,low} );
-                }
-            }
-            
-            // 우로 이동한 키값들 확인
-            if( check(checkKeyPosition) ) {
-                answer = true;
+    // 왼쪽으로 가기  
+    private Boolean leftCheck( ArrayList<int[]> inputKey ) {
+        Boolean result = false;
+        ArrayList<int[]> temp = inputKey;
+        while( !temp.isEmpty() ) {
+            if( repeatRotation(temp) ) {
+                result = true;
                 break;
             }
-            ArrayList<int[]> checkKeyPositionDown;
-            // 아래 이동 
-            for (int lineMove = 0; lineMove < keyTotalLength; lineMove++) {
-                checkKeyPositionDown = new ArrayList<int[]>();
-                for (int keyIndex = 0; keyIndex < checkKeyPosition.size(); keyIndex++) {
-                    int line = checkKeyPosition.get(keyIndex)[0];
-                    int low  = checkKeyPosition.get(keyIndex)[1];
-                    
-                    if( line+lineMove < keyTotalLength  ) {
-                        line = line+lineMove;
-                        checkKeyPositionDown.add(new int[] {line,low} );
-                    }
-                }
-              //아래 이동 키값들 확인
-                if( check(checkKeyPositionDown) ) {
-                    answer = true;
-                    break;
-                }
-            }
-            
-            for (int lineMove = 0; lineMove < keyTotalLength; lineMove++) {
-                // 위 이동 
-                checkKeyPositionDown = new ArrayList<int[]>();
-                for (int keyIndex = 0; keyIndex < checkKeyPosition.size(); keyIndex++) {
-                    int line = checkKeyPosition.get(keyIndex)[0];
-                    int low  = checkKeyPosition.get(keyIndex)[1];
-                    
-                    if( line-lineMove > -1  ) {
-                        line = line-lineMove;
-                        checkKeyPositionDown.add(new int[] {line,low} );
-                    }
-                }
-                //위로 이동 키값들 확인
-                if( check(checkKeyPositionDown) ) {
-                    answer = true;
-                    break;
-                }
-            }
-        }
-        
-         // 좌로 이동
-        for (int lowMove = 0; lowMove < keyTotalLength; lowMove++) {
-            //저장된 키값들 좌로 이동시켜서 새로 저장
-            ArrayList<int[]> checkKeyPosition = new ArrayList<int[]>();
-            
-            for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
-                int line = inputKey.get(keyIndex)[0];
-                int low  = inputKey.get(keyIndex)[1];
-                if( low-lowMove < keyTotalLength  ) {
-                    low = low-lowMove;
-                    checkKeyPosition.add(new int[] {line,low} );
-                }
-            }
-            
-            // 좌로 이동한 키값들 확인
-            if( check(checkKeyPosition) ) {
-                answer = true;
+            if(topCheck(temp)) {
+                result = true;
                 break;
             }
-            ArrayList<int[]> checkKeyPositionDown;
-            // 아래 이동 
-            for (int lineMove = 0; lineMove < keyTotalLength; lineMove++) {
-                checkKeyPositionDown = new ArrayList<int[]>();
-                for (int keyIndex = 0; keyIndex < checkKeyPosition.size(); keyIndex++) {
-                    int line = checkKeyPosition.get(keyIndex)[0];
-                    int low  = checkKeyPosition.get(keyIndex)[1];
-                    
-                    if( line+lineMove < keyTotalLength  ) {
-                        line = line+lineMove;
-                        checkKeyPositionDown.add(new int[] {line,low} );
-                    }
-                }
-              //아래 이동 키값들 확인
-                if( check(checkKeyPositionDown) ) {
-                    answer = true;
-                    break;
-                }
+            if(downCheck(temp)) {
+                result = true;
+                break;
             }
-            
-            for (int lineMove = 0; lineMove < keyTotalLength; lineMove++) {
-                // 위 이동 
-                checkKeyPositionDown = new ArrayList<int[]>();
-                for (int keyIndex = 0; keyIndex < checkKeyPosition.size(); keyIndex++) {
-                    int line = checkKeyPosition.get(keyIndex)[0];
-                    int low  = checkKeyPosition.get(keyIndex)[1];
-                    
-                    if( line-lineMove > -1  ) {
-                        line = line-lineMove;
-                        checkKeyPositionDown.add(new int[] {line,low} );
-                    }
-                }
-                //위로 이동 키값들 확인
-                if( check(checkKeyPositionDown) ) {
-                    answer = true;
-                    break;
-                }
-            }
+            temp = leftMove(temp);
         }
-        
-        return answer;
+        return result;
     }
+    
+    // 오른쪽으로 가기  
+    private Boolean rightCheck( ArrayList<int[]> inputKey ) {
+        Boolean result = false;
+        ArrayList<int[]> temp = inputKey;
+        while( !temp.isEmpty() ) {
+            if( repeatRotation(temp) ) {
+                result = true;
+                break;
+            }
+            if(topCheck(temp)) {
+                result = true;
+                break;
+            }
+            if(downCheck(temp)) {
+                result = true;
+                break;
+            }
+            temp = rightMove(temp);
+        }
+        return result;
+    }
+    
+    // 위로 가기
+    private Boolean topCheck( ArrayList<int[]> inputKey ) {
+        Boolean result = false;
+        ArrayList<int[]> temp = inputKey;
+        while( !temp.isEmpty() ) {
+            if( repeatRotation(temp) ) {
+                result = true;
+                break;
+            }
+            temp = upMove(temp);
+        }
+        return result;
+    }
+    
+    // 아래로 가기
+    private Boolean downCheck( ArrayList<int[]> inputKey ) {
+        Boolean result = false;
+        ArrayList<int[]> temp = inputKey;
+        while( !temp.isEmpty() ) {
+            if( repeatRotation(temp) ) {
+                result = true;
+                break;
+            }
+            temp = downMove(temp);
+        }
+        return result;
+    }
+    
+    private ArrayList<int[]> leftMove( ArrayList<int[]> inputKey ) {
+        ArrayList<int[]> result = new ArrayList<int[]>();  
+        
+        for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
+            int line = inputKey.get(keyIndex)[0];
+            int low  = inputKey.get(keyIndex)[1];
+            if( low - 1 > -1  ) {
+                result.add(new int[] {line, low - 1} );
+            }
+        }
+        return result;
+    }
+    
+    // 오른쪽으로 가기
+    private ArrayList<int[]> rightMove( ArrayList<int[]> inputKey ) {
+       ArrayList<int[]> result = new ArrayList<int[]>();  
+        
+        for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
+            int line = inputKey.get(keyIndex)[0];
+            int low  = inputKey.get(keyIndex)[1];
+            if( low + 1 < keyTotalLength  ) {
+                result.add(new int[] {line, low + 1} );
+            }
+        }
+        
+        return result;
+    }
+    
+    // 위로 올리기
+    private ArrayList<int[]> upMove( ArrayList<int[]> inputKey ) {
+        ArrayList<int[]> result = new ArrayList<int[]>();  
+    
+        for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
+            int line = inputKey.get(keyIndex)[0];
+            int low  = inputKey.get(keyIndex)[1];
+            if( line - 1  > -1 ) {
+                result.add(new int[] {line - 1, low} );
+            }
+        }
+       
+        return result;
+    }
+    
+    // 아래로 내리기
+    private ArrayList<int[]> downMove( ArrayList<int[]> inputKey ) {
+        ArrayList<int[]> result = new ArrayList<int[]>();  
+        
+        for (int keyIndex = 0; keyIndex < inputKey.size(); keyIndex++) {
+            int line = inputKey.get(keyIndex)[0];
+            int low  = inputKey.get(keyIndex)[1];
+            if( line + 1  < keyTotalLength ) {
+                result.add(new int[] {line + 1, low} );
+            }
+        }
+        
+        return result;
+    }
+    
     
     // 확인로직 
     private boolean check( ArrayList<int[]> checkKeyPosition ) {
         int count      = 0;
         
-        // 초기화
-        int leftStartKey = 1000000;
-        int topStartKey = 1000000;
+        // 기준점 맞추기
+        int leftStartKey = keyTotalLength+1;
+        int topStartKey = keyTotalLength+1;
+        
         ArrayList<int[]> temp = new ArrayList<int[]>();
+        
         for (int index = 0; index < checkKeyPosition.size(); index++) {
             int line = checkKeyPosition.get(index)[0];
             int row  = checkKeyPosition.get(index)[1];
