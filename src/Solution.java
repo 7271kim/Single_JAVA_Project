@@ -3,6 +3,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+// https://programmers.co.kr/learn/courses/30/lessons/60061
+// 24점 소스 
 class Solution {
     int[][][] board;
     int totalSize; 
