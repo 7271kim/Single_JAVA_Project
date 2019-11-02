@@ -8,7 +8,7 @@ public class Main {
         };*/
        
        int[][] build_frame = {
-               {0,0,0,1}
+               {0,0,0,1},{0,1,0,1},{0,2,0,1},{0,3,0,1},{0,4,0,1},{0,5,0,1},{0,6,0,1} 
           };
        
        int[][] aa= temp.solution(n, build_frame);

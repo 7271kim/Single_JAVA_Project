@@ -5,6 +5,7 @@ import java.util.List;
 
 class Solution {
     int[][][] board;
+    int totalSize; 
     private class TempNode implements Comparator<TempNode> {
         private int x;
         private int y;
@@ -40,6 +41,7 @@ class Solution {
         List<TempNode> list = new ArrayList<>();
         
         int[][] answer = {};
+        totalSize = n+1;
         board = new int[n+1][n+1][2]; // [y,x] = [ 0 기둥없음, 1 기둥존재  , 0 보업음 1 보존재 ]
         
         
@@ -159,7 +161,9 @@ class Solution {
     }
     
     private void make( int x, int y, int check){
-        board[y][x][check] = 1;
+        if( y < totalSize && x < totalSize ) {
+            board[y][x][check] = 1;
+        }
     }
     
     private void remove( int x, int y, int check){
