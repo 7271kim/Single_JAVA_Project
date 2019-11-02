@@ -1,10 +1,10 @@
 package alorithm.dataStructureLow;
-
-// HashMap의 단점 >> 정렬을 지원하지 않는다, 해쉬충돌이 발생한다.
-// 문자열 자료구조중 HashMap을 보완할 수 있는 자료구조
-// 노드에는 알파벳 수(26개) 만큼의 자식노드와 해당 노드의 값을 가지고 있다. 
-// 단점은 모든 노드들이 알파벳 수만큼 하위 노드를 가질필요는 없음
-public class MyTtie {
+public class MyTtrie {
+ // https://doublesprogramming.tistory.com/253
+ // HashMap의 단점 >> 정렬을 지원하지 않는다, 해쉬충돌이 발생한다.
+ // 문자열 자료구조중 HashMap을 보완할 수 있는 자료구조
+ // 노드에는 알파벳 수(26개) 만큼의 자식노드와 해당 노드의 값을 가지고 있다. 
+ // 단점은 모든 노드들이 알파벳 수만큼 하위 노드를 가질필요는 없음
     private Node root;
     
     // 필요 노드 생성
@@ -59,7 +59,7 @@ public class MyTtie {
         
     }
     
-    public MyTtie() {
+    public MyTtrie() {
         this.root = new Node();
     }
     
