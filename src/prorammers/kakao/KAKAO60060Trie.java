@@ -2,7 +2,7 @@ package prorammers.kakao;
 import java.util.HashMap;
 import java.util.Map;
 
-class KAKAO60060 {
+class KAKAO60060Trie {
  // https://programmers.co.kr/learn/courses/30/lessons/60060
  // 이전 기본은 >> 무식하게 검색쿼리를 하나 픽 후 전체를 돌아보는것.
  // 10억 * 10억의 효율성이 나와버림
