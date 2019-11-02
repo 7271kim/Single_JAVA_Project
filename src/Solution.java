@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 
 // https://programmers.co.kr/learn/courses/30/lessons/60061
-// 24점 소스 
+// 43.2점 소스 
 class Solution {
     int[][][] board;
     int totalSize; 
@@ -116,66 +116,86 @@ class Solution {
     
     private void removeBo( int x, int y ) {
         // 제거 부터 하고 양쪽 기둥 확인 영쪽 보 확인
-        remove( x, y, 1 );
-        Boolean isPossible = true;
-
-        if( hasPillar(x, y)) {
-            isPossible = checkPhill(x, y);
-        }
-        
-        if( isPossible && hasPillar( x+1, y ) ) {
-            isPossible = checkPhill( x+1, y );
-        }
-        
-        if( isPossible && hasBo( x - 1, y ) ) {
-            isPossible = checkBo( x - 1, y  );
-        }
-        
-        if( isPossible && hasBo( x + 1, y ) ) {
-            isPossible = checkBo( x + 1, y  );
-        }
-        
-        if(!isPossible) {
-            make( x, y, 1 );
+        if( hasBo(x, y) ) {
+            System.out.println("임시지우기");
+            remove( x, y, 1 );
+            
+            Boolean isPossible = true;
+            if( hasPillar(x, y)) {
+                isPossible = checkPhill(x, y);
+            }
+            if( isPossible && hasPillar( x+1, y ) ) {
+                isPossible = checkPhill( x+1, y );
+            }
+            if( isPossible && hasBo( x - 1, y ) ) {
+                isPossible = checkBo( x - 1, y  );
+            }
+            if( isPossible && hasBo( x + 1, y ) ) {
+                isPossible = checkBo( x + 1, y  );
+            }
+            if(!isPossible) {
+                make( x, y, 1 );
+            }
+            if(!isPossible) {
+                System.out.println("지우기 실패");
+            }
+            
         }
     }
     
     private void removePillar( int x, int y ) {
         // 제거 부터 하고 위 좌 보가 존재 한다면 존재 조건, 위 보가 존재한다면 존재조건, 위 기둥이 존재한다면 존재조건을 만족해야 제거 가능
-        remove( x, y, 0 );
-        Boolean isPossible = true;
-
-        if( hasBo(x, y + 1) ) {
-            isPossible = checkBo( x, y + 1 );
-        }
-        
-        if( isPossible && hasBo(x-1, y + 1 ) ) {
-            isPossible = checkBo( x-1, y + 1 );
-        }
-        
-        if( isPossible && hasPillar(x, y + 1 ) ) {
-            isPossible = checkPhill( x, y + 1 );
-        }
-        
-        if(!isPossible) {
-            make( x, y, 0 );
+        if( hasPillar(x, y) ) {
+            remove( x, y, 0 );
+            Boolean isPossible = true;
+            if( hasBo(x, y + 1) ) {
+                isPossible = checkBo( x, y + 1 );
+            }
+            if( isPossible && hasBo(x-1, y + 1 ) ) {
+                isPossible = checkBo( x-1, y + 1 );
+            }
+            if( isPossible && hasPillar(x, y + 1 ) ) {
+                isPossible = checkPhill( x, y + 1 );
+            }
+            if(!isPossible) {
+                make( x, y, 0 );
+            }
         }
     }
     
     private void make( int x, int y, int check){
-        if( y < totalSize && x < totalSize ) {
-            board[y][x][check] = 1;
+        if( x < totalSize && y < totalSize && x > -1 && y > -1 ) {
+            if( check == 1 && x < totalSize -1 ) {
+                board[y][x][check] = 1;
+                System.out.println("make : x - " +  x + " y - " + y + " check -  " + check);
+            } else if( check == 0 && y < totalSize -1 ) {
+                board[y][x][check] = 1;
+                System.out.println("make : x - " +  x + " y - " + y + " check -  " + check);
+            }
         }
     }
     
     private void remove( int x, int y, int check){
-        board[y][x][check] = 0;
+        if( x < totalSize && y < totalSize && x > -1 && y > -1 ) {
+            board[y][x][check] = 0;
+            System.out.println("remove : x - " +  x + " y - " + y + "check - " + check);
+        }
     }
     private Boolean hasPillar( int x, int y ) {
-        return board[y][x][0] == 1;
+        if( x < totalSize && y < totalSize && x > -1 && y > -1 ) {
+            return board[y][x][0] == 1;
+        } else {
+            return false;
+        }
+        
     }
     private Boolean hasBo( int x, int y ) {
-        return board[y][x][1] == 1;
+        if( x < totalSize && y < totalSize && x > -1 && y > -1 ) {
+            return board[y][x][1] == 1;
+        } else {
+            return false;
+        }
+        
     }
     
     private Boolean checkBo( int x, int y ) {
