@@ -32,22 +32,26 @@ class Solution {
             int tempSize = temp.length();
             // 최대 1만
             for (int tempIndex = 1; tempIndex < temp.length()+1; tempIndex++) {
-                StringBuilder addFirst  = new StringBuilder();
-             
-                addFirst.append(temp.substring(0, tempIndex)).append(questionMark.substring(tempIndex, tempSize));
-               
-                String first  = addFirst.toString();
-                if( dataSet.containsKey(first) ) {
-                    dataSet.replace(first, dataSet.get(first)+1);
-                } 
+                StringBuilder addFirst     = new StringBuilder();
+                StringBuilder addSecond    = new StringBuilder();
                 
-                addFirst = new StringBuilder();
-                addFirst.append(questionMark.substring(0, tempIndex)).append(temp.substring(tempIndex, tempSize));
-                String second = addFirst.toString();
-                
-                if( dataSet.containsKey(second) ) {
-                    dataSet.replace(second, dataSet.get(second)+1);
+                // subString보다 이게 빠르다.
+                for (int left = 0; left < tempIndex; left++) {
+                    addFirst.append(temp.charAt(left));
+                    addSecond.append('?');
+                }
+                for (int right = tempIndex; right < tempSize; right++) {
+                    addFirst.append('?');
+                    addSecond.append(temp.charAt(right));
+                }
+                String one = addFirst.toString();
+                String two = addSecond.toString();
+                if( dataSet.containsKey(one) ) {
+                    dataSet.replace(one, dataSet.get(one)+1);
                 } 
+                if( dataSet.containsKey(two) ) {
+                    dataSet.replace(two, dataSet.get(two)+1);
+                }
             }
         }
         for (int index = 0; index < queries.length; index++) {
