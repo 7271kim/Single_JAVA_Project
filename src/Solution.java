@@ -81,8 +81,10 @@ class Solution {
         // ??AB를 위해서 Reverse한 BA?? 를 넣어주어야 한다. >> 즉 정방 , reverse 두개를 넣어야함
         public void insert( String inputText ) {
             Node tempNode = root;
+            tempNode.setValue(tempNode.getValue()+1);
             int size = inputText.length();
             // 정방
+            // 정방과 후방이 다를때만 value 추가해줘야 한다.
             for (int index = 0; index < size; index++) {
                 char temp = inputText.charAt(index);
                 int key   = changeKey(temp);
@@ -98,7 +100,7 @@ class Solution {
             }
             
             // 후방
-            tempNode = root;
+            /*tempNode = root;
             for (int index = size-1; index >= 0; index--) {
                 char temp = inputText.charAt(index);
                 int key   = changeKey(temp);
@@ -111,7 +113,7 @@ class Solution {
                     tempNode = tempNode.getChild(key);
                     tempNode.setValue(tempNode.getValue()+1);
                 }
-            }
+            }*/
         }
         
         public int getValue( String inputText ) {
