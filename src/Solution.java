@@ -1,237 +1,201 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 class Solution {
- // https://programmers.co.kr/learn/courses/30/lessons/60060
- // 이전 기본은 >> 무식하게 검색쿼리를 하나 픽 후 전체를 돌아보는것.
- // 10억 * 10억의 효율성이 나와버림
- // 좋은 방법이 없을까 
- // 찾는것이니 자료구조를 찾는것에 맞게 세팅을 한다면?
- // 문자열과 ?의 갯수를 키로하고 개수를 카운팅하는 HashMap 자료구조 세팅
- // 더 좋은것은 찾을것만 세팅하기
- // 안되는 이유 Trie 자료구조를 알고 있어야함.
- // Map구조로 불가
- // ??AB를 위해서 Reverse한 BA?? 를 넣어주어야 한다. >> 즉 정방 , reverse 두개를 넣어야함
- // 단어 길이 별로 트라이 만들기
-    public int[] solution(String[] words, String[] queries) {
-        int[] answer = new int[queries.length];
-        MyTtie[] total = new MyTtie[10001]; // length 1 ~ 10000까지
-        MyTtie[] back  = new MyTtie[10001];
+    int[][][] board;
+    private class TempNode implements Comparator<TempNode> {
+        private int x;
+        private int y;
+        private int check;
         
-        // 개수별 trie를 위해 초기화
-        for (int index = 1; index < total.length; index++) {
-            MyTtie temp = new MyTtie();
-            total[index] = temp;
-
-            temp = new MyTtie();
-            back[index]  = temp;
+        private TempNode() {
+        }
+        private TempNode( int x , int y, int check) {
+            this.x = x;
+            this.y = y;
+            this.check = check;
         }
         
-        for (int index = 0; index < words.length; index++) {
-            String tempText = words[index];
-            int textLength  = tempText.length();
-            total[textLength].insert(tempText);
-            back[textLength].insertBack(tempText);
-        }
-        
-        for (int index = 0; index < queries.length; index++) {
-            String tempText = queries[index];
-            int textLength  = tempText.length();
-            if(tempText.charAt(0) == '?') {
-                answer[index]   = back[textLength].getValue(tempText) ;
-            } else {
-                answer[index]   = total[textLength].getValue(tempText) ;
-            }
-            
-        }
-        
-        
-        return answer;
-    }
-    
-    // 내 1차 풀이 문자열과 ?의 갯수를 키로하고 개수를 카운팅하는 HashMap 자료구조 세팅  >> 효율성 절대 통과 안됨
-    public int[] solution2(String[] words, String[] queries) {
-        int[] answer = new int[queries.length];
-        Map<String, Integer> dataSet = new HashMap<>();
-        
-        // ?를 이어 붙이기 위한 변수 1만
-        StringBuilder questionMark = new StringBuilder();
-        for (int index = 0; index < 10000; index++) {
-            questionMark.append('?');
-        }
-        int min = 10000;
-        int max = 0;
-        //미리 찾을것만 만들어 놓음 , 마지막 효율성 2개가 문제가 걸림
-        for (int index = 0; index < queries.length; index++) {
-            String temp = queries[index];
-            int size = temp.length();
-            min = size < min ? size : min;
-            max = size > max ? size : max;
-            dataSet.put(temp,0);
-            dataSet.put(String.valueOf(size), 0);
-        }
-        
-        // 자료구조 만들기 10만
-        for (int index = 0; index < words.length; index++) {
-            String temp  = words[index];
-            int tempSize = temp.length();
-            if ( tempSize < min || tempSize > max || !dataSet.containsKey(String.valueOf(tempSize)) ) continue; 
-            // 최대 1만
-            for (int tempIndex = 1; tempIndex < temp.length()+1; tempIndex++) {
-                StringBuilder addFirst     = new StringBuilder();
-                StringBuilder addSecond    = new StringBuilder();
-                
-                // subString보다 이게 빠르다.
-                for (int left = 0; left < tempIndex; left++) {
-                    addFirst.append(temp.charAt(left));
-                    addSecond.append('?');
-                }
-                for (int right = tempIndex; right < tempSize; right++) {
-                    addFirst.append('?');
-                    addSecond.append(temp.charAt(right));
-                }
-                String one = addFirst.toString();
-                String two = addSecond.toString();
-                if( dataSet.containsKey(one) ) {
-                    dataSet.replace(one, dataSet.get(one)+1);
-                } 
-                if( dataSet.containsKey(two) ) {
-                    dataSet.replace(two, dataSet.get(two)+1);
-                }
-            }
-        }
-        for (int index = 0; index < queries.length; index++) {
-            String temp = queries[index];
-            if(dataSet.containsKey(temp)) {
-                answer[index] = dataSet.get(temp);
-            } else {
-                answer[index] = 0;
-            }
-        }
-        
-        return answer;
-    }
-    
-    public class MyTtie {
-        private Node root;
-        
-        private class Node {
-            private int value;
-            private char inputChar;
-            private Node[] childNode;
-            
-            private Node () {
-                this.childNode   = new Node[26];
-            }
-            private Node ( char inputChar ) {
-                this.inputChar = inputChar;
-                this.value     = 1;
-                this.childNode = new Node[26];
-            }
-            private void setChild ( Node node, int key ) {
-                this.childNode[key] = node;
-            }
-            
-            private void setValue ( int value ) {
-                this.value = value;
-            }
-            
-            private int getValue () {
-                return this.value;
-            }
-           
-            private Node getChild ( int key ) {
-                return childNode[key];
-            }
-            
-            private Boolean hasChild ( int key ) {
-                return childNode[key] != null;
-            }
-            
-        }
-        
-        public MyTtie() {
-            this.root = new Node();
-        }
-        
-        // ??AB를 위해서 Reverse한 BA?? 를 넣어주어야 한다. >> 즉 정방 , reverse 두개를 넣어야함
-        public void insert( String inputText ) {
-            Node tempNode = root;
-            tempNode.setValue(tempNode.getValue()+1);
-            int size = inputText.length();
-            // 정방
-            // 정방과 후방이 다를때만 value 추가해줘야 한다.
-            for (int index = 0; index < size; index++) {
-                char temp = inputText.charAt(index);
-                int key   = changeKey(temp);
-                
-                if(!tempNode.hasChild(key)) {
-                    Node node = new Node( temp );
-                    tempNode.setChild( node, key );
-                    tempNode = node;
-                } else {
-                    tempNode = tempNode.getChild(key);
-                    tempNode.setValue(tempNode.getValue()+1);
-                }
-            }
-        }
-        
-        public void insertBack( String inputText ) {
-            Node tempNode = root;
-            tempNode.setValue(tempNode.getValue()+1);
-            int size = inputText.length();
-            // 후방
-            for (int index = size-1; index >= 0; index--) {
-                char temp = inputText.charAt(index);
-                int key   = changeKey(temp);
-                
-                if(!tempNode.hasChild(key)) {
-                    Node node = new Node( temp );
-                    tempNode.setChild( node, key );
-                    tempNode = node;
-                } else {
-                    tempNode = tempNode.getChild(key);
-                    tempNode.setValue(tempNode.getValue()+1);
-                }
-            }
-        }
-        
-        public int getValue( String inputText ) {
-            Node tempNode = root;
-            int result = tempNode.getValue();
-            if( inputText.charAt(0) == '?' ) {
-                for (int index = inputText.length()-1; index >= 0; index--) {
-                    char temp = inputText.charAt(index);
-                    if( temp == '?' ) break;
-                    int key   = changeKey(temp);
-                    if( tempNode.hasChild(key) ) {
-                        tempNode = tempNode.getChild(key);
-                        result = tempNode.getValue();
-                    } else {
-                        result = 0;
-                        break;
-                    }
-                }
-            } else {
-                for (int index = 0; index < inputText.length(); index++) {
-                    char temp = inputText.charAt(index);
-                    if( temp == '?' ) break;
-                    int key   = changeKey(temp);
-                    if( tempNode.hasChild(key) ) {
-                        tempNode = tempNode.getChild(key);
-                        result = tempNode.getValue();
-                    } else {
-                        result = 0;
-                        break;
+        @Override
+        public int compare(TempNode before, TempNode after) {
+            int result = 0;
+            if( after.x > before.x ) {
+                result = -1;
+            } else if (after.x == before.x ){
+                if (after.y > before.y ) {
+                    result = -1;
+                } else if( after.y == before.y ){
+                    if( after.check > before.check ) {
+                        result = -1;
                     }
                 }
             }
-            
             return result;
         }
+    }
+    public int[][] solution(int n, int[][] build_frame) {
         
-        public int changeKey( char input ) {
-            return input - 'a';
+        List<TempNode> list = new ArrayList<>();
+        
+        int[][] answer = {};
+        board = new int[n+1][n+1][2]; // [y,x] = [ 0 기둥없음, 1 기둥존재  , 0 보업음 1 보존재 ]
+        
+        
+        int buildSize= build_frame.length;
+        
+        for (int buildSizeIndex = 0; buildSizeIndex < buildSize; buildSizeIndex++) {
+            int x = build_frame[buildSizeIndex][0];
+            int y = build_frame[buildSizeIndex][1];
+            int a = build_frame[buildSizeIndex][2];
+            int b = build_frame[buildSizeIndex][3];
+            
+            //총 4케이스 검사
+            if( a == 0 ) {
+                if( b == 0) {
+                    // a = 0 기둥  제거 케이스  >> 왼쪽 보가 ( 존재조건  - 시작지점이 기둥, 양츠이 보 ),  오늘쪽 보가( 존재조건을 만족해야함 )
+                    removePillar( x, y );
+                    
+                } else {
+                    makePillar( x, y );
+                    // a = 0 기둥 설치케이스 >> 시작지점이 바닥( y점이 0 )이거나 , 기둥이( 아래가 0 1 )거나, 보( 좌측이 1 1 ) 여야한다.
+                }
+            } else {
+               if( b == 0) {
+                   // a = 1 보  제거 케이스  >> 왼쪽 보가 ( 존재조건  - 시작지점이 기둥, 양츠이 보 ),  오늘쪽 보가( 존재조건을 만족해야함 )
+                   removeBo( x, y );
+                } else {
+                    // a = 1 보  설치케이스 >> 시작지점이 기둥( 아래가 0 1) 이거나 혹은 양츠이 보( 좌측이 1 1 , 시작지점이  1, 1 ) 여야 한다.
+                    makeBo( x, y );
+                }
+            }
         }
+        
+        for (int y = 0; y < board.length; y++) {
+            for (int x = 0; x < board[y].length; x++) {
+                for (int index = 0; index <2; index++) {
+                    if( board[y][x][index] == 1 ) {
+                        TempNode tempNode = new TempNode(x, y, index);
+                        list.add(tempNode);
+                        /* String temp =  index == 0 ? "기둥존재" : "보 존재";
+                        System.out.println("( "+x+ " , "+y+" ) " + temp );*/
+                    }
+                }
+            }
+        }
+        
+        Collections.sort(list, new TempNode());
+        answer = new int[list.size()][3];
+        for (int index = 0; index < list.size(); index++) {
+            TempNode temp = list.get(index);
+            int[] inner = { temp.x, temp.y, temp.check };
+            answer[index] = inner; 
+        }
+        
+        return answer;
+    }
+    
+    private void makeBo( int x, int y ) {
+        //시작지점이 바닥( y점이 0 )이거나 , 기둥이( 아래가 0 1 )거나, 보( 좌측이 1 1 ) 여야한다.
+        if( checkBo(x, y) ) {
+            make(x, y, 1);
+        }
+    }
+    
+    private void makePillar( int x, int y ) {
+        //시작지점이 바닥( y점이 0 )이거나 , 기둥이( 아래가 0 1 )거나, 보( 좌측이 1 1 ) 여야한다.
+        if( checkPhill(x, y) ) {
+            make(x, y, 0);
+        }
+    }
+    
+    private void removeBo( int x, int y ) {
+        // 제거 부터 하고 양쪽 기둥 확인 영쪽 보 확인
+        remove( x, y, 1 );
+        Boolean isPossible = true;
+
+        if( hasPillar(x, y)) {
+            isPossible = checkPhill(x, y);
+        }
+        
+        if( isPossible && hasPillar( x+1, y ) ) {
+            isPossible = checkPhill( x+1, y );
+        }
+        
+        if( isPossible && hasBo( x - 1, y ) ) {
+            isPossible = checkBo( x - 1, y  );
+        }
+        
+        if( isPossible && hasBo( x + 1, y ) ) {
+            isPossible = checkBo( x + 1, y  );
+        }
+        
+        if(!isPossible) {
+            make( x, y, 1 );
+        }
+    }
+    
+    private void removePillar( int x, int y ) {
+        // 제거 부터 하고 위 좌 보가 존재 한다면 존재 조건, 위 보가 존재한다면 존재조건, 위 기둥이 존재한다면 존재조건을 만족해야 제거 가능
+        remove( x, y, 0 );
+        Boolean isPossible = true;
+
+        if( hasBo(x, y + 1) ) {
+            isPossible = checkBo( x, y + 1 );
+        }
+        
+        if( isPossible && hasBo(x-1, y + 1 ) ) {
+            isPossible = checkBo( x-1, y + 1 );
+        }
+        
+        if( isPossible && hasPillar(x, y + 1 ) ) {
+            isPossible = checkPhill( x, y + 1 );
+        }
+        
+        if(!isPossible) {
+            make( x, y, 0 );
+        }
+    }
+    
+    private void make( int x, int y, int check){
+        board[y][x][check] = 1;
+    }
+    
+    private void remove( int x, int y, int check){
+        board[y][x][check] = 0;
+    }
+    private Boolean hasPillar( int x, int y ) {
+        return board[y][x][0] == 1;
+    }
+    private Boolean hasBo( int x, int y ) {
+        return board[y][x][1] == 1;
+    }
+    
+    private Boolean checkBo( int x, int y ) {
+        // 현재 보의 존재조건 - 왼쪽 또는 오른쪽이 기둥이거나 , 양측이 보  
+        Boolean result = false;
+        
+        if( hasPillar(x, y-1) || hasPillar( x+1, y-1 ) ) {
+            // 왼쪽 또는 오른쪽 아래 기둥이거나
+            result = true;
+        } else {
+            // 좌우 둘다 보
+            if( hasBo(x+1, y) && hasBo(x-1, y) ) {
+                result = true;
+            }
+        }
+        
+        return result;
+    }
+    
+    private Boolean checkPhill( int x, int y ) {
+        // 현재 기둥의 존재 조건 - 아래가 바닥이거나 다른기둥 위거나 보 위일때 
+        Boolean result = false;
+        if( y == 0 || hasPillar(x, y-1) || hasBo(x, y) || hasBo(x-1, y) ) {
+            result = true;
+        }
+        
+        return result;
     }
 }
