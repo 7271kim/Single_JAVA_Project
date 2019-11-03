@@ -133,19 +133,23 @@ class Solution {
             if( isPossible && hasBo( x + 1, y ) ) {
                 isPossible = checkBo( x + 1, y  );
             }
+            if(isPossible) {
+                System.out.println("지우기 성공");
+             } else {
+                 System.out.println("지우기 실패"); 
+             }
+            
             if(!isPossible) {
                 make( x, y, 1 );
+                System.out.println("다시 원상복구"); 
             }
-            if(!isPossible) {
-                System.out.println("지우기 실패");
-            }
-            
         }
     }
     
     private void removePillar( int x, int y ) {
         // 제거 부터 하고 위 좌 보가 존재 한다면 존재 조건, 위 보가 존재한다면 존재조건, 위 기둥이 존재한다면 존재조건을 만족해야 제거 가능
         if( hasPillar(x, y) ) {
+            System.out.println("임시지우기");
             remove( x, y, 0 );
             Boolean isPossible = true;
             if( hasBo(x, y + 1) ) {
@@ -157,8 +161,16 @@ class Solution {
             if( isPossible && hasPillar(x, y + 1 ) ) {
                 isPossible = checkPhill( x, y + 1 );
             }
+            
+            if(isPossible) {
+               System.out.println("지우기 성공");
+            } else {
+                System.out.println("지우기 실패"); 
+            }
+            
             if(!isPossible) {
                 make( x, y, 0 );
+                System.out.println("다시 원상복구"); 
             }
         }
     }
@@ -177,8 +189,13 @@ class Solution {
     
     private void remove( int x, int y, int check){
         if( x < totalSize && y < totalSize && x > -1 && y > -1 ) {
-            board[y][x][check] = 0;
-            System.out.println("remove : x - " +  x + " y - " + y + "check - " + check);
+            if( check == 1 && x < totalSize -1 ) {
+                board[y][x][check] = 0;
+                System.out.println("remove : x - " +  x + " y - " + y + " check -  " + check);
+            } else if( check == 0 && y < totalSize -1 ) {
+                board[y][x][check] = 0;
+                System.out.println("remove : x - " +  x + " y - " + y + " check -  " + check);
+            }
         }
     }
     private Boolean hasPillar( int x, int y ) {
