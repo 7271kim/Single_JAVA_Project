@@ -1,6 +1,7 @@
 package prorammers.kakao;
 // https://programmers.co.kr/learn/courses/30/lessons/60058
 // 실수한부분 확인 끝
+// 실수한 부분은 ( 혹은 )을  뒤집는다를 순서를 뒤집는다로 넣어버림 
 class KAKAO60058 {
     public String solution(String p) {
         String answer = "";

@@ -1,6 +1,6 @@
 package prorammers.kakao;
 //https://programmers.co.kr/learn/courses/30/lessons/60057 
-class KAKAODivideChar60057 {
+class KAKAO60057DivideChar {
     
     // 내껏 
     public int solution(String s) {

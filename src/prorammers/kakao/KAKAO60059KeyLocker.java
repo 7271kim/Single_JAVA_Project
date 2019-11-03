@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /*
 항상 전체 true와 전체 false는 의심해보자 
+// 틀렷던 것은 자물쇠가 모두 1인 케이스
 
 전체 루프 돌면서 케이스 확인 로직
 int size = 3;
@@ -94,7 +95,7 @@ outer : for (int index = 0; index < big.length; index++) {
         
     }
 }*/
-class KAKAOKeyLocker60059 {
+class KAKAO60059KeyLocker {
     /*
        카카오의 함정 
        solution , solution2 둘다 정답인데  
