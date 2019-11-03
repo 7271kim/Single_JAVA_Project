@@ -219,15 +219,10 @@ class Solution {
         // 현재 보의 존재조건 - 왼쪽 또는 오른쪽이 기둥이거나 , 양측이 보  
         Boolean result = false;
         
-        if( hasPillar(x, y-1) || hasPillar( x+1, y-1 ) ) {
+        if( hasPillar(x, y-1) || hasPillar( x+1, y-1 ) || ( hasBo(x+1, y) && hasBo(x-1, y) ) ) {
             // 왼쪽 또는 오른쪽 아래 기둥이거나
             result = true;
-        } else {
-            // 좌우 둘다 보
-            if( hasBo(x+1, y) && hasBo(x-1, y) ) {
-                result = true;
-            }
-        }
+        } 
         
         return result;
     }

@@ -8,12 +8,12 @@ public class Main {
         int n = 3;
        
         int count = 0;
-        int[][] build_frame = new int[399][4];
+        int[][] build_frame = new int[200][4];
         
-        Map<String, String> tttaa = new HashMap<String, String>();
+         Map<String, String> tttaa = new HashMap<String, String>();
         
         
-        while( count < 399 ) {
+        while( count < 200 ) {
            int[] ttttt = new int[4];
            StringBuilder zzzzzzzz = new StringBuilder();
            for (int index = 0; index < 2; index++) {
@@ -27,6 +27,13 @@ public class Main {
                ttttt[index] = value2;
            }
            
+           for (int index = 3; index < 4; index++) {
+               double random  = Math.random();
+               //int value2      = ( (int)(random*100) +1 ) % 2;
+               int value2      = 1;
+               ttttt[index] = value2;
+           }
+           
            for (int index = 0; index < ttttt.length; index++) {
                 zzzzzzzz.append(ttttt[index]);
            }
@@ -37,6 +44,10 @@ public class Main {
            } 
            
         }
+        
+        /*int[][] build_frame = {
+                {0,0,1,1}
+            };*/
         int[][] aa= temp.solution(n, build_frame);
         for (int index = 0; index < aa.length; index++) {
             for (int index2 = 0; index2 < aa[index].length; index2++) {
