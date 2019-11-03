@@ -6,9 +6,9 @@ class Solution {
     public int solution(int n, int[] weak, int[] dist) {
         int answer   = 9;
         int weakSize  = weak.length;
-        QuickSort temp = new QuickSort(dist);
+        IndexSort temp = new IndexSort(dist,101);
         temp.descendingSrot();
-        dist = temp.data;
+        dist = temp.orignal;
         
         //시작점을 바꿔가면서 하나하나 
         for (int index = 0; index < weakSize; index++) {
@@ -57,54 +57,31 @@ class Solution {
         return answer;
     }
     
-    private class QuickSort {
-        private int [] data; 
-        private int size;
+    class IndexSort {
+        private int [] data;
+        private int [] orignal;
        
-        private QuickSort( int[] data ){
-            this.data = data;
-            size      = data.length;
+        public IndexSort( int[] orignal, int maxRange ){
+            this.orignal     = orignal;
+            data = new int[maxRange+1];
+            for (int index = 0; index < orignal.length; index++) {
+                this.data[orignal[index]] += 1;
+            }
         }
-        
-        private void descendingSrot() {
-            sort( 0, size-1, 0);
+        public void descendingSrot() {
+            sortDec();
         }
-        
-        private void sort( int leftStart, int rightEnd , int position) {
-            if( rightEnd < 0 || leftStart == rightEnd ) return;
+        public void sortDec() {
+            int count = 0;
             
-            int tempLeft     = leftStart;
-            int tempRight    = rightEnd;
-            int pivot        = data[tempLeft];
-            
-            while( tempLeft < tempRight ) {
-                int tempLeftValue = data[tempLeft];
-                int tempRightValue  = data[tempRight];
-                
-                Boolean nextLeft   = position == 1 ? tempLeftValue <= pivot  : tempLeftValue >= pivot;
-                Boolean nextRight  = position == 1 ? tempRightValue >= pivot  : tempRightValue <= pivot;
-                
-                while(tempLeft < rightEnd && nextLeft ) {
-                    tempLeftValue = data[++tempLeft];
-                    nextLeft  = position == 1 ? tempLeftValue <= pivot  : tempLeftValue >= pivot ;
-                }
-                
-                while( tempRight > leftStart && nextRight ) {
-                    tempRightValue = data[--tempRight];
-                    nextRight  = position == 1 ? tempRightValue >= pivot  : tempRightValue <= pivot;
-                }
-                
-                if( tempLeft < tempRight ) {
-                    data[tempLeft++] = tempRightValue;
-                    data[tempRight--]  = tempLeftValue;
+            for (int index = data.length-1; index > 0; index--) {
+                int thisNumber = data[index];
+                if( thisNumber != 0) {
+                    for (int temp = 0; temp < thisNumber; temp++) {
+                        orignal[count++] = index;
+                    }
                 }
             }
-            
-            data[leftStart] = data[tempRight];
-            data[tempRight]   = pivot;
-            
-            if( leftStart < tempRight-1 ) sort( leftStart, tempRight-1 , position);
-            if( tempRight+1 < rightEnd ) sort( tempRight+1,rightEnd , position); 
         }
     }
 }
