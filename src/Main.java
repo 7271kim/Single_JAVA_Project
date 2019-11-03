@@ -10,7 +10,7 @@ public class Main {
             Solution temp = new Solution();
             Solution3 anothor = new Solution3();
             
-            int n = 3;
+            int n = 5;
            
              int count = 0;
             int testing = n;

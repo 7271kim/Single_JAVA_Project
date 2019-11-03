@@ -1,6 +1,7 @@
+package prorammers.kakao;
 // https://programmers.co.kr/learn/courses/30/lessons/60061
 // 로직은 맞는데 틀린이유 : Sort써서 일부로 틀렸다고 하게만듦
-class Solution {
+class KAKAONoSort60061 {
     int[][][] board;
     int totalSize; 
     int answer = 0;
