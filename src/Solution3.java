@@ -1,67 +1,92 @@
-import java.util.HashMap;
-import java.util.Map;
-
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 class Solution3 {
-    public int[] solution(String[] words, String[] queries) {
-        int[] answer = new int[queries.length];
-        Map<String, Integer> dataSet = new HashMap<>();
-        
-        // ?를 이어 붙이기 위한 변수 1만
-        StringBuilder questionMark = new StringBuilder();
-        for (int index = 0; index < 10000; index++) {
-            questionMark.append('?');
-        }
-        int min = 10000;
-        int max = 0;
-        //미리 찾을것만 만들어 놓음 , 마지막 효율성 2개가 문제가 걸림
-        for (int index = 0; index < queries.length; index++) {
-            String temp = queries[index];
-            int size = temp.length();
-            min = size < min ? size : min;
-            max = size > max ? size : max;
-            dataSet.put(temp,0);
-            dataSet.put(String.valueOf(size), 0);
-        }
-        
-        // 자료구조 만들기 10만
-        for (int index = 0; index < words.length; index++) {
-            String temp  = words[index];
-            int tempSize = temp.length();
-            if ( tempSize < min || tempSize > max || !dataSet.containsKey(String.valueOf(tempSize)) ) continue; 
-            // 최대 1만
-            for (int tempIndex = 1; tempIndex < temp.length()+1; tempIndex++) {
-                StringBuilder addFirst     = new StringBuilder();
-                StringBuilder addSecond    = new StringBuilder();
-                
-                // subString보다 이게 빠르다.
-                for (int left = 0; left < tempIndex; left++) {
-                    addFirst.append(temp.charAt(left));
-                    addSecond.append('?');
+    public int[][] solution(int n, int[][] build_frame) {
+        int N = n + 1, i;
+        List<int[]> list = new ArrayList<>();
+        boolean[][][] m = new boolean[N][N][2];
+
+        for (i = 0; i < build_frame.length; i++) {
+            int v[] = build_frame[i], x = v[0], y = v[1], a = v[2], b = v[3];
+
+            if (a == 0) {
+                if (b == 1 && isPillar(m, x, y)) add(list, m, x, y, 0);
+                else if (b == 0) {
+                    remove(list, m, x, y, 0);
+                    if (isProblem(m, list)) add(list, m, x, y, 0);
                 }
-                for (int right = tempIndex; right < tempSize; right++) {
-                    addFirst.append('?');
-                    addSecond.append(temp.charAt(right));
-                }
-                String one = addFirst.toString();
-                String two = addSecond.toString();
-                if( dataSet.containsKey(one) ) {
-                    dataSet.replace(one, dataSet.get(one)+1);
-                } 
-                if( dataSet.containsKey(two) ) {
-                    dataSet.replace(two, dataSet.get(two)+1);
-                }
-            }
-        }
-        for (int index = 0; index < queries.length; index++) {
-            String temp = queries[index];
-            if(dataSet.containsKey(temp)) {
-                answer[index] = dataSet.get(temp);
             } else {
-                answer[index] = 0;
+                if (b == 1 && isBeam(m, x, y)) add(list, m, x, y, 1);
+                else if (b == 0) {
+                    remove(list, m, x, y, 1);
+                    if (isProblem(m, list)) add(list, m, x, y, 1);
+                }
             }
         }
-        
+
+        Collections.sort(list, new Comparator<int[]>() {
+            public int compare(int[] o1, int[] o2) {
+                int x1 = o1[0], y1 = o1[1], a1 = o1[2];
+                int x2 = o2[0], y2 = o2[1], a2 = o2[2];
+
+                if (x2 > x1) return -1;
+                else if (x2 == x1) {
+                    if (y2 > y1) return -1;
+                    else if (y2 == y1) return a1 > a2 ? 1 : -1;
+                    return 1;
+                }
+                return 1;
+            }
+        });
+
+        int[][] answer = new int[list.size()][];
+
+        for (i = 0; i < list.size(); i++)
+            answer[i] = list.get(i);
+
         return answer;
+    }
+
+    static boolean isPillar(boolean[][][] m, int x, int y) {
+        return y == 0 || m[x][y][1] || (x > 0 && m[x - 1][y][1]) || m[x][y - 1][0];
+    }
+
+    static boolean isBeam(boolean[][][] m, int x, int y) {
+        int N = m.length;
+
+        if (m[x][y - 1][0] || m[x + 1][y - 1][0]) return true;
+
+        if (0 < x && x < N - 1 && m[x - 1][y][1] && m[x + 1][y][1]) return true;
+
+        return false;
+    }
+
+    static boolean isProblem(boolean[][][] m, List<int[]> list) {
+        for (int i = 0; i < list.size(); i++) {
+            int v[] = list.get(i), x = v[0], y = v[1], a = v[2];
+
+            if ((a == 0 && !isPillar(m, x, y)) || (a == 1 && !isBeam(m, x, y))) return true;
+        }
+
+        return false;
+    }
+
+    static void remove(List<int[]> list, boolean[][][] m, int x, int y, int a) {
+        for (int i = 0; i < list.size(); i++) {
+            int[] v = list.get(i);
+
+            if (v[0] == x && v[1] == y && v[2] == a) {
+                m[x][y][a] = false;
+                list.remove(i);
+                return;
+            }
+        }
+    }
+
+    static void add(List<int[]> list, boolean[][][] m, int x, int y, int a) {
+        m[x][y][a] = true;
+        list.add(new int[] { x, y, a});
     }
 }

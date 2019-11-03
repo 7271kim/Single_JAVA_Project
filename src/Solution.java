@@ -180,7 +180,7 @@ class Solution {
             if( check == 1 && x < totalSize -1 ) {
                 board[y][x][check] = 1;
                 System.out.println("make : x - " +  x + " y - " + y + " check -  " + check);
-            } else if( check == 0 && y < totalSize -1 ) {
+            } else if( check == 0 && y <= totalSize -1 ) {
                 board[y][x][check] = 1;
                 System.out.println("make : x - " +  x + " y - " + y + " check -  " + check);
             }
@@ -192,7 +192,7 @@ class Solution {
             if( check == 1 && x < totalSize -1 ) {
                 board[y][x][check] = 0;
                 System.out.println("remove : x - " +  x + " y - " + y + " check -  " + check);
-            } else if( check == 0 && y < totalSize -1 ) {
+            } else if( check == 0 && y <= totalSize -1 ) {
                 board[y][x][check] = 0;
                 System.out.println("remove : x - " +  x + " y - " + y + " check -  " + check);
             }
