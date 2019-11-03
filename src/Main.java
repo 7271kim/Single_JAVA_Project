@@ -8,7 +8,7 @@ public class Main {
         int n = 3;
        
         int count = 0;
-        int[][] build_frame = new int[200][4];
+        /*int[][] build_frame = new int[200][4];
         
          Map<String, String> tttaa = new HashMap<String, String>();
         
@@ -43,11 +43,24 @@ public class Main {
                tttaa.put(zzzzzzzz.toString(), "aaa");
            } 
            
-        }
+        }*/
         
         /*int[][] build_frame = {
                 {0,0,1,1}
             };*/
+        int[][] build_frame = new int[32][4];
+        int xx = 0;
+        while( xx < 18) {
+            for (int indexY = 0; indexY < 4; indexY++) {
+                for (int indexX = 0; indexX < 4;  indexX++) {
+                    for (int check = 0; check < 2; check++) {
+                        int[] ttt = { indexY , indexX , check ,1 };
+                        build_frame[xx++] = ttt;
+                    }
+                }
+            }
+        }
+        
         int[][] aa= temp.solution(n, build_frame);
         for (int index = 0; index < aa.length; index++) {
             for (int index2 = 0; index2 < aa[index].length; index2++) {
