@@ -27,21 +27,23 @@ class Solution {
             //각각의 시작점에 대해 한명 한명 대입하여 최소 카운트 확인
             int checkWeak = 0;
             for (int distIndex = 0; distIndex < dist.length; distIndex++) {
-                if( checkWeak >= weakSize ) {
-                    int howMany = distIndex;
-                    answer = answer > howMany ? howMany : answer;
-                    break;
-                }
                 int friend       = dist[distIndex];
-                int firstWeak   =  weakStart[checkWeak++];
+                int firstWeak   =  weakStart[checkWeak++]; // 지금 시작점
                 
                 for (int checkIndex = checkWeak; checkIndex < weakStart.length;) {
                     int weakThis = weakStart[checkIndex];
-                    if( weakThis - firstWeak <= friend ) {
+                    int minus    = weakThis - firstWeak; 
+                    if( minus <= friend ) {
                         checkIndex = ++checkWeak;
                     } else {
                         break;
                     }
+                }
+                
+                if( checkWeak >= weakSize ) {
+                    int howMany = distIndex+1;
+                    answer = answer > howMany ? howMany : answer;
+                    break;
                 }
             }
         }
@@ -52,7 +54,7 @@ class Solution {
             } else {
                 answer = -1;
             }
-        }
+        } 
         
         return answer;
     }
