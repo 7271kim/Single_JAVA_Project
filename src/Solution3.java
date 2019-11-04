@@ -1,56 +1,76 @@
-class Solution3 {
-    int N = 0;
-    int ans = Integer.MAX_VALUE;
+import java.util.*;
 
+class Solution3 {
+    static final int MAX = 9;
+    boolean[] done;     //수리여부
+    boolean[] used;
     public int solution(int n, int[] weak, int[] dist) {
-        java.util.Arrays.sort(dist);
-        for (int i = 0; i < dist.length / 2; i++) {
-            int temp = dist[i];
-            dist[i] = dist[dist.length - 1 - i];
-            dist[dist.length - 1 - i] = temp;
+        int answer = MAX;
+        Integer[] temp = Arrays.stream(dist).boxed().toArray(Integer[]::new); 
+        Arrays.sort(temp, Collections.reverseOrder());      
+        dist = Arrays.stream(temp).mapToInt(Integer::intValue).toArray();
+
+        done = new boolean[weak.length];
+        used = new boolean[dist.length];
+        for(int i = 0; i < weak.length; i++) {
+            int[] line = makeLine(n, weak, i);
+            used[0] = false;
+            System.out.println(Arrays.toString(line));
+            answer = Math.min(answer, repair(line, dist, 0, 0));
         }
 
-        this.N = n;
-        int min = Integer.MAX_VALUE;
-        dfs(0, weak, dist, 0);
-
-        return ans == Integer.MAX_VALUE ? -1 : ans;
+        if(answer == MAX) return -1;
+        return answer;
     }
 
-    private void dfs(int d, int[] weak, int[] dist, int visited) {
-        if (visited == ((1 << weak.length) - 1)) {
-            ans = Math.min(ans, d);
-            return;
-        }
-        if (d == dist.length) {
-            return;
+    int repair(int[] weak, int[] dist, int cur, int cnt) {
+        if(repairCheck(weak.length)) {
+            return cnt;
         }
 
-        for (int i = 0; i < weak.length; i++) {
-            if ((visited & (1 << i)) > 0) {
-                continue;
-            }
-            java.util.Set<Integer> set = new java.util.HashSet<>();
-            for (int j = 0; j < weak.length; j++) {
-                int k = (i + j) >= weak.length ? i + j - weak.length : i + j;
-                if ((visited & (1 << k)) > 0) {
-                    continue;
+        if(cur == weak.length) return MAX;
+
+        Queue<Integer> q = new LinkedList<>();
+
+        int ret = MAX;
+        for(int i = 0; i < dist.length; i++) {
+            if(used[i]) continue;
+            used[i] = true;
+            int next = cur; //  cour 은 지금 들어온 시작점
+            for(int j = cur; j < weak.length; j++) {
+                int diff = weak[j] - weak[cur];
+                if(diff <= dist[i]) {
+                    q.add(j);
+                    done[j] = true;
                 }
-                int diff = weak[k] - weak[i];
-                if (diff < 0) {
-                    diff += N;
-                }
-                if (diff <= dist[d]) {
-                    set.add(k);
-                    visited = visited | (1 << k);
-                } else {
+                else {
+                    next = j;
                     break;
                 }
             }
-            dfs(d+1, weak, dist, visited);
-            for (int v : set) {
-                visited = visited & ~(1 << v);
+            ret = Math.min(ret, repair(weak, dist, next, cnt+1));           
+            while(!q.isEmpty()) {
+                done[q.poll()] = false;
             }
+            used[i] = false;
         }
+
+        return ret;
+    }
+
+    int[] makeLine(int n, int[] weak, int start) {
+        int[] ret = new int[weak.length];
+        int first = weak[start];
+        for(int i = 0; i < weak.length; i++) {
+            ret[i] = weak[(i+start)%weak.length];
+            if(ret[i] < first) ret[i]+=n;
+        }
+        return ret;
+    }
+    boolean repairCheck(int m) {
+        for(int i = 0; i < m; i++) {
+            if(!done[i]) return false;
+        }
+        return true;
     }
 }

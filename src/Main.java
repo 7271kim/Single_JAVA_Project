@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,14 +47,62 @@ public class Main {
             }
         }*/
         
-        Solution my    = new Solution();
+        /* Solution my    = new Solution();
+        Solution3 nam  = new Solution3();
         int n        = 20;
         int[] weak   = new int []{ 0 , 4 , 6, 10, 14} ;
         int[] dist   = new int []{ 5, 2, 1  };
         
         System.out.println( "3: "+ my.solution(n, weak, dist));
+        System.out.println( "3: "+ nam.solution(n, weak, dist));*/
         
+        /*for (int index1 = 0; index1 < 2; index1++) {
+            for (int index2 = 0; index2 < 2; index2++) {
+                for (int index3 = 0; index3 < 2; index3++) {
+                    for (int index4 = 0; index4 < 2; index4++) {
+                        System.out.println(index1 + " " + index2+ " " + index3+ " " + index4+ " ");
+                        System.out.println();
+                    }
+                }
+            }
+        }*/
+        
+        System.out.println(loopTest( 0));
+        System.out.println(sum (5));
     }
+    
+    private static int sum( int cont ) {
+        if(cont == 1) {
+            return 1;
+        }
+        return cont+sum(cont-1);
+    }
+    
+    
+    private static String loopTest( int cont ) {
+        String result="";
+        if( cont == 4  ) {
+            return result;
+        }
+        cont++;
+        
+        for (int index = 0; index < 2; index++) {
+            result = String.valueOf(index) + " "+  loopTest(cont);
+        }
+        return result;
+    }
+    
+    private static String forAll( boolean [] aaa, int count, String result, int startIndex ) {
+        if( aaa[startIndex] != true ) {
+            aaa[startIndex] = true;
+            result+= startIndex + " ";
+            for (int index = 0; index < aaa.length; index++) {
+                result += forAll( aaa, count, result, index );
+            }
+        }
+        return result;
+    }
+    
 }
 
 class IndexSort {
