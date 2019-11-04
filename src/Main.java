@@ -67,7 +67,7 @@ public class Main {
             }
         }*/
         
-        System.out.println(loopTest( 0));
+        loopTest(0,"", 10);
         System.out.println(sum (5));
     }
     
@@ -79,17 +79,16 @@ public class Main {
     }
     
     
-    private static String loopTest( int cont ) {
-        String result="";
-        if( cont == 4  ) {
-            return result;
+    private static void loopTest( int count, String next, int loopTotal) {
+        if( count == loopTotal ) {
+            System.out.println(next);
+            System.out.println();
+        } else {
+            count++;
+            for (int index = 0; index < 2; index++) {
+                loopTest( count, next+String.valueOf(index),loopTotal );
+            }
         }
-        cont++;
-        
-        for (int index = 0; index < 2; index++) {
-            result = String.valueOf(index) + " "+  loopTest(cont);
-        }
-        return result;
     }
     
     private static String forAll( boolean [] aaa, int count, String result, int startIndex ) {
