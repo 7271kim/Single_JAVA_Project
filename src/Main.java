@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import algorithm.math.Permutation;
 
 public class Main {
     public static void main(String args[]){
@@ -47,61 +45,16 @@ public class Main {
             }
         }*/
         
-        /* Solution my    = new Solution();
+         Solution my    = new Solution();
         Solution3 nam  = new Solution3();
-        int n        = 20;
-        int[] weak   = new int []{ 0 , 4 , 6, 10, 14} ;
-        int[] dist   = new int []{ 5, 2, 1  };
+        int n        = 12;
+        int[] weak   = new int []{ 1, 5, 6, 10} ;
+        int[] dist   = new int []{ 1, 2, 3, 4  };
         
         System.out.println( "3: "+ my.solution(n, weak, dist));
-        System.out.println( "3: "+ nam.solution(n, weak, dist));*/
+        System.out.println( "3: "+ nam.solution(n, weak, dist));
         
-        /*for (int index1 = 0; index1 < 2; index1++) {
-            for (int index2 = 0; index2 < 2; index2++) {
-                for (int index3 = 0; index3 < 2; index3++) {
-                    for (int index4 = 0; index4 < 2; index4++) {
-                        System.out.println(index1 + " " + index2+ " " + index3+ " " + index4+ " ");
-                        System.out.println();
-                    }
-                }
-            }
-        }*/
-        
-        loopTest(0,"", 3);
-        System.out.println(sum (5));
     }
-    
-    private static int sum( int cont ) {
-        if(cont == 1) {
-            return 1;
-        }
-        return cont+sum(cont-1);
-    }
-    
-    
-    private static void loopTest( int count, String next, int loopTotal) {
-        if( count == loopTotal ) {
-            System.out.println(next);
-            System.out.println();
-        } else {
-            count++;
-            for (int index = 0; index < 3; index++) {
-                loopTest( count, next+String.valueOf(index),loopTotal );
-            }
-        }
-    }
-    
-    private static String forAll( boolean [] aaa, int count, String result, int startIndex ) {
-        if( aaa[startIndex] != true ) {
-            aaa[startIndex] = true;
-            result+= startIndex + " ";
-            for (int index = 0; index < aaa.length; index++) {
-                result += forAll( aaa, count, result, index );
-            }
-        }
-        return result;
-    }
-    
 }
 
 class IndexSort {

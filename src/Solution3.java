@@ -1,76 +1,68 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 class Solution3 {
-    static final int MAX = 9;
-    boolean[] done;     //수리여부
-    boolean[] used;
-    public int solution(int n, int[] weak, int[] dist) {
-        int answer = MAX;
-        Integer[] temp = Arrays.stream(dist).boxed().toArray(Integer[]::new); 
-        Arrays.sort(temp, Collections.reverseOrder());      
-        dist = Arrays.stream(temp).mapToInt(Integer::intValue).toArray();
+    static int N, M, W[], D[], MAX = 987654321;
+    static List<int[]> list = new ArrayList<>();
 
-        done = new boolean[weak.length];
-        used = new boolean[dist.length];
-        for(int i = 0; i < weak.length; i++) {
-            int[] line = makeLine(n, weak, i);
-            used[0] = false;
-            System.out.println(Arrays.toString(line));
-            answer = Math.min(answer, repair(line, dist, 0, 0));
+    static int solution(int n, int[] weak, int[] dist) {
+        D = dist;
+        N = weak.length;
+        M = D.length;
+        W = new int[2 * N];
+
+        int ret = MAX, i, j;
+
+        for (i = 0; i < N ; i++) {
+            W[i] = weak[i];
+            W[i + N] = W[i] + n;
         }
 
-        if(answer == MAX) return -1;
-        return answer;
+        Arrays.sort(dist);
+        permutation(0, new int[M], new boolean[M]);
+
+        for (i = 0; i < N; i++) 
+            for (j = 0; j < list.size(); j++) 
+                ret = Math.min(ret, inject(i, list.get(j)));
+
+        return ret == MAX ? -1 : ret;
     }
 
-    int repair(int[] weak, int[] dist, int cur, int cnt) {
-        if(repairCheck(weak.length)) {
-            return cnt;
+    static int inject(int s, int[] friends) {
+        int p = 0, i, a;
+
+        for (i = 0; i < friends.length; i++) {
+            a = W[s + p];
+
+            while (p < N && W[s + p] <= a + friends[i]) p++;
+
+            if (p == N) return i + 1;
         }
 
-        if(cur == weak.length) return MAX;
+        return MAX;
+    }
 
-        Queue<Integer> q = new LinkedList<>();
+    static void permutation(int depth, int[] make, boolean[] use) {
+        if (depth == M) {
+            int[] tmp = new int[M];
 
-        int ret = MAX;
-        for(int i = 0; i < dist.length; i++) {
-            if(used[i]) continue;
-            used[i] = true;
-            int next = cur; //  cour 은 지금 들어온 시작점
-            for(int j = cur; j < weak.length; j++) {
-                int diff = weak[j] - weak[cur];
-                if(diff <= dist[i]) {
-                    q.add(j);
-                    done[j] = true;
-                }
-                else {
-                    next = j;
-                    break;
-                }
+            for (int i = 0; i < M; i++)
+                tmp[i] = make[i];
+
+            list.add(tmp);
+            return;
+        }
+
+        for (int i = 0; i < M; i++) {
+            make[depth] = D[i];
+
+            if (!use[i]) {
+                use[i] = true;
+                permutation(depth + 1, make, use);
+                use[i] = false;
             }
-            ret = Math.min(ret, repair(weak, dist, next, cnt+1));           
-            while(!q.isEmpty()) {
-                done[q.poll()] = false;
-            }
-            used[i] = false;
         }
-
-        return ret;
     }
 
-    int[] makeLine(int n, int[] weak, int start) {
-        int[] ret = new int[weak.length];
-        int first = weak[start];
-        for(int i = 0; i < weak.length; i++) {
-            ret[i] = weak[(i+start)%weak.length];
-            if(ret[i] < first) ret[i]+=n;
-        }
-        return ret;
-    }
-    boolean repairCheck(int m) {
-        for(int i = 0; i < m; i++) {
-            if(!done[i]) return false;
-        }
-        return true;
-    }
 }

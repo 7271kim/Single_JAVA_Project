@@ -1,3 +1,4 @@
+package prorammers.kakao;
 // https://programmers.co.kr/learn/courses/30/lessons/60062
 // 어렵게 생각하지 말고 전수조사를 어떻게 할 것인가 이게 이슈
 // for문 바깥에 무엇을 바깥에 둘 것인가.
@@ -7,7 +8,7 @@
 //  int[] weak   = new int []{ 0 , 4 , 6, 10, 14} ;
 //  int[] dist   = new int []{ 5, 2, 1  };
 //  해당의 경우 10 ~ 14 5가 , 0은 1이 4 ~ 6은 2가 들어가야 하는데 내 자체가 순서를 10에 5를 줫음 그다음에는 꼭 2가 들어가게 세팅해놓음. 
-class Solution {
+class KAKAO60062Permutation {
     public int solution(int n, int[] weak, int[] dist) {
         int answer   = 9;
         int weakSize  = weak.length;
