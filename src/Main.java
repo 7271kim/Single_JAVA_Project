@@ -67,7 +67,7 @@ public class Main {
             }
         }*/
         
-        loopTest(0,"", 10);
+        loopTest(0,"", 3);
         System.out.println(sum (5));
     }
     
@@ -85,7 +85,7 @@ public class Main {
             System.out.println();
         } else {
             count++;
-            for (int index = 0; index < 2; index++) {
+            for (int index = 0; index < 3; index++) {
                 loopTest( count, next+String.valueOf(index),loopTotal );
             }
         }
