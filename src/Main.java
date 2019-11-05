@@ -1,91 +1,29 @@
-import algorithm.math.Permutation;
+import algorithm.math.Permutation2;
 
 public class Main {
     public static void main(String args[]){
-        
-        /* while( true ) {
-            Solution my    = new Solution();
-            Solution3 nam  = new Solution3();
-            
-            int n        = 20;
-            int aaa      = 5;
-            int bbb      = 3;
-            int[] weak = new int[aaa];
-            int[] dist = new int[bbb];
-            
-            Map<Integer, String> aa = new HashMap<Integer, String>();
-            
-            for (int index = 0; index < aaa; index++) {
-                double random  = Math.random();
-                int value      = ( (int)(random*100)*2 ) % n;
-                if(aa.containsKey(value)) {
-                    index--;
-                } else {
-                    weak[index] = value;
-                    aa.put(value, "aa");
-                }
+        int[]input = {1,2,3,4};
+        int r = 3;
+        Permutation2 pe2 = new Permutation2(input, r);
+        int[][] result = pe2.getReturnArr();
+        for (int index = 0; index < result.length; index++) {
+            for (int index2 = 0; index2 < result[index].length; index2++) {
+                System.out.print(result[index][index2] + " ");
             }
-            
-            for (int index = 0; index < bbb; index++) {
-                double random  = Math.random();
-                int value      = ( (int)(random*100) +1 ) % 101;
-                dist[index] = value;
-            }
-            
-            IndexSort temp = new IndexSort(weak, 200);
-            temp.ascendingSrot();
-            weak = temp.getOr();
-                    
-            int myInt  = my.solution(n, weak, dist);
-            int namInt = nam.solution(n, weak, dist);
-            
-            if(myInt != namInt) {
-                System.out.println("다르다");
-                break;
-            }
-        }*/
-        
-         Solution my    = new Solution();
-        Solution3 nam  = new Solution3();
-        int n        = 12;
-        int[] weak   = new int []{ 1, 5, 6, 10} ;
-        int[] dist   = new int []{ 1, 2, 3, 4  };
-        
-        System.out.println( "3: "+ my.solution(n, weak, dist));
-        System.out.println( "3: "+ nam.solution(n, weak, dist));
-        
-    }
-}
-
-class IndexSort {
-    private int [] data;
-    private int [] orignal;
-   
-    public IndexSort( int[] orignal, int maxRange ){
-        this.orignal     = orignal;
-        data = new int[maxRange+1];
-        for (int index = 0; index < orignal.length; index++) {
-            this.data[orignal[index]] += 1;
+            System.out.println();
         }
-    }
-    public void ascendingSrot() {
-        sortAcc();
-    }
-    public void sortAcc() {
-        int count = 0;
         
-        for (int index = 0; index < data.length; index++) {
-            int thisNumber = data[index];
-            if( thisNumber != 0) {
-                for (int temp = 0; temp < thisNumber; temp++) {
-                    orignal[count++] = index;
-                }
+        System.out.println("새로시작");
+        input = new int[]{1,2,3,4,5};
+        pe2.newSetting(input, 5);
+        result = pe2.getReturnArr();
+        
+        for (int index = 0; index < result.length; index++) {
+            for (int index2 = 0; index2 < result[index].length; index2++) {
+                System.out.print(result[index][index2] + " ");
             }
+            System.out.println();
         }
-    }
-    
-    
-    public int[] getOr() {
-        return orignal;
+        
     }
 }

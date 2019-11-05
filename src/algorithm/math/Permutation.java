@@ -20,8 +20,6 @@ public class Permutation {
      * 1. Swap을 이용 >> 함수를 만들어 배열의 값을 직접 변경 >> 변경된 데이터들에서 원하는 값을 추출한다.
      * >> Dept를 기준 인덱스로 하고 Dept보다 작은 값을을 고정 후 큰값들에 대해 다시 Swap을 진행한다.
      * 
-     * 사용 예시: permutation(int[] 원본배열, int depth, int n, int r);
-     * 
      * int[] input = { 1, 2, 3 };
      * int total = 3*2*1;
      * int r = 2; // 2개 뽑음
@@ -90,7 +88,6 @@ public class Permutation {
         this.output    = new int[n];
         totalSize = 0;
     }
-    
     
     // output은 들어가면서 출력을 위한 값
     public void permutationDictionary(int[] input, int depth, int n, int r) {
