@@ -89,7 +89,7 @@ class Solution {
    
                     // 회전 경우의 수에 대해 넣어주기위 아래 총 4가지 모든 케이스를 넣는다.
                     // 위꼭지 축 왼쪽 회전
-                    if( y+ 1 > boardSize && x - 1 < -1 && board[y + 1][x - 1] !=1 )
+                    if( y+ 1 < boardSize && x - 1 > -1 && board[y + 1][x - 1] !=1 )
                         que.add(new int[] {  y, x - 1, count+1, ISHORIZONTAL });
                     
                     // 위꼭지 축 오른쪽 회전
@@ -97,7 +97,7 @@ class Solution {
                         que.add(new int[] { y, x, count+1, ISHORIZONTAL });
                     
                     //아래꼭지 축 좌측 회전
-                    if(  y + 1 < boardSize && x - 1 < -1 && board[y][x-1] !=1 )
+                    if(  y + 1 < boardSize && x - 1 > -1 && board[y][x-1] !=1 )
                         que.add(new int[] { y+1, x-1, count+1, ISHORIZONTAL });
                     
                    //아래꼭지 오른쪽 회전

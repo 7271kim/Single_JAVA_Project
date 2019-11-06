@@ -1,68 +1,111 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 class Solution3 {
-    static int N, M, W[], D[], MAX = 987654321;
-    static List<int[]> list = new ArrayList<>();
+    int N = 0;
 
-    static int solution(int n, int[] weak, int[] dist) {
-        D = dist;
-        N = weak.length;
-        M = D.length;
-        W = new int[2 * N];
+    public int solution(int[][] board) {
+        java.util.Set<String> visited = new java.util.HashSet<>();
+        this.N = board.length;
+        java.util.Queue<State> q = new java.util.LinkedList<>(); 
+        State first = new State(0, 0, false, 0);
+        visited.add(first.key());
+        q.offer(first);
 
-        int ret = MAX, i, j;
+        while (!q.isEmpty()) {
+            State state = q.poll();
+            if (state.p2()[0] == N-1 && state.p2()[1] == N-1) {
+                return state.move;
+            }
 
-        for (i = 0; i < N ; i++) {
-            W[i] = weak[i];
-            W[i + N] = W[i] + n;
+            java.util.List<State> results = new java.util.ArrayList<>();
+            results.addAll(move(state));
+            results.addAll(rotate(state, board));
+            results = results.stream()
+                .filter(s -> valid(board, s))
+                .filter(s -> !visited.contains(s.key()))
+                .collect(java.util.stream.Collectors.toList());
+            results.forEach(s -> {
+                visited.add(s.key());
+                q.offer(s);
+            });
         }
 
-        Arrays.sort(dist);
-        permutation(0, new int[M], new boolean[M]);
-
-        for (i = 0; i < N; i++) 
-            for (j = 0; j < list.size(); j++) 
-                ret = Math.min(ret, inject(i, list.get(j)));
-
-        return ret == MAX ? -1 : ret;
+        return -1;
     }
 
-    static int inject(int s, int[] friends) {
-        int p = 0, i, a;
-
-        for (i = 0; i < friends.length; i++) {
-            a = W[s + p];
-
-            while (p < N && W[s + p] <= a + friends[i]) p++;
-
-            if (p == N) return i + 1;
-        }
-
-        return MAX;
+    private java.util.List<State> move(State s) {
+        java.util.List<State> results = new java.util.ArrayList<>();
+        results.add(new State(s.x-1, s.y, s.vertical, s.move+1));
+        results.add(new State(s.x, s.y-1, s.vertical, s.move+1));
+        results.add(new State(s.x+1, s.y, s.vertical, s.move+1));
+        results.add(new State(s.x, s.y+1, s.vertical, s.move+1));
+        return results;
     }
 
-    static void permutation(int depth, int[] make, boolean[] use) {
-        if (depth == M) {
-            int[] tmp = new int[M];
-
-            for (int i = 0; i < M; i++)
-                tmp[i] = make[i];
-
-            list.add(tmp);
-            return;
-        }
-
-        for (int i = 0; i < M; i++) {
-            make[depth] = D[i];
-
-            if (!use[i]) {
-                use[i] = true;
-                permutation(depth + 1, make, use);
-                use[i] = false;
+    private java.util.List<State> rotate(State s, int[][] board) {
+        java.util.List<State> results = new java.util.ArrayList<>();
+        if (s.vertical) {
+            if (s.x > 0 && board[s.y+1][s.x-1] == 0) {
+                results.add(new State(s.x-1, s.y, false, s.move+1));
+            }
+            if (s.x > 0 && board[s.y][s.x-1] == 0) {
+                results.add(new State(s.x-1, s.y+1, false, s.move+1));
+            }
+            if (s.x < N-1 && board[s.y+1][s.x+1] == 0) {
+                results.add(new State(s.x, s.y, false, s.move+1));
+            }
+            if (s.x < N-1 && board[s.y][s.x+1] == 0) {
+                results.add(new State(s.x, s.y+1, false, s.move+1));
+            }
+        } else {
+            if (s.y > 0 && board[s.y-1][s.x+1] == 0) {
+                results.add(new State(s.x, s.y-1, true, s.move+1));
+            }
+            if (s.y > 0 && board[s.y-1][s.x] == 0) {
+                results.add(new State(s.x+1, s.y-1, true, s.move+1));
+            }
+            if (s.y < N-1 && board[s.y+1][s.x+1] == 0) {
+                results.add(new State(s.x, s.y, true, s.move+1));
+            }
+            if (s.y < N-1 && board[s.y+1][s.x] == 0) {
+                results.add(new State(s.x+1, s.y, true, s.move+1));
             }
         }
+        return results;
     }
 
+    private boolean valid(int[][] board, State state) {
+        int[] p1 = state.p1();
+        int[] p2 = state.p2();
+        if (p1[0] < 0 || p1[1] < 0 || p1[0] >= N || p1[1] >= N ||
+            p2[0] < 0 || p2[1] < 0 || p2[0] >= N || p2[1] >= N) {
+            return false;
+        }
+        if (board[p1[1]][p1[0]] == 1 || board[p2[1]][p2[0]] == 1) {
+            return false;
+        }
+        return true;
+    }
+
+    class State {
+        int x;
+        int y;
+        boolean vertical;
+        int move;
+
+        public State(int x, int y, boolean vertical, int move) {
+            this.x = x;
+            this.y = y;
+            this.vertical = vertical;
+            this.move = move;
+        }
+
+        public int[] p1() {
+            return new int[]{x, y};
+        }
+        public int[] p2() {
+            return vertical ? new int[]{x, y+1} : new int[]{x+1, y};
+        }
+        public String key() {
+            return x + "," + y + "," + (vertical ? 1 : 0);
+        }
+    }
 }
