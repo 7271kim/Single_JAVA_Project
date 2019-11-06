@@ -29,14 +29,13 @@ class Solution {
     Queue<int[]> total = new LinkedList<int[]>();
     
     public int solution(int[][] board) {
-        int answer = 0;
         boardSize  = board.length;
         original = board;
         checkPath = new boolean[boardSize][boardSize];
         
         getAllPath( 0, 0 ,0, 1, 0);
         
-        return answer;
+        return min - 1;
     }
     
     private void getAllPath( int fisrtPointLine, int firstPointLow, int secondPoiontLine, int secondPointLow, int count ) {
@@ -130,12 +129,9 @@ class Solution {
         boolean result = false;
         boolean isVertical = secondPointLow == firstPointLow;
         
-        // 범위 확인 
-        if( secondPoiontLine + 1 >= boardSize ) return false;
-        
         // 수직일 경우 
         if( !isVertical ) {
-            if( original[fisrtPointLine+1][firstPointLow] != 1 && original[secondPoiontLine+1][secondPointLow] != 1 ) {
+            if( secondPoiontLine + 1 < boardSize  && original[fisrtPointLine+1][firstPointLow] != 1 && original[secondPoiontLine+1][secondPointLow] != 1 ) {
                 result = true;
             }
         } 
@@ -144,19 +140,17 @@ class Solution {
     }
     
     private boolean goRightRotation( int fisrtPointLine, int firstPointLow, int secondPoiontLine, int secondPointLow ) {
+
         boolean result = false;
         boolean isVertical = secondPointLow == firstPointLow;
-        
-        // 범위 확인 
-        if( secondPoiontLine + 1 >= boardSize ) return false;
-        
         // 수직일 경우 
         if( isVertical ) {
-            if( original[fisrtPointLine][firstPointLow+1] != 1 && original[secondPoiontLine][secondPointLow+1] != 1 ) {
+            
+            if( secondPointLow+1 < boardSize && original[secondPoiontLine][secondPointLow+1] != 1 ) {
                 result = true;
             }
         } else {
-            if( original[fisrtPointLine+1][firstPointLow] != 1 && original[secondPoiontLine+1][secondPointLow] != 1 ) {
+            if( secondPoiontLine + 1 < boardSize && original[fisrtPointLine+1][firstPointLow] != 1 && original[secondPoiontLine+1][secondPointLow] != 1 ) {
                 result = true;
             }
         }
