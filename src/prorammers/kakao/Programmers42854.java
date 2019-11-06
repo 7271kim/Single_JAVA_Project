@@ -1,4 +1,5 @@
-class Solution {
+package prorammers.kakao;
+class Programmers42854 {
     public int[] solution(int[] prices) {
         int size = prices.length;
         int[] answer        = new int[size];
