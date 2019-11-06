@@ -1,145 +1,166 @@
-// https://programmers.co.kr/learn/courses/30/lessons/60062
-// 어렵게 생각하지 말고 전수조사를 어떻게 할 것인가 이게 이슈
-// for문 바깥에 무엇을 바깥에 둘 것인가.
-// 모든 취약점의 Start에 대해 하나하나 전수조사
-// 찾았다.. 내가 한 것은  전수조사가 아니엿음.........
-// 내가 내 자체로 순서를 주고 있었음. 순서를 준다 >> 전수조사가 아니다.
-//  int[] weak   = new int []{ 0 , 4 , 6, 10, 14} ;
-//  int[] dist   = new int []{ 5, 2, 1  };
-//  해당의 경우 10 ~ 14 5가 , 0은 1이 4 ~ 6은 2가 들어가야 하는데 내 자체가 순서를 10에 5를 줫음 그다음에는 꼭 2가 들어가게 세팅해놓음. 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+// 1. 사각형에서 벽이 없을 때 회전 가능. 우측이동 아래측 이동 가능
+// 2. N X N까지 가는데 최소 경우의 수
+// 3. 보드는 100이하
+// 4. 전수 조사 시도 >> 우측 끝 하단 끝 순서로 시도
+// 좌 , 우 , 좌하, 우하 가준 판단.
+//   i) 우로 갈 수 있냐 
+//  ii) 아래로 갈 수 있냐
+// iii) 좌측 축기준 회전
+//  iv) 우측 기준 회전 
+//   + 세로일때의 회전
+//   v) 아래에 벽이 있냐 
+//  >> true false로 리턴
+//  가능 시 기준점 이동
+// 이슈는 전수조사시 한 기준점당 할수 있는 경우의 수는 4가지 >> 최악 4^100
+// 또한 중복가능 회전 후 우측이동시 이슈
+// 좌기준 회전 후 우측 이동은 우측기준 회전이랑 같다. >> 한번 간 길은 더이상 작업하지 않는다.
+ 
+
 class Solution {
-    public int solution(int n, int[] weak, int[] dist) {
-        int answer   = 9;
-        int weakSize  = weak.length;
-        int distSize  = dist.length;
-        IndexSort temp = new IndexSort(dist,101);
-        temp.descendingSrot();
-        dist = temp.orignal;
+    int boardSize;
+    boolean[][] checkPath;
+    int[] lastPosition;
+    int min = 10000000;
+    int[][] original;
+    Queue<int[]> total = new LinkedList<int[]>();
+    
+    public int solution(int[][] board) {
+        int answer = 0;
+        boardSize  = board.length;
+        original = board;
+        checkPath = new boolean[boardSize][boardSize];
         
-        //시작점을 바꿔가면서 하나하나 
-        for (int index = 0; index < weakSize; index++) {
-            
-            // 시작지점 만들기
-            int[] weakStart = new int[weakSize];
-            for (int cont = 0; cont < weakSize; cont++) {
-                boolean isOver = ( index+cont ) >= weakSize;
-                if( isOver ) {
-                    weakStart[cont] = weak[ ( index+cont ) % weakSize] + n;
-                } else {
-                    weakStart[cont] = weak[ ( index+cont ) % weakSize];
-                }
-            }
-            
-            //각각의 시작점에 대해 한명 한명 대입하여 최소 카운트 확인
-            
-            int totalSize = totalSize(distSize);
-            
-            Permutation per = new Permutation(totalSize, distSize, distSize);
-            per.permutationDictionary(dist, 0, distSize, distSize);
-            int[][] inputDistTotal = per.returnArr;
-            
-            for (int disIndex = 0; disIndex < inputDistTotal.length; disIndex++) {
-                int checkWeak = 0;
-                int[] check   = inputDistTotal[disIndex];
-                
-                for (int distIndex = 0; distIndex < check.length; distIndex++) {
-                    int friend       = check[distIndex];
-                    int firstWeak   =  weakStart[checkWeak++]; // 지금 시작점
-                    
-                    for (int checkIndex = checkWeak; checkIndex < weakStart.length;) {
-                        int weakThis = weakStart[checkIndex];
-                        int minus    = weakThis - firstWeak; 
-                        if( minus <= friend ) {
-                            checkIndex = ++checkWeak;
-                        } else {
-                            break;
-                        }
-                    }
-                    
-                    if( checkWeak >= weakSize ) {
-                        int howMany = distIndex+1;
-                        answer = answer > howMany ? howMany : answer;
-                        break;
-                    }
-                }
-            }
-        }
-        
-        if( answer == 9 ){
-            if( weakSize <= dist.length ) {
-                answer = weak.length;
-            } else {
-                answer = -1;
-            }
-        } 
+        getAllPath( 0, 0 ,0, 1, 0);
         
         return answer;
     }
     
-    public int totalSize( int input ) {
-        if( input == 1 ) return 1;
-        
-        return input*totalSize(input-1);
-    }
-    
-    class IndexSort {
-        private int [] data;
-        private int [] orignal;
-       
-        public IndexSort( int[] orignal, int maxRange ){
-            this.orignal     = orignal;
-            data = new int[maxRange+1];
-            for (int index = 0; index < orignal.length; index++) {
-                this.data[orignal[index]] += 1;
+    private void getAllPath( int fisrtPointLine, int firstPointLow, int secondPoiontLine, int secondPointLow, int count ) {
+        if( secondPoiontLine == boardSize-1 && secondPointLow == boardSize-1 ) {
+            min = min > count ? count : min;
+            while( !total.isEmpty() ) {
+                int[] temp = total.poll();
+                checkPath[temp[0]][temp[1]] = true;
             }
+            return;
         }
-        public void descendingSrot() {
-            sortDec();
-        }
-        public void sortDec() {
-            int count = 0;
+        
+        boolean checkValue = checkPath[fisrtPointLine][firstPointLow] && checkPath[secondPoiontLine][secondPointLow];
+        
+        if( !checkValue ) {
+            total.add(new int[] { fisrtPointLine, firstPointLow });
+            total.add(new int[] { secondPoiontLine, secondPointLow });
+            if( canGoRight( fisrtPointLine, firstPointLow, secondPoiontLine, secondPointLow ) ) {
+                getAllPath(fisrtPointLine, firstPointLow+1, secondPoiontLine, secondPointLow+1 , count+1 );
+            }
             
-            for (int index = data.length-1; index > 0; index--) {
-                int thisNumber = data[index];
-                if( thisNumber != 0) {
-                    for (int temp = 0; temp < thisNumber; temp++) {
-                        orignal[count++] = index;
-                    }
+            if( goDown( fisrtPointLine, firstPointLow, secondPoiontLine, secondPointLow ) ) {
+                getAllPath(fisrtPointLine+1, firstPointLow, secondPoiontLine+1, secondPointLow, count+1 );
+            }
+            
+            if( goLeftRotation( fisrtPointLine, firstPointLow, secondPoiontLine, secondPointLow ) ) {
+                boolean isVertical = secondPointLow == firstPointLow;
+               // 수직일 경우 
+                if( !isVertical ) {
+                    getAllPath(fisrtPointLine, firstPointLow, fisrtPointLine+1, firstPointLow, count+1 );
+                } 
+            }
+            
+            if( goRightRotation( fisrtPointLine, firstPointLow, secondPoiontLine, secondPointLow ) ) {
+                boolean isVertical = secondPointLow == firstPointLow;
+               // 수직일 경우 
+                if( isVertical ) {
+                    getAllPath(secondPoiontLine, secondPointLow, secondPoiontLine, secondPointLow+1, count+1 );
+                } else {
+                    getAllPath(fisrtPointLine, firstPointLow, secondPoiontLine, secondPointLow, count+1 );
                 }
             }
+            total.poll();
+            total.poll();
         }
     }
     
-    public class Permutation {
-        private int[][] returnArr;
-        private int totalCount;
-        boolean[] visited;
-        int[] output;
+    private boolean canGoRight( int fisrtPointLine, int firstPointLow, int secondPoiontLine, int secondPointLow ) {
+        boolean result = false;
+        boolean isVertical = secondPointLow == firstPointLow;
         
-        public Permutation( int totalSize, int n, int r ) {
-            this.returnArr = new int[totalSize][r];
-            this.visited   = new boolean[n];
-            this.output    = new int[n];
-            totalSize = 0;
-        }
+        // 범위 확인 
+        if( secondPointLow + 1 >= boardSize ) return false;
         
-        public void permutationDictionary(int[] input, int depth, int n, int r) {
-            if(depth == r) {
-                int[] temp = new int[r];
-                for (int index = 0; index < r; index++) {
-                    temp[index] = output[index];
-                }
-                returnArr[totalCount++] = temp;
+        // 수직일 경우 
+        if( isVertical ) {
+            if( original[fisrtPointLine][firstPointLow+1] != 1 && original[secondPoiontLine][secondPointLow+1] != 1 ) {
+                result = true;
             }
-            for(int i=0; i<n; i++) {
-                if(visited[i] != true) {
-                    visited[i] = true; 
-                    output[depth] = input[i]; 
-                    permutationDictionary(input, depth + 1, n, r);
-                    visited[i] = false;
-                    output[depth] = 0; 
-                }
+        } else {
+            if( original[secondPoiontLine][secondPointLow+1] != 1 ) {
+                result = true;
             }
         }
+        
+        return result; 
+    }
+    
+    private boolean goDown( int fisrtPointLine, int firstPointLow, int secondPoiontLine, int secondPointLow ) {
+        boolean result = false;
+        boolean isVertical = secondPointLow == firstPointLow;
+        
+        // 범위 확인 
+        if( secondPoiontLine + 1 >= boardSize ) return false;
+        
+        // 수직일 경우 
+        if( isVertical ) {
+            if(  original[secondPoiontLine+1][secondPointLow] != 1 ) {
+                result = true;
+            }
+        } else {
+            if( original[fisrtPointLine+1][firstPointLow] != 1 && original[secondPoiontLine+1][secondPointLow] != 1 ) {
+                result = true;
+            }
+        }
+        
+        return result; 
+    }
+    
+    private boolean goLeftRotation( int fisrtPointLine, int firstPointLow, int secondPoiontLine, int secondPointLow ) {
+        boolean result = false;
+        boolean isVertical = secondPointLow == firstPointLow;
+        
+        // 범위 확인 
+        if( secondPoiontLine + 1 >= boardSize ) return false;
+        
+        // 수직일 경우 
+        if( !isVertical ) {
+            if( original[fisrtPointLine+1][firstPointLow] != 1 && original[secondPoiontLine+1][secondPointLow] != 1 ) {
+                result = true;
+            }
+        } 
+        
+        return result; 
+    }
+    
+    private boolean goRightRotation( int fisrtPointLine, int firstPointLow, int secondPoiontLine, int secondPointLow ) {
+        boolean result = false;
+        boolean isVertical = secondPointLow == firstPointLow;
+        
+        // 범위 확인 
+        if( secondPoiontLine + 1 >= boardSize ) return false;
+        
+        // 수직일 경우 
+        if( isVertical ) {
+            if( original[fisrtPointLine][firstPointLow+1] != 1 && original[secondPoiontLine][secondPointLow+1] != 1 ) {
+                result = true;
+            }
+        } else {
+            if( original[fisrtPointLine+1][firstPointLow] != 1 && original[secondPoiontLine+1][secondPointLow] != 1 ) {
+                result = true;
+            }
+        }
+        
+        return result; 
     }
 }
