@@ -1,13 +1,14 @@
+package prorammers.kakao;
 // https://programmers.co.kr/learn/courses/30/lessons/12900
 // 나머지가 나왔다 >> DP일 확률이 높다고 함.
-// 하나하나 케이스 정리해보면 됨 , 바로 감오 오냐 안오냐가 문제...
+// 하나하나 케이스 정리해보면 됨
 // 1 = 1
 // 2 = 2
 // 3 = 3
 // 4 = 5
 // 5 = 8 
 // 일반식 = F(n) = F(n-1) + F(n-2); >> DP 사용 
-class Solution {
+class Programmers12900DP {
   public int solution(int n) {
      int[] remember = new int[n+1];
      remember[1] = 1;
