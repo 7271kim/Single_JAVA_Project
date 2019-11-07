@@ -1,3 +1,4 @@
+import algorithm.DynamicProgramming.Combination;
 import algorithm.DynamicProgramming.DynamicProgramming;
 
 public class Main {
@@ -16,6 +17,10 @@ public class Main {
         dp = new DynamicProgramming(5);
         System.out.println(dp.nomalFibonacciBottomUp(5));
         
+        Combination cb = new Combination(5, 3);
+        System.out.println(cb.combinationTopDow(5, 3));
         
+        cb = new Combination(5, 3);
+        System.out.println(cb.combinationBottomUp(5, 3));
     }
 }
