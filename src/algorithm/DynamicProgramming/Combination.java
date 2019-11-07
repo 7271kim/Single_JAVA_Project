@@ -10,7 +10,10 @@ public class Combination {
       memorization = new int[n+1][r+1];
     }
     
+    
+    // 동적 계획법의 일부 nCr = n-1Cr-1 + n-1Cr
     public int combinationTopDow( int n, int r )  {
+        // 기존 값이 있다면 리턴한다.
         if( memorization[n][r] != 0 ) return memorization[n][r];
         
         if( r == 0 || n == r ) {
@@ -26,7 +29,7 @@ public class Combination {
            
     }
     
-    // 동적 계획법의 일부 nCr = n-1Cr-1 + n-1Cr
+    
     public int combinationBottomUp( int n, int r )  {
         // 기존 값이 있다면 리턴한다.
         if( memorization[n][r] != 0 ) return memorization[n][r];
