@@ -2,7 +2,7 @@ package algorithm.DynamicProgramming;
 
 // 동적 계획법이란 복잡한 문제를 간단한 여러 개의 문제로 나누어 푸는 방법 
 // 일반적으로 주어진 문제를 풀기 위해서, 문제를 여러 개의 하위 문제(subproblem)로 나누어 푼 다음, 그것을 결합하여 최종적인 목적에 도달하는 것이다.
-// EX ) 피보나치의 수 >> F0 = 0 , F1 = 1 , Fn = Fn-1 + Fn-2;
+// EX ) 피보나치의 수 >> F1 = 1 , F2 = 1 , Fn = Fn-1 + Fn-2;
 // EX ) 알고리즘에서 응용  1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 .....
 
 public class DynamicProgramming {
@@ -16,7 +16,6 @@ public class DynamicProgramming {
             int second = nomalFibonacci(n-2);
             return before + second;
         }
-           
     }
     // 위 알고리즘의 이슈는 f(7) = f(6) + f(5) >> f(6) = f(5) + f(4) >> f(5)반복 ... 무수한 반복을 해버린다.
     
@@ -66,6 +65,4 @@ public class DynamicProgramming {
         
         return memorization[n];
     }
-    
-    
 }

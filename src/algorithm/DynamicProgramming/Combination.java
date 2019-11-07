@@ -3,7 +3,7 @@ package algorithm.DynamicProgramming;
 // 동적 계획법의 일부 nCr = n-1Cr-1 + n-1Cr
 public class Combination {
     
-    // 저장을 위한 공간
+    // 메모이제이션을 위한 저장을 위한 공간
     int[][] memorization;
     
     public Combination( int n, int r ) {
