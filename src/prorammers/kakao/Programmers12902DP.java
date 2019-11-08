@@ -1,5 +1,7 @@
+package prorammers.kakao;
 import java.math.BigDecimal;
 
+// https://programmers.co.kr/learn/courses/30/lessons/12902
 // 길이가 2인경우 가지수는 3개
 // 홀수의 경우 세로 3 * 5 = 15로 막대는 항상 짝수기 때문에 불가능하다.
 // 즉 F( n+2 ) = 3*F(n)이 기본 + 예외 케이스를 추가해줘야 한다.
@@ -8,9 +10,10 @@ import java.math.BigDecimal;
 // f( n +2 ) = 3*f(n) + f(n) - f(n-2)
 // f ( n + 2 ) = 4*f(n) - f(n-2)
 // 정답은 맞는데 문제는 나머지로 저장해야하다보니 큰수가 될때 - 때문에 음수가 나오는 함정이 존재 -_- 하아... 빅데시멀 연산사용
+// 좀 설명이 논리적이지 않음 다시 확인이 필요
 
 
-class Solution {
+class Programmers12902DP {
   public int solution(int n) {
       BigDecimal[] remember = new BigDecimal[5 + n];
       remember[0] = new BigDecimal(0);

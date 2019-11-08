@@ -1,6 +1,7 @@
 public class Main {
     public static void main(String args[]){
         Solution temp = new Solution();
-        System.out.println(temp.solution(100));
+        Solution3 temp3 = new Solution3();
+        System.out.println(temp.solution(6));
     }
 }
