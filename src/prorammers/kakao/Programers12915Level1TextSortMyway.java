@@ -1,3 +1,4 @@
+package prorammers.kakao;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -5,7 +6,7 @@ import java.util.Comparator;
 
 // https://programmers.co.kr/learn/courses/30/lessons/12915
 // 문자열 원하는 인덱스로 적용
-class Solution {
+class Programers12915Level1TextSortMyway {
 
     // 그냥 더 좋은 방법이라 이거 사용
     // 배열 안에 ArrayList 넣기
