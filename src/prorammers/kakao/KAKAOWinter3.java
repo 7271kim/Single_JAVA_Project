@@ -1,6 +1,8 @@
+package prorammers.kakao;
 import java.util.HashMap;
 
-class Solution3 {
+// 회귀의 문제 DFS를 실행해야하며 최종 결과물의 중복여부를 어떻게 판단할 것인가 문제
+class KAKAOWinter3 {
     int result = 0;
     int banned_id_size   = 0;
     HashMap<String, String> cheked = new HashMap<String, String>();
