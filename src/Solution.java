@@ -1,50 +1,42 @@
-import java.util.HashMap;
-import java.util.Map;
-
-// https://programmers.co.kr/learn/courses/30/lessons/42576
+// https://programmers.co.kr/learn/courses/30/lessons/42862 >> 탐욕법
 class Solution {
-    public String solution(String[] participant, String[] completion) {
-        String answer = "";
-        Map<String, Integer> temp = new HashMap<String, Integer>();
+    public int solution( int n, int[] lost, int[] reserve ) {
+        int answer = 0;
+
+        int[] uniform = new int[n+1];
         
-        for (String name : participant) {
-            if( temp.containsKey(name) ) {
-                temp.put(name, temp.get(name)+1);
-            } else {
-                temp.put(name, 1);
-            }
-            
+        for (int index = 1; index < n+1; index++) {
+            uniform[index] = 1;
         }
         
-        for (String name : completion) {
-            if( temp.containsKey(name) && temp.get(name) > 1 ) {
-                temp.replace(name, temp.get(name)-1);
-            } else {
-                temp.remove( name );
-            }
-            
+        for (int index = 0; index < lost.length; index++) {
+            int lostIndex = lost[index];
+            uniform[lostIndex] -= 1;
         }
         
-        for (String name : temp.keySet()) {
-            answer = name;
+        for (int index = 0; index < reserve.length; index++) {
+            int addIndex = reserve[index];
+            uniform[addIndex] += 1;
         }
-        return answer;
-    }
-    
-    // 효율적인 남코드
-    // getOrDefault 해당 로직 배움
-    public String solution2(String[] participant, String[] completion) {
-        String answer = "";
-        Map<String, Integer> temp = new HashMap<String, Integer>();
         
-        for (String player : participant) temp.put(player, temp.getOrDefault(player, 0) + 1);
-        for (String player : completion) temp.put(player, temp.get(player) - 1);
-        
-        for (String key : temp.keySet()) {
-            if (temp.get(key) != 0){
-                answer = key;
+        for (int index = 1; index < uniform.length; index++) {
+            if(uniform[index] == 2 ) {
+                boolean hasBefore = index-1 > 0 ? uniform[index-1] == 1 : true;
+                boolean hasBeNext =  index+1 < uniform.length ? uniform[index+1] == 1 : true;
+                if(!hasBefore ) {
+                    uniform[index-1] = 1;
+                    uniform[index] = 1;
+                } else if( !hasBeNext ) {
+                    uniform[index+1] = 1;
+                    uniform[index] = 1;
+                }
             }
         }
+        
+        for (int index = 1; index < uniform.length; index++) {
+            if( uniform[index] > 0 ) answer++;
+        }
+        
         return answer;
     }
 }

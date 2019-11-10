@@ -14,7 +14,6 @@ class Programmers42576 {
             } else {
                 temp.put(name, 1);
             }
-            
         }
         
         for (String name : completion) {

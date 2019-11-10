@@ -1,9 +1,9 @@
 public class Main {
     public static void main(String args[]){
         Solution temp = new Solution();
-        Solution3 temp3 = new Solution3();
-        String[] participant   = {"mislav", "stanko", "mislav", "ana"};
-        String[] completion = {"stanko", "ana", "mislav"};
-        System.out.println(temp.solution(participant, completion));
+        int n = 5;
+        int[] lost   = {2,4,5};
+        int[] reserve   = {1,3};
+        System.out.println(temp.solution(n, lost, reserve));
     }
 }
