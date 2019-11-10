@@ -1,7 +1,8 @@
+package prorammers.kakao;
 import java.util.Arrays;
 
 //https://programmers.co.kr/learn/courses/30/lessons/42748
-class Solution {
+class Programmers42748Level1ArrayCopy {
     public int[] solution(int[] array, int[][] commands) {
         int[] answer = new int[commands.length];
         
