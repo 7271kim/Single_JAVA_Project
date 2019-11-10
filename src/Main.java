@@ -78,9 +78,9 @@ public class Main {
         }*/
         
         Solution temp = new Solution();
-        int n = 7;
-        int[] array   = {1, 5, 2, 6, 3, 7, 4};
-        int[][] commands   = {{2, 5, 3}, {4, 4, 1}, {1, 7, 3}};
-        System.out.println(temp.solution(array, commands));
+        //int n = 7;
+        //int[] array   = {1, 5, 2, 6, 3, 7, 4};
+        //int[][] commands   = {{2, 5, 3}, {4, 4, 1}, {1, 7, 3}};
+        System.out.println(temp.solution(5, 24));
     }
 }

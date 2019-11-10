@@ -1,5 +1,6 @@
+package prorammers.kakao;
 // https://programmers.co.kr/learn/courses/30/lessons/12901
-class Solution {
+class Programmers12901Level1Calender {
   public String solution(int a, int b) {
       String answer = "";
       
