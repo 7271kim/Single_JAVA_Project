@@ -81,6 +81,6 @@ public class Main {
         //int n = 7;
         //int[] array   = {1, 5, 2, 6, 3, 7, 4};
         //int[][] commands   = {{2, 5, 3}, {4, 4, 1}, {1, 7, 3}};
-        System.out.println(temp.solution(5, 24));
+        System.out.println(temp.solution2("abc"));
     }
 }
