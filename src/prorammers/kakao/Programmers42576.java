@@ -1,8 +1,9 @@
+package prorammers.kakao;
 import java.util.HashMap;
 import java.util.Map;
 
 // https://programmers.co.kr/learn/courses/30/lessons/42576
-class Solution {
+class Programmers42576 {
     public String solution(String[] participant, String[] completion) {
         String answer = "";
         Map<String, Integer> temp = new HashMap<String, Integer>();
