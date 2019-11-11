@@ -1,3 +1,4 @@
+package prorammers.kakao;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -8,7 +9,7 @@ import java.util.Comparator;
 // 610 혹은 106 둘 중 더 큰 것 기준으로 정렬하면 된다.
 // 이런 문제 풀이 방식 기억하기!!!!
 // 추가로 0 0 0 0 인 경우 처리
-class Solution {
+class Programers42746SortNumberToText {
     public String solution(int[] numbers) {
         String[] temp = new String[ numbers.length ];
         
