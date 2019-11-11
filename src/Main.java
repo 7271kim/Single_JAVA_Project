@@ -80,6 +80,6 @@ public class Main {
         Solution temp       = new Solution();
         int[] numbers    = {1,0,3,32,33,34,31,44,49};
         
-        System.out.println(temp.solution(numbers));
+        System.out.println(temp.solution("pPoooyY"));
     }
 }
