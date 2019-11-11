@@ -77,9 +77,9 @@ public class Main {
             }
         }*/
         
-        Solution temp = new Solution();
-        String[] strings   = {"acaa", "aada", "aaba"};
-        int n = 1;
-        System.out.println(temp.solution(strings, n));
+        Solution temp       = new Solution();
+        int[] progresses    = {93,30,55};
+        int[] speeds        = {1,30,50};
+        System.out.println(temp.solution(progresses, speeds));
     }
 }
