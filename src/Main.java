@@ -78,8 +78,8 @@ public class Main {
         }*/
         
         Solution temp       = new Solution();
-        int[] progresses    = {93,30,55};
-        int[] speeds        = {1,30,50};
-        System.out.println(temp.solution(progresses, speeds));
+        int[] numbers    = {1,0,3,32,33,34,31,44,49};
+        
+        System.out.println(temp.solution(numbers));
     }
 }
