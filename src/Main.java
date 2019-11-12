@@ -77,9 +77,9 @@ public class Main {
             }
         }*/
         
-        Solution temp       = new Solution();
-        int[] numbers    = {1,0,3,32,33,34,31,44,49};
+        Solution temp = new Solution();
+        int[][] picture    = {{1, 1, 1, 2}, {1, 2, 2, 0}, {1, 0, 0, 1}, {0, 0, 0, 1}, {0, 0, 0, 3}, {0, 0, 0, 3}};
         
-        System.out.println(temp.solution("pPoooyY"));
+        System.out.println(temp.solution(6, 4, picture));
     }
 }
