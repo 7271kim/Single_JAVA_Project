@@ -15,7 +15,7 @@ class Programers1829DFS {
       mSize = m;
       nSize = n;
       checked   = new int[m][n];
-      int max = -1;
+      int max = 0;
       
       for (int indexM = 0; indexM < m; indexM++) {
         for (int indexN = 0; indexN < n; indexN++) {
