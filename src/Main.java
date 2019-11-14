@@ -2,6 +2,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import algorithm.math.GcmLcm;
+
 public class Main {
     public static void main(String args[]){
         
@@ -78,8 +80,20 @@ public class Main {
         }*/
         
         Solution temp = new Solution();
-        int[][] picture    = {};
         
-        System.out.println(temp.solution("987654321", 4));
+        int[][] picture    = {};
+        String[] skill_trees = {"BACDE", "CBADF", "AECB", "BDA"};
+        
+        GcmLcm temp33 = new GcmLcm();
+        System.out.println(temp33.gcd(6, 9));
+        System.out.println(temp33.gcd(9, 6));
+        System.out.println(temp33.lcm(9, 6));
+        System.out.println(temp33.lcm(6, 9));
+        
+        System.out.println(temp.solution(2,4));
+        
+        
+        
     }
 }
+
