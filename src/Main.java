@@ -85,9 +85,8 @@ public class Main {
         String[] skill_trees = {"BACDE", "CBADF", "AECB", "BDA"};
         
         System.out.println(temp.solution("BBAABB"));
-        
-        
-        
+        System.out.println(temp.solution("JAN"));
+        System.out.println(temp.solution("ABABAAAAAAABA"));
     }
 }
 

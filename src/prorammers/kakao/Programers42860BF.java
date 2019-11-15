@@ -1,7 +1,8 @@
+package prorammers.kakao;
 import java.util.Arrays;
 //https://programmers.co.kr/learn/courses/30/lessons/42860
 //BF
-class Solution {
+class Programers42860BF {
     public int solution(String name) {
         int answer = 0;
         int startIndex = 0;
