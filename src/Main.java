@@ -84,7 +84,7 @@ public class Main {
         int[][] picture    = {};
         String[] skill_trees = {"BACDE", "CBADF", "AECB", "BDA"};
         
-        System.out.println(temp.solution("011"));
+        System.out.println(temp.solution("BBAABB"));
         
         
         
