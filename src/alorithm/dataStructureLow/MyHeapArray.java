@@ -5,7 +5,7 @@ public class MyHeapArray {
     private int[] heap;
     
     // 배열이다보니 크기지정이 필요하다.
-    MyHeapArray(int inputSize){
+    public MyHeapArray(int inputSize){
         
         maxSize = 1;
         pointer = 0;
@@ -32,8 +32,8 @@ public class MyHeapArray {
         while( tempIndex > 0 && tempIndex != 1) {
             int parentValue = heap[tempIndex/2];
             if( parentValue > item ) {
-                int swapData = item;
-                heap[tempIndex/2] = parentValue;
+                int swapData = parentValue;
+                heap[tempIndex/2] = item;
                 heap[tempIndex] = swapData;
             } else {
                 break;

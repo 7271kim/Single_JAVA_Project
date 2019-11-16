@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import algorithm.math.GcmLcm;
+import alorithm.dataStructureLow.MyHeapArray;
 
 public class Main {
     public static void main(String args[]){
@@ -81,12 +82,25 @@ public class Main {
         
         Solution temp = new Solution();
         
-        int[][] picture    = {};
-        String[] skill_trees = {"BACDE", "CBADF", "AECB", "BDA"};
+        int[] scoville = {1, 2, 3, 9, 10, 12};
         
-        System.out.println(temp.solution("BBAABB"));
-        System.out.println(temp.solution("JAN"));
-        System.out.println(temp.solution("ABABAAAAAAABA"));
+        System.out.println(temp.solution2(scoville, 7));
+        
+        /*    MyHeapArray aa = new MyHeapArray(5);
+        aa.insertMaxHeap(1);
+        aa.insertMaxHeap(2);
+        aa.insertMaxHeap(3);
+        aa.insertMaxHeap(4);
+        aa.insertMaxHeap(5);
+        aa.print();
+        
+        MyHeapArray aa2 = new MyHeapArray(5);
+        aa2.insertMinHeap(1);
+        aa2.insertMinHeap(2);
+        aa2.insertMinHeap(3);
+        aa2.insertMinHeap(4);
+        aa2.insertMinHeap(5);
+        aa2.print();*/
     }
 }
 
