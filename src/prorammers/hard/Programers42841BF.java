@@ -1,3 +1,4 @@
+package prorammers.hard;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +8,7 @@ import java.util.Map;
 // 바로 떠오르지는 않음.
 // 중복을 허용하지 않는다. 
 // 전체를 만들어 놓고 하나하나 없애는 케이스
-class Solution {
+class Programers42841BF {
     public int solution(int[][] baseball) {
         int answer = 0;
         int[] next = new int[3];

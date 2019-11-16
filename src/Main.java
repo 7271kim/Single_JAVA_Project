@@ -82,25 +82,12 @@ public class Main {
         
         Solution temp = new Solution();
         
-        int[] scoville = {1, 2, 3, 9, 10, 12};
+        //int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
+        //int[][] baseball = {{345,1,1}};
+        int[][] baseball = {{314,0,0}};
         
-        System.out.println(temp.solution2(scoville, 7));
+        System.out.println(temp.solution(baseball));
         
-        /*    MyHeapArray aa = new MyHeapArray(5);
-        aa.insertMaxHeap(1);
-        aa.insertMaxHeap(2);
-        aa.insertMaxHeap(3);
-        aa.insertMaxHeap(4);
-        aa.insertMaxHeap(5);
-        aa.print();
-        
-        MyHeapArray aa2 = new MyHeapArray(5);
-        aa2.insertMinHeap(1);
-        aa2.insertMinHeap(2);
-        aa2.insertMinHeap(3);
-        aa2.insertMinHeap(4);
-        aa2.insertMinHeap(5);
-        aa2.print();*/
     }
 }
 
