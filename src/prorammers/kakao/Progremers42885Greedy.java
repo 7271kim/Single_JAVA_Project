@@ -1,8 +1,9 @@
+package prorammers.kakao;
 import java.util.Arrays;
 
 // https://programmers.co.kr/learn/courses/30/lessons/42885
 // 2명을 태울 수 있을 때의 조합.
-class Solution {
+class Progremers42885Greedy {
     public int solution(int[] people, int limit) {
         Arrays.sort(people);
         // 짝을 이룰 수 있는 경우를 확인 
