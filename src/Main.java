@@ -85,10 +85,10 @@ public class Main {
         
         //int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
         //int[][] baseball = {{345,1,1}};
-        int[] people = {20,20,20,90};
+        int[] numbers = {1, 1, 1, 1, 1};
         
         
-        System.out.println(temp.solution(people, 100));
+        System.out.println(temp.solution(numbers, 3));
         ///System.out.println(temp2.solution(people, 100));
         
     }
