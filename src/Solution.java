@@ -19,14 +19,25 @@ class Solution {
         });
         for (int index = 0; index < dates.length; index++) {
             if( needSupply <= 0 ) break;
+            
             int date = dates[index];
-            pq.add(supplies[index]);
-            if( date >= stock) {
+            if( date < stock ) {
+                pq.add(supplies[index]);
+            } else if( date > stock) {
+                while(date > stock) {
+                    int top = pq.poll();
+                    needSupply -= top;
+                    stock += top;
+                    answer++;
+                }
+                pq.add(supplies[index]);
+            } else {
+                pq.add(supplies[index]);
                 int top = pq.poll();
                 needSupply -= top;
                 stock += top;
                 answer++;
-            } 
+            }
         }
        while( needSupply > 0) {
            int top = pq.poll();
