@@ -1,45 +1,29 @@
-//https://programmers.co.kr/learn/courses/30/lessons/43165
-// DFS 정리.
+//https://programmers.co.kr/learn/courses/30/lessons/12905
+// 효율성 검사 있음
+// 효율성 검사만 안되는 소스 
 class Solution {
-    public int solution(int[] numbers, int target) {
-        int answer = 0;
-        int[] next        = new int[numbers.length];
-        answer = getTotal( numbers, 0, next, target );
-        answer = getTotal2( numbers, 0, 0, target );
-        return answer;
-    }
-
-    private int getTotal(int[] numbers, int index, int[] next, int target) {
-        if( index == numbers.length ) {
-            int temp = 0;
-            for (int indexNext = 0; indexNext < next.length; indexNext++) {
-                temp += next[indexNext];
-            }
-            if( temp == target) {
-                return 1;
-            } else {
-                return 0;
+    public int solution(int [][]board) {
+        int max = 0;
+        
+        for (int index = 0; index < board.length; index++) {
+            for (int indexInner = 0; indexInner < board[index].length; indexInner++) {
+                
+                int start    = board[index][indexInner];
+                out: while( start > 0 ) {
+                    //1 부터 한칸씩 증가시키면서 정사각형 이루는지 확인
+                   for (int indexCheckY = index; indexCheckY < index+start; indexCheckY++) {
+                        for (int indexCheckX = indexInner; indexCheckX < indexInner+start; indexCheckX++) {
+                            if( board[indexCheckY][indexCheckX] == 0 || index+start > board.length || indexInner+start > board[0].length ) {
+                                start--;
+                                break out;
+                            }
+                        }
+                    }
+                    start++;
+                }
+                max = Math.max(max, start);
             }
         }
-        int result = 0;
-        next[index] = numbers[index];
-        result += getTotal(numbers, index+1, next, target);
-        next[index] = -numbers[index];
-        result += getTotal(numbers, index+1, next, target);
-        
-        return result;
+        return max*max;
     }
-    
-    private int getTotal2(int[] numbers, int index, int next, int target) {
-        if( index == numbers.length ) {
-            if( next == target) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-        
-        return getTotal2(numbers, index+1, next + numbers[index], target) + getTotal2(numbers, index+1, next - numbers[index], target);
-    }
-
 }
