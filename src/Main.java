@@ -86,8 +86,8 @@ public class Main {
         //int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
         //int[][] baseball = {{345,1,1}};
         int[] numbers = {1, 1, 1, 1, 1};
-        //int[][] board = {{1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,1,1}};
-        int[][] board = {{0,0,1,1,1},{1,1,0,0,0}};
+        int[][] board = {{1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,1,1}};
+        //int[][] board = {{0,0,1,1,1},{1,1,0,0,0}};
         
         System.out.println(temp.solution(board));
         ///System.out.println(temp2.solution(people, 100));
