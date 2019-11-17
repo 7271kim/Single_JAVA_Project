@@ -1,6 +1,7 @@
 import java.util.PriorityQueue;
 
 //https://programmers.co.kr/learn/courses/30/lessons/42629
+// 내 풀이 : 기간 안에 있는 수중 최고 supply를 구한다.
 // 효율성 통과하지 못함 >> 계속 큐를 만들기 때문 
 class Solution {
     public int solution(int stock, int[] dates, int[] supplies, int k) {
