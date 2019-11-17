@@ -89,8 +89,7 @@ public class Main {
         int[][] board = {{1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,1,1}};
         //int[][] board = {{0,0,1,1,1},{1,1,0,0,0}};
         
-        String[] data = {"A~C=0", "C~F=0","F~J=0","J~M=0","M~N=0","N~R=0", "R~T=0"};
-        System.out.println(temp.solution(7, data));
+        System.out.println(temp.solution("()()"));
         
         ///System.out.println(temp2.solution(people, 100));
         
