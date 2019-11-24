@@ -2,8 +2,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import algorithm.math.Divisor;
 import algorithm.math.GcmLcm;
 import alorithm.dataStructureLow.MyHeapArray;
+import javafx.scene.control.SplitPane.Divider;
 
 public class Main {
     public static void main(String args[]){
@@ -88,7 +90,11 @@ public class Main {
         
         int[] nums = {3,1,2,3};
         
-        System.out.println(temp.solution(nums));
+        System.out.println(temp.solution(15));
+        Divisor sss = new Divisor();
+        
+        System.out.println(sss.divisorCount(15, 15));
+        System.out.println(sss.getDivisor(15, 15));
         
         ///System.out.println(temp2.solution(people, 100));
         
