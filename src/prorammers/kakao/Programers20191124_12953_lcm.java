@@ -1,5 +1,6 @@
+package prorammers.kakao;
 //https://programmers.co.kr/learn/courses/30/lessons/12953
-class Solution {
+class Programers20191124_12953_lcm {
   public int solution(int[] arr) {
       return lcm(arr);
   }

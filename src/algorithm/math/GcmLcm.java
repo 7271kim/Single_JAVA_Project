@@ -12,4 +12,23 @@ public class GcmLcm {
     public int lcm( int a, int b ) {
         return ( a * b ) / gcd( b , a % b );
     }
+    
+    // 여러 수의 최소공배수 ( Least Common Multiple ) 각 수의 최소 공배수의 최소 공배수이다.
+    public int lcm( int[] input ) {
+        int lcm    = input[0];
+        for (int index = 1; index < input.length; index++) {
+            int b = input[index];
+            lcm =  ( lcm * b ) / gcd( b , lcm % b );
+        }   
+        return lcm;
+    }
+    
+   //여러 수의 최대 공약수는 각수의 최대공약수의 최대공약수이다.
+    public int gcd( int[] input ) {
+        int gcd    = input[0];
+        for (int index = 1; index < input.length; index++) {
+            gcd = gcd(gcd, input[index]);
+        }   
+        return gcd;
+    }
 }
