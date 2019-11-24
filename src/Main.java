@@ -86,10 +86,9 @@ public class Main {
         //int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
         //int[][] baseball = {{345,1,1}};
         
-        int[][] land = {{1,2,3,5},{5,6,7,8},{4,3,2,1}};
+        int[] nums = {3,1,2,3};
         
-        
-        System.out.println(temp.solution(land));
+        System.out.println(temp.solution(nums));
         
         ///System.out.println(temp2.solution(people, 100));
         
