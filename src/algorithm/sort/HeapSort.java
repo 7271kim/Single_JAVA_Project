@@ -17,20 +17,23 @@ class HeapSort {
         this.heap = new int[maxSize];
     }
     // 오름차순 정렬 1 2 3 4 5
-    public void ascendingSrot() {
+    public int [] ascendingSrot() {
+       //MinHeap으로 구성 : 0
+        makeHeap( 0 );
+        for (int index = 0; index < inputSize; index++) {
+            data[index] = remove(0);
+        }
+        
+        return data;
+    }
+    
+    public int [] descendingSrot() {
         //MaxHeap으로 구성 : 1
         makeHeap( 1 );
         for (int index = 0; index < inputSize; index++) {
             data[index] = remove(1);
         }
-    }
-    
-    public void descendingSrot() {
-        // MinHeap으로 구성 : 0
-        makeHeap( 0 );
-        for (int index = 0; index < inputSize; index++) {
-            data[index] = remove(0);
-        }
+        return data;
     }
     
     // 1이면 MaxHeap , 0이면 MinHeap

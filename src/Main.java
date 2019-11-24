@@ -88,13 +88,11 @@ public class Main {
         //int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
         //int[][] baseball = {{345,1,1}};
         
-        int[] nums = {3,1,2,3};
+        int[] A = {1,4,2};
+        int[] B = {5,4,4};
         
-        System.out.println(temp.solution(15));
-        Divisor sss = new Divisor();
+        System.out.println(temp.solution(A, B));
         
-        System.out.println(sss.divisorCount(15, 15));
-        System.out.println(sss.getDivisor(15, 15));
         
         ///System.out.println(temp2.solution(people, 100));
         
