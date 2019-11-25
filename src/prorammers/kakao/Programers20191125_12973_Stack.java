@@ -1,3 +1,4 @@
+package prorammers.kakao;
 import java.util.Stack;
 
 /*
@@ -72,7 +73,7 @@ F int solustion( 스트링 인풋 (s) )
 
 */
     
-class Solution {
+class Programers20191125_12973_Stack {
     public int solution(String s) {
         int answer;
         Stack<Character> lastStack = new Stack<Character>();
