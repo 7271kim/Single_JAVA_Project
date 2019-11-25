@@ -4,7 +4,7 @@ import java.util.PriorityQueue;
 // https://programmers.co.kr/learn/courses/30/lessons/42626
 // 우선순위 정렬이 필요
 // 내가 만든것 외 다른것도 보기 아... PriorityQueue 자체가 min으로 구성됨.
-class Programers42626Priqueue {
+class Programmers42626Priqueue {
     public int solution(int[] scoville, int K) {
         int answer = 0;
         MyHeap minHeap = new MyHeap(scoville.length);

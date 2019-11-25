@@ -1,6 +1,6 @@
 package prorammers.kakao;
 //https://programmers.co.kr/learn/courses/30/lessons/12913
-class Programers20191119GroundEathing {
+class Programmers20191119GroundEathing {
     int solution(int[][] land) {
         int answer = 16;
         

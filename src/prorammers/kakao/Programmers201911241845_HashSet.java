@@ -3,7 +3,7 @@ import java.util.HashSet;
 
 //https://programmers.co.kr/learn/courses/30/lessons/1845
 
-class Programers201911241845_HashSet {
+class Programmers201911241845_HashSet {
     public int solution(int[] nums) {
         int answer = 0;
         int numsSize = nums.length;

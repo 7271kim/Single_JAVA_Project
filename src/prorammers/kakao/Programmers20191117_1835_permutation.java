@@ -1,7 +1,7 @@
 package prorammers.kakao;
 // https://programmers.co.kr/learn/courses/30/lessons/1835
 // 드디어 .... 진짜 드디어 전체 탐색 및 BFS, 순열 등등등 하나로 정리됨.
-class Programers20191117_1835_permutation {
+class Programmers20191117_1835_permutation {
     public int solution(int n, String[] data) {
         String[] name = {"A", "C", "F", "J", "M", "N", "R", "T"};
         boolean[] checked = new boolean[name.length];

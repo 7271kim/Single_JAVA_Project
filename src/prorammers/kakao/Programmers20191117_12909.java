@@ -1,6 +1,6 @@
 package prorammers.kakao;
 //https://programmers.co.kr/learn/courses/30/lessons/12909
-class Programers20191117_12909 {
+class Programmers20191117_12909 {
     boolean solution(String s) {
         boolean answer = true;
         int openCount   = 0;

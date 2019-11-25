@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 // https://programmers.co.kr/learn/courses/30/lessons/42586
-class Programers42586 {
+class Programmers42586 {
     public int[] solution(int[] progresses, int[] speeds) {
         int[] answer = {};
         ArrayList<Integer> temp = new ArrayList<Integer>();

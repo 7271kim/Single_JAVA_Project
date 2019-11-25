@@ -1,7 +1,7 @@
 package prorammers.kakao;
 // https://programmers.co.kr/learn/courses/30/lessons/12903
 // 문자열 중간 추출 방법 
-class Programers12903Level1sMid {
+class Programmers12903Level1sMid {
   public String solution(String s) {
       String answer = "";
       

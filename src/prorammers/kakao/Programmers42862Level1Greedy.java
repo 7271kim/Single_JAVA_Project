@@ -2,7 +2,7 @@ package prorammers.kakao;
 // https://programmers.co.kr/learn/courses/30/lessons/42862 >> 탐욕법 , 최대값 리턴
 // 시간 까먹은 부분은 27번째줄  uniform[index+1]  >=1 이걸 == 1 로하여 2일때는 체육복이 있음에도 없다고 나옴
 // 탐욕법이란.. 규칙이 정해졌을때. 왼쪽 -> 오른쪽 순서로 빌려준다. 규칙이 정해졌을때 그게 최고의 해답이 되는 경우
-class Programers42862Level1Greedy {
+class Programmers42862Level1Greedy {
     public int solution( int n, int[] lost, int[] reserve ) {
         int answer = 0;
 

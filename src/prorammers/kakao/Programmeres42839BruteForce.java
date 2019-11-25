@@ -3,7 +3,7 @@ import java.util.HashSet;
 
 // https://programmers.co.kr/learn/courses/30/lessons/42839?language=java
 // 완전 탐색 정말 베이스 문제임.
-class Programeres42839BruteForce {
+class Programmeres42839BruteForce {
     HashSet<Integer> total = new HashSet<Integer>();
     
     public int solution(String numbers) {

@@ -1,7 +1,7 @@
 package prorammers.kakao;
 //https://programmers.co.kr/learn/courses/30/lessons/43165
 // DFS 정리.
-class Programers20191116_43165_BFS {
+class Programmers20191116_43165_BFS {
     public int solution(int[] numbers, int target) {
         int answer = 0;
         int[] next        = new int[numbers.length];

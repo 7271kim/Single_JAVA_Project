@@ -4,7 +4,7 @@ package prorammers.kakao;
 // 내 로직은 마지막은 1을 가지고 하나하나 위로 올려주는 방식으로 작업했다!!!
 // DFS 잘 안되는데 내 방법 꼭 잘보기
 //하나하나 출발점 , 그리고 그 출발점에서 해야하는 로직을 회귀로 반복을 제거하기 위한 checked로직
-class Programers1829DFS {
+class Programmers1829DFS {
   
     private int[][] checked;
     private int mSize;

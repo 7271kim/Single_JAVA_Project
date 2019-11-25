@@ -5,7 +5,7 @@ import java.util.Stack;
 // 탐욕법 및 Stack에 대한 응용이 잘 안됨.
 // 핵심은 하나하나 지워가면서 4개가 되면 더이상 지울 수 없음. 이것에 대해 헷갈림.
 
-class Programers42883Greedy {
+class Programmers42883Greedy {
     public String solution( String number, int k ) {
         int count = 0;
         int size = number.length();

@@ -2,7 +2,7 @@ package prorammers.kakao;
 import java.util.ArrayList;
 
 // https://programmers.co.kr/learn/courses/30/lessons/42840
-class Programers42840Level1 {
+class Programmers42840Level1 {
     public int[] solution(int[] answers) {
         int[] answer = {};
         // 정답 갯수
