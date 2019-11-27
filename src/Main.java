@@ -90,7 +90,7 @@ public class Main {
         
         int[] arr = {4,8,12};
         
-        System.out.println(temp.solution("tcbaabcbaabt"));
+        System.out.println(temp.solution("ababcdcdababcdcd"));
         
         
         ///System.out.println(temp2.solution(people, 100));
