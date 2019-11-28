@@ -101,4 +101,83 @@ class KAKAO60058 {
                 
         return result;
     }
+    
+    
+    // 다시 풀어봄 20분 만에 품
+    public String solution2(String p) {
+        String answer = "";
+        answer = getAlright2(p);
+        return answer;
+    }
+    
+    private String getAlright2 ( String input )  {
+        
+        if( input == null || input.equals("") ) return "";
+        StringBuilder result = new StringBuilder();
+        
+        String [] divided = getBalenceStr2(input);
+        String u = divided[0];
+        String v = divided[1];
+        
+        if( isRight2(u) ) {
+            result.append(u).append(getAlright2(v));
+        } else {
+            result.append("(");
+            result.append(getAlright2(v));
+            result.append(")");
+            result.append(reverse2(u));
+        }
+        
+        return result.toString();
+    }
+    
+    private String reverse2(String input) {
+        StringBuilder temp = new StringBuilder();
+        for (int index = 1; index < input.length() - 1; index++) {
+            if( input.charAt(index) == '(' ) {
+                temp.append(')');
+            } else {
+                temp.append('(');
+            }
+        }
+        return temp.toString();
+    }
+
+    private String[] getBalenceStr2( String input ) {
+        String[] result = new String[2];
+        int left = 0;
+        for (int index = 0; index < input.length(); index++) {
+            if( input.charAt(index) == '(' ) {
+                left++;
+            } else {
+                left--;
+            }
+            if( left == 0 ) {
+                result[0] = input.substring(0,index+1);
+                result[1] = input.substring(index+1,input.length());
+                break;
+            }
+        }
+        return result;
+    }
+    
+    private boolean isRight2( String input ) {
+        if( input == null ) return false;
+        boolean result = true;
+        
+        int left = 0;
+        for (int index = 0; index < input.length(); index++) {
+            if( input.charAt(index) == '(' ) {
+                left++;
+            } else {
+                left--;
+            }
+            
+            if(left < 0) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
 }
