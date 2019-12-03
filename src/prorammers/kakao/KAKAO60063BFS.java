@@ -4,7 +4,7 @@ import java.util.Queue;
 
 // 1. 특정 지점에서 지점까지의 최단거리 문제
 // 2. 각각의 정점에서 비용이 1을 응용한 DFS문제이다.
- 
+// https://programmers.co.kr/learn/courses/30/lessons/60063
 
 class KAKAO60063BFS {
     private int MAX = 2147483647;

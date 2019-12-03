@@ -2,7 +2,7 @@ package prorammers.kakao;
 
 // https://programmers.co.kr/learn/courses/30/lessons/12979
 
-class Programers20191202_12979_greedy {
+class Programmers20191202_12979_greedy {
     /* 
     배열을 사용하면 안됨.
     단순 인덱스만 사용해야 한다.
