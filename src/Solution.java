@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Stack;
 
 /*
@@ -21,21 +22,19 @@ F int solution ( 들어오는 숫자배열 arr )
     temp 반환
 */
 public class Solution {
-    public int[] solution(int []arr) {
-        Stack<Integer> stackNumber = new Stack<Integer>();
-        int[] result    = new int[arr.length];
-        int next        = 0;
+    public String[] solution(String[] strings, int n) {
+        String[] answer   = strings;
         
-        for (int index = 0; index < arr.length; index++) {
-            int thisNum = arr[index];
-            if( stackNumber.isEmpty() || thisNum != stackNumber.peek() ) {
-                stackNumber.add(thisNum);
-                result[next++] = thisNum;
+        Arrays.sort(answer, new Comparator<String>() {
+            @Override
+            public int compare(String compare, String orignal) {
+                if(compare.charAt(n) > orignal.charAt(n)) return 1;
+                else if(compare.charAt(n) == orignal.charAt(n)) return compare.compareTo(orignal);
+                else if(compare.charAt(n) < orignal.charAt(n)) return -1;
+                else return 0;
             }
-        }
-        int[] temp = new int[next];
-        temp = Arrays.copyOf(result, next);
+        });
         
-        return temp;
+        return answer;
     }
 }

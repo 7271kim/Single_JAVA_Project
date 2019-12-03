@@ -88,9 +88,9 @@ public class Main {
         //int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
         //int[][] baseball = {{345,1,1}};
         
-        int[] arr = {1,1,3,3,0,1,1};
+        String[] strings = {"sun", "bed", "car"};
         
-        System.out.println(temp.solution(arr));
+        System.out.println(temp.solution(strings, 1));
         
         
         ///System.out.println(temp2.solution(people, 100));
