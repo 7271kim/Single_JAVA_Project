@@ -88,9 +88,10 @@ public class Main {
         //int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
         //int[][] baseball = {{345,1,1}};
         
-        String[] strings = {"sun", "bed", "car"};
+        int[] dates    = {4,10,15};
+        int[] supplies = {20,5,10};
         
-        System.out.println(temp.solution(strings, 1));
+        System.out.println(temp.solution(4, dates, supplies, 30));
         
         
         ///System.out.println(temp2.solution(people, 100));
