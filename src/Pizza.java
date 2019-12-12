@@ -24,7 +24,7 @@ public abstract class Pizza {
         
         //토핑을 추가하기 위한 매서드
         public T addTopping( Topping topping ) {
-            //  널이 아닌경우 토핑을 추가한 후 자기 자신을 리턴한다.
+            // null인경우 null을 아닐시 그대로를 반환합니다.
             toppings.add(Objects.requireNonNull(topping));
             return self();
         }
