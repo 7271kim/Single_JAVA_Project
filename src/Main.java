@@ -96,6 +96,18 @@ public class Main {
         
         ///System.out.println(temp2.solution(people, 100));
         
+        Macaroni mPizza1 = new Macaroni.Builder(Macaroni.Size.LARGE)
+                                       .addTopping(Pizza.Topping.DOUBLE_CHEESE)
+                                       .addTopping(Pizza.Topping.ONION)
+                                       .sauceInput()
+                                       .build();
+        Macaroni mPizza2 = new Macaroni.Builder(Macaroni.Size.SMALL)
+                .addTopping(Pizza.Topping.HAM)
+                .addTopping(Pizza.Topping.ONION)
+                .build();
+        
+        mPizza1.print();
+        mPizza2.print();
     }
 }
 
