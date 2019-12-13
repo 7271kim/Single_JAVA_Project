@@ -92,7 +92,7 @@ public class Main {
         int[] supplies = {20,5,10};
         
         
-        Thread thred1 = new Thread() {
+        /*Thread thred1 = new Thread() {
             public void run(){ 
                 try { 
                   
@@ -117,8 +117,14 @@ public class Main {
               } 
         };
         thred1.start();
-        thred2.start();
+        thred2.start();*/
         
+        SingleTonMoreEffective aa = SingleTonMoreEffective.getInstace();
+        SingleTonMoreEffective bb = SingleTonMoreEffective.getInstace();
+        System.out.println(aa==bb);
+        
+        SingleTonEnum singleTonEnum  = SingleTonEnum.getInstance();
+        System.out.println(singleTonEnum.getText());
        
     }
 }
