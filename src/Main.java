@@ -91,23 +91,35 @@ public class Main {
         int[] dates    = {4,10,15};
         int[] supplies = {20,5,10};
         
-        System.out.println(temp.solution(4, dates, supplies, 30));
         
+        Thread thred1 = new Thread() {
+            public void run(){ 
+                try { 
+                  
+                  SingleTonBad singleTonBad1 = SingleTonBad.getInstace();
+                  SingleTonBad singleTonBad2 = SingleTonBad.getInstace();
+                  System.out.println("두 객체가 같습니까 ? : " + (singleTonBad1 == singleTonBad2));
+                } catch (Exception e) { 
+                  e.printStackTrace(); 
+                } 
+              } 
+        };
         
-        ///System.out.println(temp2.solution(people, 100));
+        Thread thred2 = new Thread() {
+            public void run(){ 
+                try { 
+                  SingleTonBad singleTonBad1 = SingleTonBad.getInstace();
+                  SingleTonBad singleTonBad2 = SingleTonBad.getInstace();
+                  System.out.println("두 객체가 같습니까 ? : " + (singleTonBad1 == singleTonBad2));
+                } catch (Exception e) { 
+                  e.printStackTrace(); 
+                } 
+              } 
+        };
+        thred1.start();
+        thred2.start();
         
-        Macaroni mPizza1 = new Macaroni.Builder(Macaroni.Size.LARGE)
-                                       .addTopping(Pizza.Topping.DOUBLE_CHEESE)
-                                       .addTopping(Pizza.Topping.ONION)
-                                       .sauceInput()
-                                       .build();
-        Macaroni mPizza2 = new Macaroni.Builder(Macaroni.Size.SMALL)
-                .addTopping(Pizza.Topping.HAM)
-                .addTopping(Pizza.Topping.ONION)
-                .build();
-        
-        mPizza1.print();
-        mPizza2.print();
+       
     }
 }
 
