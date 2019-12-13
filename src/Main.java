@@ -96,9 +96,9 @@ public class Main {
             public void run(){ 
                 try { 
                   
-                  SingleTonBad singleTonBad1 = SingleTonBad.getInstace();
-                  SingleTonBad singleTonBad2 = SingleTonBad.getInstace();
-                  System.out.println("두 객체가 같습니까 ? : " + (singleTonBad1 == singleTonBad2));
+                  SingleTon SingleTon1 = SingleTon.getInstace();
+                  SingleTon SingleTon2 = SingleTon.getInstace();
+                  System.out.println("두 객체가 같습니까 ? : " + (SingleTon1 == SingleTon2));
                 } catch (Exception e) { 
                   e.printStackTrace(); 
                 } 
@@ -108,9 +108,9 @@ public class Main {
         Thread thred2 = new Thread() {
             public void run(){ 
                 try { 
-                  SingleTonBad singleTonBad1 = SingleTonBad.getInstace();
-                  SingleTonBad singleTonBad2 = SingleTonBad.getInstace();
-                  System.out.println("두 객체가 같습니까 ? : " + (singleTonBad1 == singleTonBad2));
+                  SingleTon SingleTon1 = SingleTon.getInstace();
+                  SingleTon SingleTon2 = SingleTon.getInstace();
+                  System.out.println("두 객체가 같습니까 ? : " + (SingleTon1 == SingleTon2));
                 } catch (Exception e) { 
                   e.printStackTrace(); 
                 } 
