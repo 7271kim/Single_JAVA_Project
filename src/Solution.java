@@ -1,60 +1,53 @@
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
-//https://programmers.co.kr/learn/courses/30/lessons/42629
 /*
-F int solution( 현재 재고량 stock, 임시 밀가루가 공급되는 날짜 dates, 임시 공급량 supplies, 최종 버틸날 k ) 
-    현재 재고가 떨어지는 날 nextStock = stock
-    dates중 사용 dates가 어디인지 index를 위한 변수 indexDates = 0;
-    최대한 많은 공급을 해야 최소 변수가 나오기 때문에 정렬을 위한 que변수 sotedSupplies >> 최대 힙으로 구성하기 위해 
-    new Comparator<Integer>()을 오버라이드 해서 사용
-        F int compare ( 비교가 필요한 값 compare, 기존에 있던 값 orignal ) 함수 구현하기
-                return orignal.compareTo(compare) // orignal > compare 면 +1을 반환(배열의 앞쪽에 와야함), 작으면 -1반환, 같으면 0을 반환 
 
+F int solution( 숫자의 배열 numbers ) 
+    numbers배열을 String으로 변환하기 위한 temp 배열 String
+    결과를 위한 SrgingBuilder 객체 answer
     
-    최종 결과를 위한 answer = 0;
+    FOR index는 0부터 numbers.legth-1만큼 1씩증가 
+        String numbers[index]를 하나하나 형 변환하여 넣는다 
     
-    FOR index는 1부터 k까지 1씩 증가
-        현재 dates값을 확인하기 위한 dates변수 thisDate = dates[indexDates]
-        IF thisDate와 index가 같은 경우 
-            sotedSupplies에다가 supplies[indexDates]추가
-            indexDates 1증가
-        
-        IF nextStock이 0 이라면 THEN
-            supplies에서 하나 poll하기 peakSupplies
-            nextStock에다가 peakSupplies더하기
-            answer++;
+    Arrays.sort + new 컴페어 조합을 사용하여 문제 그대로 두 정수를 이어붙였을 때 큰 수를 위로 오도록 한다. new Compare
+        F compare( 들어오는 수 target, 기존수 orignal )
+            target + orignal을 비교하기 위한 StringBuilder변수 to = target+orignal
+            orignal + target을 비교하기 위한 StringBuilder변수 or = orignal + target
+            
+            더 큰수가 배열 앞으로 와야 함으로 or가 to보다 클때를 1을 리턴해한다. or.compareTo(to)
     
-    answer 리턴
+    IF 0000처럼 모두가 0인 경우를 확인하기 위해 temp[0]이 0이면 THEN
+        0을 리턴한다.
+    
+    FOR index는 0부터 temp.legth-1만큼 1씩 증가한다. 
+        answer에 temp[index]를 이어붙인다.
+    
+    answer를 리턴한다.
 */
-
 class Solution {
-    public int solution(int stock, int[] dates, int[] supplies, int k) {
-        int nextStock = stock;
-        int indexDates = 0;
-        Queue<Integer> sotedSupplies = new PriorityQueue<Integer>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer compare, Integer orignal) {
-                return orignal.compareTo(compare);
-            }
-        });
-        
-        int answer = 0;
-        for (int index = 0; index < k; index++) {
-            int thisDate = indexDates < dates.length ? dates[indexDates] : 0;
+    public String solution(int[] numbers) {
+      String[] temp = new String[numbers.length];
+      StringBuilder ansewer = new StringBuilder();
+      for (int index = 0; index < numbers.length; index++) {
+          temp[index] = String.valueOf(numbers[index]);
+      }
+      
+      Arrays.sort( temp, new Comparator<String>() {
+        @Override
+        public int compare(String target, String orignal) {
+            StringBuilder to = new StringBuilder(target).append(orignal);
+            StringBuilder ot = new StringBuilder(orignal).append(target);
             
-            if( thisDate == index ) {
-                sotedSupplies.add(supplies[indexDates++]);
-            }
-            if( nextStock == 0 ) {
-                int peakSupplies = sotedSupplies.poll();
-                nextStock+=peakSupplies;
-                answer++;
-            }
-            
-            nextStock--;
+            return ot.toString().compareTo(to.toString());
         }
-        return answer;
+      });
+      
+      if(temp[0].equals("0")) return "0";
+      
+      for (String string : temp) {
+        ansewer.append(string);
+    }
+      return ansewer.toString();
     }
 }

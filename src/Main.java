@@ -88,8 +88,10 @@ public class Main {
         //int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
         //int[][] baseball = {{345,1,1}};
         
-        int[] dates    = {4,10,15};
+        int[] numbers    = {4,10,15};
         int[] supplies = {20,5,10};
+        
+        System.out.println(temp.solution(numbers));
         
         
         /*Thread thred1 = new Thread() {
@@ -119,12 +121,12 @@ public class Main {
         thred1.start();
         thred2.start();*/
         
-        SingleTonMoreEffective aa = SingleTonMoreEffective.getInstace();
+        /*  SingleTonMoreEffective aa = SingleTonMoreEffective.getInstace();
         SingleTonMoreEffective bb = SingleTonMoreEffective.getInstace();
         System.out.println(aa==bb);
         
         SingleTonEnum singleTonEnum  = SingleTonEnum.getInstance();
-        System.out.println(singleTonEnum.getText());
+        System.out.println(singleTonEnum.getText());*/
        
     }
 }
