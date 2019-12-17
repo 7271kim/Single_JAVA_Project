@@ -1,3 +1,6 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -128,6 +131,10 @@ public class Main {
         SingleTonEnum singleTonEnum  = SingleTonEnum.getInstance();
         System.out.println(singleTonEnum.getText());*/
        
+        try(TestTemp1 tmpe1 = new TestTemp1(); TestTemp2 tmpe2 = new TestTemp2()){
+            tmpe1.doSometing();
+            tmpe2.doSometing();
+        }
     }
 }
 
