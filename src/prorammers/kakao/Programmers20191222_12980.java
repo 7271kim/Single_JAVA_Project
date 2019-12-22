@@ -1,3 +1,4 @@
+package prorammers.kakao;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -13,7 +14,7 @@ F int solution( 이동해야할 거리 n )
             thiNumber를 절반으로 줄인다. 
     result 반환한다.
 */
-public class Solution {
+public class Programmers20191222_12980 {
     public int solution(int n) {
         int result = 1;
         int thisNumber = n;

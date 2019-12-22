@@ -1,15 +1,3 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
-import algorithm.math.Divisor;
-import algorithm.math.GcmLcm;
-import alorithm.dataStructureLow.MyHeapArray;
-import javafx.scene.control.SplitPane.Divider;
-
 public class Main {
     public static void main(String args[]){
         
@@ -94,7 +82,7 @@ public class Main {
         int[] numbers    = {4,10,15};
         int[] supplies = {20,5,10};
         
-        System.out.println(temp.solution(numbers));
+        System.out.println(temp.solution(5000));
         
         
         /*Thread thred1 = new Thread() {
@@ -130,11 +118,6 @@ public class Main {
         
         SingleTonEnum singleTonEnum  = SingleTonEnum.getInstance();
         System.out.println(singleTonEnum.getText());*/
-       
-        try(TestTemp1 tmpe1 = new TestTemp1(); TestTemp2 tmpe2 = new TestTemp2()){
-            tmpe1.doSometing();
-            tmpe2.doSometing();
-        }
     }
 }
 
