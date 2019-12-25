@@ -1,5 +1,13 @@
 public class Main {
     public static void main(String args[]){
+        InterfaceTest inTest = new InterfaceTest(){
+            @Override
+            public void makePizza() {
+                System.out.println("심심해서 일회성  피자를 만든다.");
+            }
+            
+        };
+        
         
         /*while( true ) {
             Solution temp = new Solution();

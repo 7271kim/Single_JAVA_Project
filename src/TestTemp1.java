@@ -1,12 +1,7 @@
-public class TestTemp1 implements AutoCloseable {
-    public void doSometing() throws FirstErr {
-        System.out.println("작업 진행중1");
-        throw new FirstErr();
-    }
+public class TestTemp1 implements InterfaceTest {
     @Override
-    public void close() throws SecondErr {
-        System.out.println("자원을 회수합니다.1");
-        throw new SecondErr();
+    public void makePizza() {
+        System.out.println("맛잇는 페페로니 피자를 만듭니다.");
     }
 
 }
