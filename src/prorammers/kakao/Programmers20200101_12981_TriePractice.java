@@ -1,3 +1,4 @@
+package prorammers.kakao;
 /*
 F int solution( 끝말잇기에 참여한 사람, 순서대로 주어진 단어 배열 word ) 
     최종 결과를 확인하기 위한 int형 배열 변수 첫번째 값으로 몇번째 사람, 두번째 변수로는 몇회째 결론이 안나면 {0,0} 반환  int[] answer = {0,0};
@@ -24,7 +25,7 @@ F int solution( 끝말잇기에 참여한 사람, 순서대로 주어진 단어 
     answer 반환한다.
     
 */
-class Solution {
+class Programmers20200101_12981_TriePractice {
     public int[] solution(int n, String[] words) {
         int[] answer =  {0,0}; 
         Trie trie    = new Trie();

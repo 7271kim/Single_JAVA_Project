@@ -87,10 +87,9 @@ public class Main {
         //int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
         //int[][] baseball = {{345,1,1}};
         
-        int[] numbers    = {4,10,15};
-        int[] supplies = {20,5,10};
+        String[] words    = {"tank", "kick", "know", "wheel", "land", "dream", "mother", "robot", "tank"};
         
-        System.out.println(temp.solution(5000));
+        System.out.println(temp.solution(3 , words));
         
         
         /*Thread thred1 = new Thread() {
