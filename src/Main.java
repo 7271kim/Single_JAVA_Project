@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+
+import algorithm.math.Union_And_Intersection;
+
 public class Main {
     public static void main(String args[]){
         InterfaceTest inTest = new InterfaceTest(){
@@ -89,7 +93,13 @@ public class Main {
         
         String[] words    = {"tank", "kick", "know", "wheel", "land", "dream", "mother", "robot", "tank"};
         
-        System.out.println(temp.solution(3 , words));
+        System.out.println(temp.solution("E=M*C^2", "e=m*c^2"));
+        
+        String[] temp11 = {"aa","bb","dcd","eee","aa"};
+        String[] temp22 = {"aa","bb","ddcd","feee","aa","aa"};
+        
+        ArrayList<String> tttt = Union_And_Intersection.getUnion(temp11, temp22);
+        ArrayList<String> tttt2 = Union_And_Intersection.getIntersection(temp11, temp22);
         
         
         /*Thread thred1 = new Thread() {

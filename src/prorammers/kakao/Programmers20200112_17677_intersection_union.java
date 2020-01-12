@@ -1,3 +1,4 @@
+package prorammers.kakao;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -58,7 +59,7 @@ F Deque<String> 들어온 문자열을 배여로 변환할 함수 getArr( String
 
     
 */
-class Solution {
+class Programmers20200112_17677_intersection_union {
     public int solution(String str1, String str2) {
         int answer = 0;
         str1 = replaceSpecialCharacters( str1 );
