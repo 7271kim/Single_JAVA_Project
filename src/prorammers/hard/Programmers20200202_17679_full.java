@@ -1,4 +1,6 @@
+package prorammers.hard;
 /*
+https://programmers.co.kr/learn/courses/30/lessons/17679
 
 F int solution( 판의 높이 m, 판의 너비 n, 배치정보 String 배열 board  ) 
     판을 배열로 만들기 위한 2차원 배열 arrayBoard = new int[m][n];
@@ -83,7 +85,7 @@ F reArray( arrayBoard 배열, remove 배열 )
     return result
             
 */
-class Solution {
+class Programmers20200202_17679_full {
   private static int m = 0;
   private static int n = 0;
   

@@ -85,15 +85,47 @@ public class Main {
             }
         }*/
         
+        /*while( true ) {
+            Solution temp = new Solution();
+            Solution2 temp2 = new Solution2();
+            int n;
+            int m;
+            double random  = Math.random();
+            
+            n = ( (int)( random*100) + 1) % 10 + 2;
+            random  = Math.random();
+            m = ( (int)( random*100) + 1) % 10 + 2;
+            
+            String[] words = new String[m];
+            for (int index = 0; index < words.length; index++) {
+                StringBuilder tempaa = new StringBuilder();
+                for (int index2 = 0; index2 < n; index2++) {
+                    random  = Math.random();
+                    int tttt = ( (int)( random*100) + 1) % 26 +1;
+                    char zzz = (char) (tttt + 'A' - 1 );
+                    tempaa.append(zzz);
+                }
+                words[index] = tempaa.toString();
+               
+            }
+            int aaaa = temp.solution(m, n, words);
+            int adasd = temp2.solution(m, n, words);
+            if( aaaa != adasd ) {
+                System.out.println("다르다");
+                break;
+            }
+        }*/
+        
+        
         Solution temp = new Solution();
         Solution2 temp2 = new Solution2();
         
         //int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
         //int[][] baseball = {{345,1,1}};
         
-        String[] words    = {"tank", "kick", "know", "wheel", "land", "dream", "mother", "robot", "tank"};
-        
-        System.out.println(temp.solution("E=M*C^2", "e=m*c^2"));
+        String[] words    = {"HGNHU", "CRSHV", "UKHVL", "MJHQB", "GSHOT", "MQMJJ", "AGJKK", "QULKK"};
+        System.out.println(temp.solution(8, 5, words ));
+        System.out.println(temp2.solution(8, 5, words ));
         
         String[] temp11 = {"aa","bb","dcd","eee","aa"};
         String[] temp22 = {"aa","bb","ddcd","feee","aa","aa"};
