@@ -12,10 +12,15 @@ F int solution( 판의 높이 m, 판의 너비 n, 배치정보 String 배열 boa
             각 단어의 1개1개 받아서 int로 변환 시키는 변수 int thisChar = board[indexLine는].charAt(indexRow) - 'A' + 1;
             해당 int를 arrayBoard에 배치 arrayBoard[indexLine][indexRow] = thisChar;
     
+    arrayBoard에서 조건에 맞아 지워져야 할 부분을 remove배열에 1로 변경하는 함수 check실행.
     check( arrayBoard , m , n  )
     
+    remove에 지워야하 값인 1이 하나라도 있으면 true를 리턴하는 checkRemove실행 
+    
     While checkRemove( remove , m , n  ) {
-        answer 에다가 reArray( arrayBoard, remove ) 값을 더한다. answer += reArray( arrayBoard, remove );
+         
+        remove에서 지울 값인 1을 지우고 원본 배열 arrayBoard에서 자리교환한다. 그리고 지원진 개수를 리턴하는 함수 reArray
+        answer += reArray( arrayBoard, remove );
         check( arrayBoard , m , n  )
     }
     
@@ -44,6 +49,7 @@ F 지워질 변수를 찾기 findRemove ( 원본 배열 arrayBoard, 줄 indexLin
 F  arrayBoard에서 지워져야 할 전체를 훑는 함수 check ( arrayBoard, m, n ) 
     FOR indexLine는 0부터 m-1만큼 1씩 증가
         FOR indexRow는 0부터 n-1만큼 1씩 증가
+            ! 판을 하나하나 훝으면서 조건에 맞아 지워져야할 부분을 remove 배열에서 1로 변경하는 함수
             findRemove ( arrayBoard, indexLine, indexRow, remove );
 
 F Boolean 지울것이 남아 있나 확인하는 함수 checkRemove ( remove , m , n  )
