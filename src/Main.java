@@ -9,6 +9,7 @@ public class Main {
         int one_sum_two = Test.sum(1, 2);
         
         Test test = new Test(3);
+        Test test2 = new Test(10);
         int three = test.getThree();
         int two_multiply_three = test.multiply(2, 3);
         
@@ -17,6 +18,16 @@ public class Main {
         System.out.println("one_sum_two : " +one_sum_two);
         System.out.println("three : " +three);
         System.out.println("two_multiply_three : " +two_multiply_three);
+        System.out.println("FOUR : " +Test.FOUR);
+        System.out.println("FIVE : " +Test.FIVE);
+        System.out.println("FIVE : " +Test.FIVE);
+        
+        test.ONE = 10;
+        System.out.println("FIVE : " +test.ONE);
+        System.out.println("FIVE : " +test2.ONE);
+        System.out.println("FIVE : " +Test.ONE);
+        System.out.println("three : " +test.getThree());
+        System.out.println("three2 : " +test2.getThree());
         
         InterfaceTest inTest = new InterfaceTest(){
             @Override
