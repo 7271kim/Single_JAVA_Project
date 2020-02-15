@@ -137,9 +137,9 @@ public class Main {
         //int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
         //int[][] baseball = {{345,1,1}};
         
-        String[] words    = {"HGNHU", "CRSHV", "UKHVL", "MJHQB", "GSHOT", "MQMJJ", "AGJKK", "QULKK"};
-        System.out.println(temp.solution(8, 5, words ));
-        System.out.println(temp2.solution(8, 5, words ));
+        String[] cities    = {"Jeju", "city","byby","city","city"};
+        System.out.println(temp.solution(3, cities));
+       // System.out.println(temp2.solution(8, 5, words ));
         
         String[] temp11 = {"aa","bb","dcd","eee","aa"};
         String[] temp22 = {"aa","bb","ddcd","feee","aa","aa"};

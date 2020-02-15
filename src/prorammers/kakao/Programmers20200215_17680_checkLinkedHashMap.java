@@ -1,3 +1,4 @@
+package prorammers.kakao;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -42,7 +43,7 @@ LRU를 구현하고 없을 시 5, 존재할시 1을 return는 함수 checkLRU ( 
     return anser;
             
 */
-class Solution {
+class Programmers20200215_17680_checkLinkedHashMap {
     Queue<String> cache = new LinkedList<>();
     int cacheSize;
     public int solution(int cacheSize, String[] cities) {
