@@ -1,42 +1,31 @@
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import algorithm.math.Union_And_Intersection;
 
 public class Main {
     public static void main(String args[]){
-        int one       = Test.ONE;
-        String two    = Test.TWO;
-        int one_sum_two = Test.sum(1, 2);
-        
-        Test test = new Test(3);
-        Test test2 = new Test(10);
-        int three = test.getThree();
-        int two_multiply_three = test.multiply(2, 3);
-        
-        System.out.println("one : " +one);
-        System.out.println("two : " +two);
-        System.out.println("one_sum_two : " +one_sum_two);
-        System.out.println("three : " +three);
-        System.out.println("two_multiply_three : " +two_multiply_three);
-        System.out.println("FOUR : " +Test.FOUR);
-        System.out.println("FIVE : " +Test.FIVE);
-        System.out.println("FIVE : " +Test.FIVE);
-        
-        test.ONE = 10;
-        System.out.println("FIVE : " +test.ONE);
-        System.out.println("FIVE : " +test2.ONE);
-        System.out.println("FIVE : " +Test.ONE);
-        System.out.println("three : " +test.getThree());
-        System.out.println("three2 : " +test2.getThree());
-        
-        InterfaceTest inTest = new InterfaceTest(){
-            @Override
-            public void makePizza() {
-                System.out.println("심심해서 일회성  피자를 만든다.");
+        Method[] declMethods = Test.class.getDeclaredMethods();
+        for (Method method : declMethods) {
+            if( method.isAnnotationPresent( Myanotation.class ) ) {
+                System.out.println("[" + method.getName() + "]");
+                Myanotation settingMy = method.getAnnotation( Myanotation.class );
+                for (int index = 0; index < settingMy.number(); index++) {
+                    System.out.print(settingMy.value());
+                }
+                System.out.println();
+                
+                try {
+                    method.invoke( new Test() );
+                } catch (Exception e) {
+                }
+                for (int index = 0; index < settingMy.number(); index++) {
+                    System.out.print(settingMy.value());
+                }
+                System.out.println();
+                System.out.println();
             }
-            
-        };
-        
+        }
         
         /*while( true ) {
             Solution temp = new Solution();
@@ -192,6 +181,27 @@ public class Main {
         
         SingleTonEnum singleTonEnum  = SingleTonEnum.getInstance();
         System.out.println(singleTonEnum.getText());*/
+    }
+    
+    
+    private void settingsInvoke() {
+        Method[] declMethods = Test.class.getDeclaredMethods();
+        for (Method method : declMethods) {
+            if( method.isAnnotationPresent( Myanotation.class ) ) {
+                Myanotation settingMy = method.getAnnotation( Myanotation.class );
+                System.out.println("[" + method.getName() + "]");
+                
+                for (int index = 0; index < settingMy.number(); index++) {
+                    System.out.print(settingMy.value());
+                }
+                System.out.println();
+                
+                try {
+                    method.invoke(new Test());
+                } catch (Exception e) {
+                }
+            }
+        }
     }
 }
 
