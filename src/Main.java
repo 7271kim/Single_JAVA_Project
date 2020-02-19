@@ -5,6 +5,10 @@ import algorithm.math.Union_And_Intersection;
 
 public class Main {
     public static void main(String args[]){
+        MakePizza pizza = new MakePepperoniPizza();
+        System.out.println("배고픈데 오늘은...");
+        pizza.makePizza();
+        MakePizza.sayHack();
         Method[] declMethods = Test.class.getDeclaredMethods();
         for (Method method : declMethods) {
             if( method.isAnnotationPresent( Myanotation.class ) ) {
