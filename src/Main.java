@@ -5,32 +5,9 @@ import algorithm.math.Union_And_Intersection;
 
 public class Main {
     public static void main(String args[]){
-        MakePizza pizza = new MakePepperoniPizza();
-        System.out.println("배고픈데 오늘은...");
-        pizza.makePizza();
-        MakePizza.sayHack();
-        Method[] declMethods = Test.class.getDeclaredMethods();
-        for (Method method : declMethods) {
-            if( method.isAnnotationPresent( Myanotation.class ) ) {
-                System.out.println("[" + method.getName() + "]");
-                Myanotation settingMy = method.getAnnotation( Myanotation.class );
-                for (int index = 0; index < settingMy.number(); index++) {
-                    System.out.print(settingMy.value());
-                }
-                System.out.println();
-                
-                try {
-                    method.invoke( new Test() );
-                } catch (Exception e) {
-                }
-                for (int index = 0; index < settingMy.number(); index++) {
-                    System.out.print(settingMy.value());
-                }
-                System.out.println();
-                System.out.println();
-            }
-        }
+        TestClass testClass= new TestClass();
         
+        testClass.testMethod();
         /*while( true ) {
             Solution temp = new Solution();
             Solution3 temp3 = new Solution3();
@@ -185,27 +162,6 @@ public class Main {
         
         SingleTonEnum singleTonEnum  = SingleTonEnum.getInstance();
         System.out.println(singleTonEnum.getText());*/
-    }
-    
-    
-    private void settingsInvoke() {
-        Method[] declMethods = Test.class.getDeclaredMethods();
-        for (Method method : declMethods) {
-            if( method.isAnnotationPresent( Myanotation.class ) ) {
-                Myanotation settingMy = method.getAnnotation( Myanotation.class );
-                System.out.println("[" + method.getName() + "]");
-                
-                for (int index = 0; index < settingMy.number(); index++) {
-                    System.out.print(settingMy.value());
-                }
-                System.out.println();
-                
-                try {
-                    method.invoke(new Test());
-                } catch (Exception e) {
-                }
-            }
-        }
     }
 }
 
