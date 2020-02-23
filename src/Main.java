@@ -6,8 +6,12 @@ import algorithm.math.Union_And_Intersection;
 public class Main {
     public static void main(String args[]){
         TestClass testClass= new TestClass();
+        testClass.setOnclickLister(new NestedOnclickListener1Impl());
+        testClass.touch();
         
-        testClass.testMethod();
+        testClass.setOnclickLister(new NestedOnclickListener2Impl());
+        testClass.touch();
+        
         /*while( true ) {
             Solution temp = new Solution();
             Solution3 temp3 = new Solution3();
