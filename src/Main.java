@@ -5,12 +5,19 @@ import algorithm.math.Union_And_Intersection;
 
 public class Main {
     public static void main(String args[]){
-        TestClass testClass= new TestClass();
-        testClass.setOnclickLister(new NestedOnclickListener1Impl());
-        testClass.touch();
+        Runnable task = ()-> {
+            int sum = 0;
+            for (int index = 0; index < 10; index++) {
+                sum += index;
+                System.out.println(sum);
+            }
+            System.out.println( Thread.currentThread() + "최종 합 : " + sum);
+        };
         
-        testClass.setOnclickLister(new NestedOnclickListener2Impl());
-        testClass.touch();
+        Thread subTread1 = new Thread(task);
+        Thread subTread2 = new Thread(task);
+        subTread1.start();
+        subTread2.start();
         
         /*while( true ) {
             Solution temp = new Solution();
