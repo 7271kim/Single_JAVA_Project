@@ -1,5 +1,15 @@
+import java.awt.Taskbar.Feature;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import algorithm.math.Union_And_Intersection;
 import study.CustomThread;
@@ -7,74 +17,73 @@ import study.ShareThread;
 
 public class Main {
     public static void main(String args[]){
-        ThreadGroup root = new ThreadGroup("Root_Group");
-        ThreadGroup groupChild = new ThreadGroup( root,"myGroup" );
+        // 스레드 풀 생성 
+        //자동으로 스레드 수 생성
+        ExecutorService executorServiceWithCached = Executors.newCachedThreadPool();
         
-        // root 그룹에 세팅
-        Thread root_group = new Thread( root, ()->{
-            while ( true ) {
-                System.out.println("Root 그룹입니다.");
+        // Runable 구현 객체 ( 익명구현객체 사용  )
+        Runnable task1 = ()-> {
+            for (int index = 0; index < 100; index++) {
+                System.out.println("작업 중입니다.");
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
-                    System.out.println("Root 그룹 스레드가 종료됩니다.");
-                    break;
+                    e.printStackTrace();
                 }
             }
-        });
-        // groupChild 그룹에 세팅
-        Thread child_group1 = new Thread( groupChild, ()->{
-            while ( true ) {
-                System.out.println("child_group 그룹의 child_group1입니다.");
+        }; 
+        
+        // Callable 구현 
+        Callable<Boolean> task2 = () ->{
+            Boolean isFinish = true;
+            
+            for (int index = 0; index < 100; index++) {
+                System.out.println("작업 중입니다. Call");
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
-                    System.out.println("child_group 그룹의 child_group1 종료됩니다.");
-                    break;
+                    e.printStackTrace();
                 }
             }
-        });
+            
+            return isFinish;
+        };
         
-        // groupChild 그룹에 세팅
-        Thread child_group2 = new Thread( groupChild, ()->{
-            while ( true ) {
-                System.out.println("child_group 그룹의 child_group2입니다.");
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    System.out.println("child_group 그룹의 child_group2 종료됩니다.");
-                    break;
+        // 1. 리턴 값이 없는 단순 Runnable를 처리합니다.
+        executorServiceWithCached.execute(task1);
+        
+        // 2. 리턴 가능한 Callable도 넣을 수 있는 메서드 입니다.
+        Future<Boolean> returnBoolean =  executorServiceWithCached.submit(task2);
+        
+        // main스레드의 작업이 멈추지 않기 위해 새로운 스레드로 구성
+         executorServiceWithCached.execute(()->{
+            try {
+                if( returnBoolean.get() ) {
+                    System.out.println("작업이 완벽히 끝났습니다. ");
+                } else {
+                    System.out.println("작업이 끝나지 못했습니다.");
                 }
-            }
+            } catch (Exception e) {
+            } 
         });
         
-        root_group.start();
-        child_group1.start();
-        child_group2.start();
+        // main스레드의 작업이 멈추지 않기 위해 새로운 스레드로 구성
+        executorServiceWithCached.execute(()->{
+            try {
+                // 만약 특정 시간 내에 끝났는지 확인하려는 경우
+                if( returnBoolean.get(1,TimeUnit.SECONDS) ) {
+                    System.out.println("작업이 완벽히 끝났습니다. ");
+                } 
+            } catch (Exception e) {
+                System.out.println("작업이 시간내에 끝나지 못했습니다.");
+            } 
+        });
+        
+        // 작업 큐에 대기하고 있는 모든 작업이 끝난 뒤 스레드를 종료한다. 
+        executorServiceWithCached.shutdown();
         
         
-        try {
-            Thread.sleep(5);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         
-        //groupChild그룹 일괄 중지 
-        System.out.println("======= groupChild 일괄 중지 =======");
-        groupChild.interrupt();
-        
-        try {
-            Thread.sleep(5);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        
-        //root그룹 일괄 중지
-        System.out.println("======= root 일괄 중지 =======");
-        root.interrupt();
         
         
         
