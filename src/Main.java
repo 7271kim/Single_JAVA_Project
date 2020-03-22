@@ -1,27 +1,21 @@
-import java.awt.Taskbar.Feature;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CompletionService;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import algorithm.math.Union_And_Intersection;
-import study.CustomThread;
+import study.BeforeTest;
 import study.FirstThread;
+import study.Ramda;
 import study.ResultShare;
 import study.SecondThread;
-import study.ShareThread;
 
 public class Main {
     public static void main(String args[]){
+        Ramda ramda = BeforeTest :: new;
+        
+        System.out.println( ramda.justOne(10, 11) );
+        
         // 스레드 풀 생성 
         //자동으로 스레드 수 생성
         ExecutorService executorServiceWithCached = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());

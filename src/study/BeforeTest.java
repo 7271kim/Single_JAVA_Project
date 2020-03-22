@@ -1,10 +1,12 @@
 package study;
 
-import java.util.List;
-import java.util.Map;
-
 public class BeforeTest  {
-    public < T extends Number, D extends Map > void show( D map, T key ) {
-        System.out.println(map.containsKey(key));
+    int a;
+    int b;
+
+    public BeforeTest(int a, int b) {
+        this.a = a;
+        this.b = b;
     }
+    
 }
