@@ -1,3 +1,4 @@
+package prorammers.kakao;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -13,7 +14,7 @@ F solution ( n번째 피보나치 수 n )
        cached[index] = ( cached[index-2] + cached[index-1] ) % 1234567;
     return cached[n]
 */
-class Solution {
+class Programmers20200706_12945_pivo {
     public int solution(int n) {
         int[] cached = new int[100001];
         cached[0] = 0;

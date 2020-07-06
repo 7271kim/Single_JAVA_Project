@@ -26,62 +26,6 @@ public class Main {
     
     
     public static void main(String args[]){
-        try {
-            Stream<String> file = Files.lines( Paths.get("D:/over_the_dream/NaverCloud/3.Programming/1.개발 요청 사항들.txt"),Charset.defaultCharset());
-            file.forEach(System.out :: println);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        
-        
-        List<Student> students = Arrays.asList( 
-                    new Student("김석진", 10),
-                    new Student("이석진", 11),
-                    new Student("박석진", 13)
-                );
-        
-        for (Student student : students) {
-            System.out.println(student.getName() + " " + student.getAge()+"살.");
-        }
-        
-        System.out.println();
-        
-        Stream<Student> studentStream = students.stream();
-        studentStream.forEach( student -> System.out.println(student.getName() + " " + student.getAge()+"살.") );
-        
-        Ramda ramda = BeforeTest :: new;
-        
-        System.out.println( ramda.justOne(10, 11) );
-        
-        // 스레드 풀 생성 
-        //자동으로 스레드 수 생성
-        ExecutorService executorServiceWithCached = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        
-        ResultShare resultShare = new ResultShare();
-        
-        Runnable task1 = new FirstThread(resultShare);
-        Runnable task2 = new SecondThread(resultShare);
-                
-        Future<ResultShare> future1 =  executorServiceWithCached.submit( task1, resultShare );
-        Future<ResultShare> future2 =  executorServiceWithCached.submit( task2, resultShare );
-        
-        executorServiceWithCached.shutdown();
-        
-        List<String> test = new LinkedList<String>();
-        test.add("1.");
-        test.add("2.");
-        test.add("3.");
-        
-        Stream<String> zzz= test.stream();
-        Consumer<String> dasd = zzzzz -> { 
-            System.out.println(zzzzz);
-        };
-        
-        zzz.forEach( dasd.andThen(ssss -> System.out.println("aaaaaaa")));
-        
-        
         /*while( true ) {
             Solution temp = new Solution();
             Solution3 temp3 = new Solution3();
@@ -187,20 +131,7 @@ public class Main {
         
         
         Solution temp = new Solution();
-        Solution2 temp2 = new Solution2();
-        
-        //int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
-        //int[][] baseball = {{345,1,1}};
-        
-        String[] cities    = {"Jeju", "city","byby","city","city"};
-        System.out.println(temp.solution(3, cities));
-       // System.out.println(temp2.solution(8, 5, words ));
-        
-        String[] temp11 = {"aa","bb","dcd","eee","aa"};
-        String[] temp22 = {"aa","bb","ddcd","feee","aa","aa"};
-        
-        ArrayList<String> tttt = Union_And_Intersection.getUnion(temp11, temp22);
-        ArrayList<String> tttt2 = Union_And_Intersection.getIntersection(temp11, temp22);
+        System.out.println( temp.solution(100000) );
         
         
         /*Thread thred1 = new Thread() {
