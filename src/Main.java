@@ -1,7 +1,19 @@
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.function.Consumer;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 import algorithm.math.Union_And_Intersection;
 import study.BeforeTest;
@@ -11,7 +23,34 @@ import study.ResultShare;
 import study.SecondThread;
 
 public class Main {
+    
+    
     public static void main(String args[]){
+        try {
+            Stream<String> file = Files.lines( Paths.get("D:/over_the_dream/NaverCloud/3.Programming/1.개발 요청 사항들.txt"),Charset.defaultCharset());
+            file.forEach(System.out :: println);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        
+        
+        List<Student> students = Arrays.asList( 
+                    new Student("김석진", 10),
+                    new Student("이석진", 11),
+                    new Student("박석진", 13)
+                );
+        
+        for (Student student : students) {
+            System.out.println(student.getName() + " " + student.getAge()+"살.");
+        }
+        
+        System.out.println();
+        
+        Stream<Student> studentStream = students.stream();
+        studentStream.forEach( student -> System.out.println(student.getName() + " " + student.getAge()+"살.") );
+        
         Ramda ramda = BeforeTest :: new;
         
         System.out.println( ramda.justOne(10, 11) );
@@ -30,7 +69,17 @@ public class Main {
         
         executorServiceWithCached.shutdown();
         
-       
+        List<String> test = new LinkedList<String>();
+        test.add("1.");
+        test.add("2.");
+        test.add("3.");
+        
+        Stream<String> zzz= test.stream();
+        Consumer<String> dasd = zzzzz -> { 
+            System.out.println(zzzzz);
+        };
+        
+        zzz.forEach( dasd.andThen(ssss -> System.out.println("aaaaaaa")));
         
         
         /*while( true ) {
