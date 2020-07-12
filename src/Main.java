@@ -9,29 +9,25 @@ import java.util.Queue;
 import java.util.Stack;
 
 import alorithm.dataStructureLow.DoubleLinkedList;
+import alorithm.dataStructureLow.MaxHeap;
+import sun.tools.jconsole.MaximizableInternalFrame;
 
 public class Main {
     
     
     public static void main(String args[]){
-        PriorityQueue<Student> priorityQueue = new PriorityQueue<>( ( first, second )-> {
-            int result = Integer.compare(second.getScore(), first.getScore());
-            if( result == 0 ) {
-                result = first.getName().compareTo(second.getName());
-            }
-            return result;
-        }) ;
-        priorityQueue.add(new Student("김석진", 100));
-        priorityQueue.add(new Student("박석진", 90));
-        priorityQueue.add(new Student("진석진", 95));
-        priorityQueue.add(new Student("구석진", 88));
-        priorityQueue.add(new Student("다석진", 100));
-        priorityQueue.add(new Student("사석진", 100));
-        priorityQueue.add(new Student("나석진", 100));
-        
-        while( !priorityQueue.isEmpty() ) {
-            Student student = priorityQueue.poll();
-            System.out.println(student.toString());
+       
+        MaxHeap<Student> maxHeap = new MaxHeap<>(7);
+        maxHeap.add(new Student("김석진", 100));
+        maxHeap.add(new Student("박석진", 90));
+        maxHeap.add(new Student("진석진", 95));
+        maxHeap.add(new Student("구석진", 88));
+        maxHeap.add(new Student("다석진", 100));
+        maxHeap.add(new Student("사석진", 100));
+        maxHeap.add(new Student("나석진", 100));
+
+        while (!maxHeap.isEmpty()) {
+            System.out.println(maxHeap.pop().toString());
             
         }
         
