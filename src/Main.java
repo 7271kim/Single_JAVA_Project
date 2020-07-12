@@ -1,31 +1,29 @@
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.function.Consumer;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
 
-import algorithm.math.Union_And_Intersection;
-import study.BeforeTest;
-import study.FirstThread;
-import study.Ramda;
-import study.ResultShare;
-import study.SecondThread;
+import alorithm.dataStructureLow.DoubleLinkedList;
 
 public class Main {
     
     
     public static void main(String args[]){
+        DoubleLinkedList<String> temp22 = new DoubleLinkedList<String>();
+        temp22.add("안녕1");
+        temp22.add("안녕2");
+        temp22.add("안녕3");
+        System.out.println(temp22.toString());
+        temp22.remove(2);
+        System.out.println(temp22.toString());
+        temp22.remove(1);
+        System.out.println(temp22.toString());
+        temp22.remove(0);
+        System.out.println(temp22.toString());
+        temp22.add("안녕1");
+        temp22.add("안녕2");
+        temp22.add("안녕3");
+        System.out.println(temp22.toString());
+        
         /*while( true ) {
             Solution temp = new Solution();
             Solution3 temp3 = new Solution3();
@@ -73,7 +71,7 @@ public class Main {
                 value = value == 0 ? value = 1 : value;
                 
                 if(!lostReserve.containsKey(value)) {
-                    lostReserve.put(value,value);
+                    lostReserve.put(value,value);0
                     reserve[count] = value;
                     count++;
                 } 
