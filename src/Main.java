@@ -1,6 +1,12 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Stack;
 
 import alorithm.dataStructureLow.DoubleLinkedList;
 
@@ -8,21 +14,26 @@ public class Main {
     
     
     public static void main(String args[]){
-        DoubleLinkedList<String> temp22 = new DoubleLinkedList<String>();
-        temp22.add("안녕1");
-        temp22.add("안녕2");
-        temp22.add("안녕3");
-        System.out.println(temp22.toString());
-        temp22.remove(2);
-        System.out.println(temp22.toString());
-        temp22.remove(1);
-        System.out.println(temp22.toString());
-        temp22.remove(0);
-        System.out.println(temp22.toString());
-        temp22.add("안녕1");
-        temp22.add("안녕2");
-        temp22.add("안녕3");
-        System.out.println(temp22.toString());
+        PriorityQueue<Student> priorityQueue = new PriorityQueue<>( ( first, second )-> {
+            int result = Integer.compare(second.getScore(), first.getScore());
+            if( result == 0 ) {
+                result = first.getName().compareTo(second.getName());
+            }
+            return result;
+        }) ;
+        priorityQueue.add(new Student("김석진", 100));
+        priorityQueue.add(new Student("박석진", 90));
+        priorityQueue.add(new Student("진석진", 95));
+        priorityQueue.add(new Student("구석진", 88));
+        priorityQueue.add(new Student("다석진", 100));
+        priorityQueue.add(new Student("사석진", 100));
+        priorityQueue.add(new Student("나석진", 100));
+        
+        while( !priorityQueue.isEmpty() ) {
+            Student student = priorityQueue.poll();
+            System.out.println(student.toString());
+            
+        }
         
         /*while( true ) {
             Solution temp = new Solution();

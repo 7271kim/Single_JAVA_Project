@@ -84,7 +84,7 @@ public class  DoubleLinkedList<E> {
         }
         return result.toString();
     }
-    
+    // DoubleLinkedList에서 사용할 중첩클래스
     private static class Node<E> {
         E item;
         Node<E> next;

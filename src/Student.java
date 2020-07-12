@@ -1,17 +1,23 @@
 public class Student {
     private String name;
-    private int age;
+    private int score;
 
-    public Student(String name, int age) {
+    public Student(String name, int score) {
         this.name = name;
-        this.age = age;
+        this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return "이름 : " + name + " 점수 : " + score;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getAge() {
-        return age;
+    public int getScore() {
+        return score;
     }
+    
 }
