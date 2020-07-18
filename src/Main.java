@@ -10,26 +10,24 @@ import java.util.Stack;
 
 import alorithm.dataStructureLow.DoubleLinkedList;
 import alorithm.dataStructureLow.MaxHeap;
+import alorithm.dataStructureLow.TreeWithArray;
+import alorithm.dataStructureLow.TreeWithLinkedList;
 import sun.tools.jconsole.MaximizableInternalFrame;
 
 public class Main {
     
     
     public static void main(String args[]){
-       
-        MaxHeap<Student> maxHeap = new MaxHeap<>(7);
-        maxHeap.add(new Student("김석진", 100));
-        maxHeap.add(new Student("박석진", 90));
-        maxHeap.add(new Student("진석진", 95));
-        maxHeap.add(new Student("구석진", 88));
-        maxHeap.add(new Student("다석진", 100));
-        maxHeap.add(new Student("사석진", 100));
-        maxHeap.add(new Student("나석진", 100));
-
-        while (!maxHeap.isEmpty()) {
-            System.out.println(maxHeap.pop().toString());
-            
-        }
+        TreeWithArray<Integer> tree = new TreeWithArray<Integer>(5);
+        tree.setValue(1, 1);
+        tree.setLeftNode(2, 1);
+        tree.setRightNode(3, 1);
+        tree.setLeftNode(4, tree.getLeftNodeIndex(1));
+        tree.setRightNode(5, tree.getLeftNodeIndex(1));
+        
+        tree.inOrderTraversal(1); // 중위순회 left -> root -> right >> 4 2 5 1 3 
+        tree.preOrderTraversal(1); // 전위순회 root -> left -> right >> 1 2 4 5 3 
+        tree.postOrderTraversal(1); // 후위순회 left -> right -> root >> 4 5 2 3 1
         
         /*while( true ) {
             Solution temp = new Solution();
