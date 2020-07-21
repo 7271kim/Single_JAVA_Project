@@ -9,6 +9,8 @@ import java.util.Queue;
 import java.util.Stack;
 
 import alorithm.dataStructureLow.DoubleLinkedList;
+import alorithm.dataStructureLow.GraphArrayList;
+import alorithm.dataStructureLow.GraphMatrix;
 import alorithm.dataStructureLow.MaxHeap;
 import alorithm.dataStructureLow.TreeWithArray;
 import alorithm.dataStructureLow.TreeWithLinkedList;
@@ -18,16 +20,17 @@ public class Main {
     
     
     public static void main(String args[]){
-        TreeWithArray<Integer> tree = new TreeWithArray<Integer>(5);
-        tree.setValue(1, 1);
-        tree.setLeftNode(2, 1);
-        tree.setRightNode(3, 1);
-        tree.setLeftNode(4, tree.getLeftNodeIndex(1));
-        tree.setRightNode(5, tree.getLeftNodeIndex(1));
+        GraphMatrix graph = new GraphMatrix(5);
+        graph.push(0, 1, 2);
+        graph.push(0, 2, 6);
+        graph.push(0, 4, 6);
+        graph.push(1, 2, 7);
+        graph.push(2, 4, 7);
+        graph.push(2, 3, 1);
+        graph.push(3, 4, 5);
         
-        tree.inOrderTraversal(1); // 중위순회 left -> root -> right >> 4 2 5 1 3 
-        tree.preOrderTraversal(1); // 전위순회 root -> left -> right >> 1 2 4 5 3 
-        tree.postOrderTraversal(1); // 후위순회 left -> right -> root >> 4 5 2 3 1
+        graph.bfs(); // 0 1 2 4 3
+        graph.dfs(); // 0 1 2 3 4 
         
         /*while( true ) {
             Solution temp = new Solution();
