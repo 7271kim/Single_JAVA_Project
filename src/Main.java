@@ -18,19 +18,20 @@ import sun.tools.jconsole.MaximizableInternalFrame;
 
 public class Main {
     
-    
     public static void main(String args[]){
-        GraphMatrix graph = new GraphMatrix(5);
-        graph.push(0, 1, 2);
-        graph.push(0, 2, 6);
-        graph.push(0, 4, 6);
-        graph.push(1, 2, 7);
-        graph.push(2, 4, 7);
-        graph.push(2, 3, 1);
-        graph.push(3, 4, 5);
         
-        graph.bfs(); // 0 1 2 4 3
-        graph.dfs(); // 0 1 2 3 4 
+        DoubleLinkedList<Integer> doubleLinked = new DoubleLinkedList<>();
+        doubleLinked.add(1);
+        doubleLinked.add(2);
+        doubleLinked.add(3);
+        doubleLinked.add(4);
+       
+        System.out.println(doubleLinked.toString());
+        
+        doubleLinked.remove(2);
+        
+        System.out.println(doubleLinked.toString());
+     
         
         /*while( true ) {
             Solution temp = new Solution();
