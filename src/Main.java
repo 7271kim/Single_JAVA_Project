@@ -18,33 +18,15 @@ import sun.tools.jconsole.MaximizableInternalFrame;
 
 public class Main {
     private static void result( String[] people ) {
-        
-        /*for( int firstIndex = 0; firstIndex < people.length; firstIndex++ ) {
-            for( int secondIndex = 0; secondIndex < people.length; secondIndex++ ) {
-                
-                if( firstIndex == secondIndex ) continue;
-                
-                for( int thirdIndex = 0; thirdIndex < people.length; thirdIndex++ ) {
-                    if( thirdIndex == secondIndex || thirdIndex == firstIndex ) continue;
-                    
-                    String first = people[firstIndex];
-                    String second= people[secondIndex];
-                    String third = people[thirdIndex];
-                    count++;
-                    System.out.println("( "+first +" " + second + " " + third +" )");
-                }
-            }
-        }*/
         int totalCount = 0;
         int r = 3;
-        boolean[] isCheced = new boolean[people.length];
         String[] result = new String[r];
-        totalCount = permutation(people, isCheced, result, r, 0, totalCount);
+        totalCount = combination(people, result, r, 0, 0, totalCount);
         
         System.out.println("총 경우의 수 : " + totalCount);
     }
     
-    private static int permutation( String[] people, boolean[] isCheced, String[] result, int r, int dept, int totalCount ) {
+    private static int combination( String[] people, String[] result, int r, int start, int dept, int totalCount ) {
         if( r == dept ) {
             String resultP = "( ";
             for (int i = 0; i < result.length; i++) {
@@ -56,14 +38,9 @@ public class Main {
             return totalCount;
         }
         
-        for ( int i = 0; i < people.length; i++ ) {
-            if( !isCheced[i] ) {
-                isCheced[i] = true;
-                result[dept] = people[i];
-                totalCount = permutation(people, isCheced, result, r, dept + 1, totalCount);
-                isCheced[i] = false;
-                result[dept] = "";
-            }
+        for ( int index = start; index < people.length; index++ ) {
+            result[dept] = people[index];
+            totalCount = combination(people, result, r, index+1, dept+1, totalCount);
         }
         
         return totalCount;
