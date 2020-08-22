@@ -17,41 +17,62 @@ import alorithm.dataStructureLow.TreeWithLinkedList;
 import sun.tools.jconsole.MaximizableInternalFrame;
 
 public class Main {
-    private static void result( String[] people ) {
-        int totalCount = 0;
-        int r = 3;
-        String[] result = new String[r];
-        totalCount = combination(people, result, r, 0, 0, totalCount);
+    private static boolean result( String[][] word, String findWord) {
         
-        System.out.println("총 경우의 수 : " + totalCount);
+        int totalSize = word[0].length;
+        boolean result = false;
+        for( int xIndex = 0; xIndex < totalSize; xIndex++ ) {
+            for( int yIndex = 0; yIndex < totalSize; yIndex++ ) {
+                int[][] checked = new int[word[0].length][word[0].length];
+                if(!result) {
+                    result = sulotions(word, findWord, checked, 0, xIndex, yIndex);
+                    System.out.println(" x :  " + xIndex + " y :" + yIndex + " result : " + result);
+                }
+            }
+        }
+        return result;
     }
     
-    private static int combination( String[] people, String[] result, int r, int start, int dept, int totalCount ) {
-        if( r == dept ) {
-            String resultP = "( ";
-            for (int i = 0; i < result.length; i++) {
-                resultP += result[i];
+    private static boolean sulotions( String[][] word, String findWord, int[][] checked, int findIndex, int x, int y ) {
+        
+        int totalSize = word[0].length;
+        int[] dx = {-1,-1,-1,1,1,1,0,0};
+        int[] dy = {-1,0,1,0,-1,0,1,-1,1};
+        boolean result = false;
+        
+        if( x < 0 || x >= totalSize ) return false;
+        if( y < 0 || y >= totalSize ) return false;
+        if( checked[x][y] == 1 ) return false;
+        if( findIndex == findWord.length() ) return true;
+        
+        String findOneWord = findWord.substring( findIndex, findIndex+1 );
+        
+        if( word[x][y].equals(findOneWord) ) {
+            checked[x][y] = 1;
+            for( int index = 0; index < 8; index++ ) {
+                result = sulotions(word, findWord, checked, findIndex+1, x + dx[index], y + dy[index]);
+                if( result ) {
+                    return true;
+                }
             }
-            resultP += " )";
-            totalCount ++; 
-            System.out.println(resultP);
-            return totalCount;
+            checked[x][y] = 0;
         }
         
-        for ( int index = start; index < people.length; index++ ) {
-            result[dept] = people[index];
-            totalCount = combination(people, result, r, index+1, dept+1, totalCount);
-        }
-        
-        return totalCount;
+        return result;
     }
     
     
     
     
     public static void main(String args[]){
-        String[] people = {"1","2","3","4","5","6"};
-        result(people);
+        String[][] word = {
+                                {"N","N","N","N","S"},
+                                {"N","E","E","E","N"},
+                                {"N","E","Y","E","N"},
+                                {"N","E","E","E","N"},
+                                {"N","N","N","N","N"}
+                            };
+        System.out.println( result(word, "YES") );
         DoubleLinkedList<Integer> doubleLinked = new DoubleLinkedList<>();
         doubleLinked.add(1);
         doubleLinked.add(2);
