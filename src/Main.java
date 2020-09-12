@@ -2,8 +2,10 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
@@ -17,21 +19,40 @@ import alorithm.dataStructureLow.TreeWithLinkedList;
 import sun.tools.jconsole.MaximizableInternalFrame;
 
 public class Main {
-    private static boolean result( String[][] word, String findWord) {
+    private static void result( String[] people ) {
+        int r = 3;
+        boolean[] isChecked = new boolean[people.length];
+        String[] result = new String[r];
+        ArrayList<String[]> totalList = new ArrayList<String[]>();
         
-        int totalSize = word[0].length;
-        boolean result = false;
-        for( int xIndex = 0; xIndex < totalSize; xIndex++ ) {
-            for( int yIndex = 0; yIndex < totalSize; yIndex++ ) {
-                int[][] checked = new int[word[0].length][word[0].length];
-                if(!result) {
-                    result = sulotions(word, findWord, checked, 0, xIndex, yIndex);
-                    System.out.println(" x :  " + xIndex + " y :" + yIndex + " result : " + result);
+        permutation(people, isChecked, result, r, 0, totalList);
+        
+        for (String[] strings : totalList) {
+            String temp = "";
+            for( String text : strings ) {
+                temp += " " + text;
+            }
+            System.out.println(temp);
+        }
+        System.out.println("총 경우의 수 : " + totalList.size());
+    }
+
+    private static void permutation( String[] people, boolean[] isChecked, String[] result, int endPoint, int dept, ArrayList<String[]> totalList ) {
+        if( endPoint == dept ) {
+            totalList.add(result.clone());
+        } else {
+            for ( int i = 0; i < people.length; i++ ) {
+                if( !isChecked[i] ) {
+                    isChecked[i] = true; // 사용된 배열 위치
+                    result[dept] = people[i]; // 저장 
+                    permutation(people, isChecked, result, endPoint, dept + 1, totalList);
+                    isChecked[i] = false; // 사용된 것 다시 제자리
+                    result[dept] = ""; // 저장된 것 제자리
                 }
             }
         }
-        return result;
     }
+
     
     private static boolean sulotions( String[][] word, String findWord, int[][] checked, int findIndex, int x, int y ) {
         
@@ -65,25 +86,9 @@ public class Main {
     
     
     public static void main(String args[]){
-        String[][] word = {
-                                {"N","N","N","N","S"},
-                                {"N","E","E","E","N"},
-                                {"N","E","Y","E","N"},
-                                {"N","E","E","E","N"},
-                                {"N","N","N","N","N"}
-                            };
-        System.out.println( result(word, "YES") );
-        DoubleLinkedList<Integer> doubleLinked = new DoubleLinkedList<>();
-        doubleLinked.add(1);
-        doubleLinked.add(2);
-        doubleLinked.add(3);
-        doubleLinked.add(4);
-       
-        System.out.println(doubleLinked.toString());
-        
-        doubleLinked.remove(2);
-        
-        System.out.println(doubleLinked.toString());
+        String[] people = {"1","2","3","4","5","6"};
+        result(people);
+
      
         
         /*while( true ) {
