@@ -25,14 +25,14 @@ public class Main {
         // 2. 시작점
         // 3. 개별 임시 결과 저장
         // 4. 최종 결과
-        // 5. 한번 쓴 것을 못쓰게 하기 위한 캐쉬
+        // 5. 다음 뽑을 것을 위한 index
         
         int end = 3;
         int start  = 0;
         String[] tempResult = new String[end];
-        boolean[] checked = new boolean[people.length];
+        int loopStartIndex = 0; 
         ArrayList<String[]> result = new ArrayList<String[]>();
-        permutation( people, end, start, tempResult, result, checked );
+        permutation( people, end, start, tempResult, result, loopStartIndex );
         for (String[] strings : result) {
             String temp = "";
             for (String strings2 : strings) {
@@ -44,21 +44,16 @@ public class Main {
         
     }
 
-    private static void permutation( String[] people, int end, int start, String[] tempResult, ArrayList<String[]> result, boolean[] checked ) {
+    private static void permutation( String[] people, int end, int start, String[] tempResult, ArrayList<String[]> result, int loopStartIndex ) {
         if( end == start ) {
             result.add(tempResult.clone());
             return;
         }
         
-        for( int index = 0; index < people.length; index++ ) {
-            if(!checked[index]) {
+        for( int index = loopStartIndex; index < people.length; index++ ) {
                 tempResult[start] = people[index];
-                checked[index] = true;
-                permutation(people, end, start+1, tempResult, result, checked);
+                permutation(people, end, start+1, tempResult, result, index+1);
                 tempResult[start] = "";
-                checked[index] = false;
-            }
-            
         }
     }
 
