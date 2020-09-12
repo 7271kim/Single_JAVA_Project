@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20,38 +21,47 @@ import sun.tools.jconsole.MaximizableInternalFrame;
 
 public class Main {
     private static void result( String[] people ) {
-        int r = 3;
-        boolean[] isChecked = new boolean[people.length];
-        String[] result = new String[r];
-        ArrayList<String[]> totalList = new ArrayList<String[]>();
+        // 1. 끝점
+        // 2. 시작점
+        // 3. 개별 임시 결과 저장
+        // 4. 최종 결과
+        // 5. 한번 쓴 것을 못쓰게 하기 위한 캐쉬
         
-        permutation(people, isChecked, result, r, 0, totalList);
-        
-        for (String[] strings : totalList) {
+        int end = 3;
+        int start  = 0;
+        String[] tempResult = new String[end];
+        boolean[] checked = new boolean[people.length];
+        ArrayList<String[]> result = new ArrayList<String[]>();
+        permutation( people, end, start, tempResult, result, checked );
+        for (String[] strings : result) {
             String temp = "";
-            for( String text : strings ) {
-                temp += " " + text;
+            for (String strings2 : strings) {
+                temp += " " + strings2;
             }
             System.out.println(temp);
         }
-        System.out.println("총 경우의 수 : " + totalList.size());
+        System.out.println(result.size());
+        
     }
 
-    private static void permutation( String[] people, boolean[] isChecked, String[] result, int endPoint, int dept, ArrayList<String[]> totalList ) {
-        if( endPoint == dept ) {
-            totalList.add(result.clone());
-        } else {
-            for ( int i = 0; i < people.length; i++ ) {
-                if( !isChecked[i] ) {
-                    isChecked[i] = true; // 사용된 배열 위치
-                    result[dept] = people[i]; // 저장 
-                    permutation(people, isChecked, result, endPoint, dept + 1, totalList);
-                    isChecked[i] = false; // 사용된 것 다시 제자리
-                    result[dept] = ""; // 저장된 것 제자리
-                }
+    private static void permutation( String[] people, int end, int start, String[] tempResult, ArrayList<String[]> result, boolean[] checked ) {
+        if( end == start ) {
+            result.add(tempResult.clone());
+            return;
+        }
+        
+        for( int index = 0; index < people.length; index++ ) {
+            if(!checked[index]) {
+                tempResult[start] = people[index];
+                checked[index] = true;
+                permutation(people, end, start+1, tempResult, result, checked);
+                tempResult[start] = "";
+                checked[index] = false;
             }
+            
         }
     }
+
 
     
     private static boolean sulotions( String[][] word, String findWord, int[][] checked, int findIndex, int x, int y ) {
