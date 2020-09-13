@@ -1,25 +1,4 @@
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Stack;
-
-import com.sun.tools.javac.resources.compiler;
-
-import alorithm.dataStructureLow.DoubleLinkedList;
-import alorithm.dataStructureLow.GraphArrayList;
-import alorithm.dataStructureLow.GraphMatrix;
-import alorithm.dataStructureLow.MaxHeap;
-import alorithm.dataStructureLow.TreeWithArray;
-import alorithm.dataStructureLow.TreeWithLinkedList;
-import sun.tools.jconsole.MaximizableInternalFrame;
 
 public class Main {
     
@@ -48,29 +27,33 @@ public class Main {
         ArrayList<String> result = new ArrayList<>();
         boolean[] check = new boolean[name.length];
         StringBuilder temp = new StringBuilder();
-        compair( name.length, result, check, temp, isFriend, name, 0 );
-        System.out.println(result);
+        compair( name.length, result, check, temp, isFriend, name);
+        System.out.println(result.size());
     }
 
-    private static void compair( int length, ArrayList<String> result, boolean[] check, StringBuilder temp, boolean[][] isFriend, String[] name, int combi ) {
+    private static void compair( int length, ArrayList<String> result, boolean[] check, StringBuilder temp, boolean[][] isFriend, String[] name) {
         if( length == 0 ) {
             result.add(temp.toString());
             return;
         }
-        
-        for( int first = combi; first < name.length; first++ ) {
-            for( int second = first+1; second < name.length; second++  ) {
-                if( !check[first] && !check[second] && isFriend[first][second] ) {
-                    StringBuilder copy = new StringBuilder(temp.toString());
-                    check[first] = true;
-                    check[second] = true;
-                    temp.append("( "+name[first] + " ");
-                    temp.append(name[second] + " )");
-                    compair(length-2, result, check, temp, isFriend, name, first);
-                    check[first] = false;
-                    check[second] =false;
-                    temp = copy;
-                }
+        int findIndex = 0;
+        for( int index = 0; index < check.length; index++ ) {
+            if( !check[index] ) {
+                findIndex = index;
+                break;
+            }
+        }
+        for( int second = findIndex+1; second < name.length; second++  ) {
+            if( !check[second] && isFriend[findIndex][second] ) {
+                StringBuilder copy = new StringBuilder(temp.toString());
+                check[findIndex] = true;
+                check[second] = true;
+                temp.append("( "+name[findIndex] + " ");
+                temp.append(name[second] + " )");
+                compair(length-2, result, check, temp, isFriend, name);
+                check[findIndex] = false;
+                check[second] =false;
+                temp = copy;
             }
         }
     }
