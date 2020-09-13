@@ -11,6 +11,8 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
+import com.sun.tools.javac.resources.compiler;
+
 import alorithm.dataStructureLow.DoubleLinkedList;
 import alorithm.dataStructureLow.GraphArrayList;
 import alorithm.dataStructureLow.GraphMatrix;
@@ -23,70 +25,54 @@ public class Main {
     
     
     public static void main(String args[]){
-        String[][] word = {
-                            {"N","N","N","N","S"},
-                            {"N","E","E","E","N"},
-                            {"N","E","Y","E","N"},
-                            {"N","E","E","E","N"},
-                            {"N","N","N","N","N"}
-                        };
+        String[] name = {"석진", "우리", "현식", "희범","성우","밥"};
+        int[][] friend = {{0,1},{0,2},{1,2},{1,3},{1,4},{2,3},{2,4},{3,4},{3,5},{4,5}};
 
-        System.out.println(findWord( word, "NNNNEEENNNNNNNNNNNS" ));
+        check( name, friend );
+    }
+    //
+
+    private static void check(String[] name, int[][] friend) {
+        // 사람 수와 친구 쌍이 주어졌을 때, 친구끼리 쌍을 짓는 경우의 수 도출
+        // 2명을 짝을 짓고, 친구인지 확인, 친구인 경우 제거, 나머지로 반복한다. 전체를 다 돌았음에도 짝을 못짓는 경우는 불가능 하다.
+        // 친구 여부를 확인하기 위한 2차원 boolean 배열 [0][1] = true일 시 둘은 친구이다. 
+        boolean[][] isFriend = new boolean[name.length][name.length];
+        for( int[] fi : friend ) {
+            isFriend[fi[0]][fi[1]] = true;
+            isFriend[fi[1]][fi[0]] = true;
+        }
+        
+        // 종료 조건 친구 쌍을 다 찾았을 때 >> 남은 친구가 없을 때 사람수가 0일때.
+        // return 친구 쌍 조합을 ArrayList
+        // 확인 여부를 위한 캐쉬
+        ArrayList<String> result = new ArrayList<>();
+        boolean[] check = new boolean[name.length];
+        StringBuilder temp = new StringBuilder();
+        compair( name.length, result, check, temp, isFriend, name, 0 );
+        System.out.println(result);
     }
 
-    private static boolean findWord(String[][] word, String findText) {
-        //1. 종료 조건 현재 위치가 마지막이고, 마지막 단어와 매칭 여부
-        //2. return 단어 존재 여부 boolean
-        //3. 한번 온 곳은 다시 가면 안됨.
-        boolean result = false;
-        boolean[][] checking = new boolean[word.length][word.length];
+    private static void compair( int length, ArrayList<String> result, boolean[] check, StringBuilder temp, boolean[][] isFriend, String[] name, int combi ) {
+        if( length == 0 ) {
+            result.add(temp.toString());
+            return;
+        }
         
-        out : for (int yIndex = 0; yIndex < word.length; yIndex++) {
-            for (int xIndex = 0; xIndex < word.length; xIndex++) {
-                if( result ) {
-                    break out;
-                } else {
-                    result = checking( word, findText, 0, yIndex, xIndex , checking);
+        for( int first = combi; first < name.length; first++ ) {
+            for( int second = first+1; second < name.length; second++  ) {
+                if( !check[first] && !check[second] && isFriend[first][second] ) {
+                    StringBuilder copy = new StringBuilder(temp.toString());
+                    check[first] = true;
+                    check[second] = true;
+                    temp.append("( "+name[first] + " ");
+                    temp.append(name[second] + " )");
+                    compair(length-2, result, check, temp, isFriend, name, first);
+                    check[first] = false;
+                    check[second] =false;
+                    temp = copy;
                 }
             }
         }
-        
-        
-        return result;
     }
-
-    private static boolean checking(String[][] word, String findText, int checkingIndex, int yIndex, int xIndex, boolean[][] checking) {
-        boolean result = false;
-        int[] yCheck = {-1, -1, -1, 0, 0, 1, 1, 1};
-        int[] xCheck = {-1, 0, 1, -1, 1, -1, 0 ,1};
-        
-        if( yIndex == word.length || yIndex < 0)  return false;
-        if( yIndex == word.length || yIndex < 0) return false;
-        if( xIndex == word.length || xIndex < 0) return false;
-        if( checking[yIndex][xIndex] ) return false;
-        
-        String checkText = findText.substring(checkingIndex, checkingIndex+1);
-        String wordText = word[yIndex][xIndex];
-        
-        if( !checkText.equals(wordText) ) {
-            return false;
-        }
-        
-        if( findText.length()-1 == checkingIndex ) {
-           return checkText.equals(wordText);
-        }
-        
-        // 8방면 검사 
-        for (int cIndex = 0; cIndex < 8; cIndex++) {
-            checking[yIndex][xIndex] = true;
-            result = checking(word, findText, checkingIndex+1, yIndex+yCheck[cIndex], xIndex+xCheck[cIndex], checking);
-            checking[yIndex][xIndex] = false;
-            if( result ) {
-                return true;
-             }
-        }
-        
-        return  result;
-    }
-}
+ }
 
