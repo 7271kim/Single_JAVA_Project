@@ -16,15 +16,16 @@ public class SettingsLottoDataWeek implements Job {
     @Override
     public void execute(JobExecutionContext arg0) throws JobExecutionException {
         LottoDB lottoDB = new LottoDB(); // 회차별 로또번호 업데이트
-        try {
+        /*try {
             allUpdate(lottoDB, 1);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             lottoDB.close();
-        } 
+        } */
     }
-    public static void allUpdate (LottoDB lottoDB, int input) throws Exception {
+
+    /*public static void allUpdate (LottoDB lottoDB, int input) throws Exception {
         for(int index = 1; index <= input; index++ ) {
             String parsingUrl = "https://www.dhlottery.co.kr/gameResult.do?method=statByColor&currentPage="+index;
             Document doc= Jsoup.connect(parsingUrl).get();
@@ -39,13 +40,13 @@ public class SettingsLottoDataWeek implements Job {
                         System.out.println("date : " + date);
                         System.out.println("number : " + number);
                         lottoDB.insertLotto(date, number);
-                        subtotalOne(lottoDB); // 최근 1개 누적값 업데이트
+                        //subtotalOne(lottoDB); // 최근 1개 누적값 업데이트
                     };
                 }
                 
             }
         }
-    }
+    }*/
     public static void subtotal (LottoDB lottoDB , int n) throws Exception {
         Map<Integer, Map<Integer, Integer>> subtotal = new HashMap<Integer, Map<Integer, Integer>>();
         for(int index = 1; index <= n; index++ ) {
@@ -95,7 +96,7 @@ public class SettingsLottoDataWeek implements Job {
         }
         
     }
-    public static void subtotalOne (LottoDB lottoDB) throws Exception {
+    /* public static void subtotalOne (LottoDB lottoDB) throws Exception {
         for(int index = 1; index <= 1; index++ ) {
             String parsingUrl = "https://www.dhlottery.co.kr/gameResult.do?method=statByColor&currentPage="+index;
             Document doc= Jsoup.connect(parsingUrl).get();
@@ -124,5 +125,5 @@ public class SettingsLottoDataWeek implements Job {
                 }
             }
         }
-    }
+    }*/
 }
