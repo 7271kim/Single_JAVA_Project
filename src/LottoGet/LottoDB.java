@@ -68,6 +68,17 @@ public class LottoDB {
             System.out.println(e);
         }
     }
+    public synchronized void insertLottoTwoNum( String firstNum,  String secondNum, String value ) {
+        try {
+                psmt = conn.prepareStatement("INSERT INTO lotto_number_total ( NUMBER, NUMBER_TWO, VALUE ) values (?, ?, ?)");
+                psmt.setString(1, firstNum);
+                psmt.setString(2, secondNum);
+                psmt.setString(3, value);
+                psmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
     
     // 0 
     public synchronized void updateLottoNum( String number, String value ) {
@@ -75,6 +86,18 @@ public class LottoDB {
                 psmt = conn.prepareStatement("UPDATE lotto_number SET SUM = ? WHERE NUMBER=? ");
                 psmt.setString(1, value);
                 psmt.setString(2, number);
+                psmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public synchronized void updateLottoTwoNum( String firstNum,  String secondNum, String value ) {
+        try {
+                psmt = conn.prepareStatement("UPDATE lotto_number_total SET VALUE = ? WHERE NUMBER=? AND NUMBER_TWO= ? ");
+                psmt.setString(1, value);
+                psmt.setString(2, firstNum);
+                psmt.setString(3, secondNum);
                 psmt.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);

@@ -1,10 +1,10 @@
 package LottoGet;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -16,14 +16,17 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.seokjin.kim.library.JsoupCustom;
+import com.seokjin.kim.library.MathAll;
 
 
 public class GetLotto {
     static int count = 0;
+    static final int TOTAL_PAGE = 93;
+    static final int LOTTO_RANGE = 45;
     
     public static void main(String[] args) throws Exception {
         //updateTotalLottoPage(); 1page부터 93페이지까지 모든 로또 데이터 취합
-        //updateTotalLottoPage();
+        updateTotalLottoPage();
     }
     
     public static int randomRange(int n1, int n2) {
@@ -32,11 +35,10 @@ public class GetLotto {
     
     public static void updateTotalLottoPage () throws Exception {
         count = 0;
-        ExecutorService executorServiceWithCached = Executors.newFixedThreadPool(30);
+        ExecutorService executorServiceWithCached = Executors.newFixedThreadPool(40);
         LottoDB lottoDB = new LottoDB();
-        int totalPage = 93;
         // 총 10페이지 업데이트
-        for(int index = 1; index <= totalPage; index++) {
+        for(int index = 1; index <= TOTAL_PAGE; index++) {
             TaskLotto<Integer> task = new TaskLotto<Integer>(index, lottoDB );
             Future<Boolean> returnBoolean = executorServiceWithCached.submit(task);
             executorServiceWithCached.execute(()->{
@@ -51,27 +53,63 @@ public class GetLotto {
         }
         boolean isLoop = true;
         while( isLoop ) {
-            if( count == totalPage ) {
+            if( count == TOTAL_PAGE ) {
                 isLoop = false;
                 List<LottoModel> result = lottoDB.getLottoNumList("SELECT NUMBER FROM lotto_data", new TreeSet<String>(Arrays.asList("Number")));
                 Map<String, Integer> totlaNumber = new HashMap<String, Integer>();
+                Map<String, Integer> totlaTwoNumber = new HashMap<String, Integer>();
+                Set<String> lottoCombi = MathAll.getCombination(45, 2);
                 for( int index = 1; index <= 45; index++ ) {
                     totlaNumber.put(String.valueOf(index), 0);
+                }
+                for( String numberTwos : lottoCombi ) {
+                    totlaTwoNumber.put(numberTwos, 0);
                 }
                 
                 for( LottoModel item : result ) {
                     String[] numbers = item.getNumber().split(" ");
+                    Set<String> numbersCombi = MathAll.getCombination(numbers, 2);
+                    for( String number : numbersCombi) {
+                        int temp = totlaTwoNumber.get(number);
+                        totlaTwoNumber.put(number, temp+1);
+                    }
                     for( String number : numbers) {
                         int temp = totlaNumber.get(number);
                         totlaNumber.put(number, temp+1);
                     }
                 }
-                
+                count = 0;
                 for( int index = 1; index <= 45; index++ ) {
                     String number = String.valueOf( index );
                     TaskLotto2 task2 = new TaskLotto2(number, String.valueOf(totlaNumber.get(number)), lottoDB );
-                    executorServiceWithCached.submit(task2);
+                    Future<Boolean> returnBoolean = executorServiceWithCached.submit(task2);
+                    executorServiceWithCached.execute(()->{
+                        try {
+                            if( returnBoolean.get() ) {
+                                count++;
+                            }
+                        } catch ( Exception e ) {
+                        }
+                    });
                 }
+                
+                for( String numberset : totlaTwoNumber.keySet() ) {
+                    int value = totlaTwoNumber.get(numberset);
+                    String[] temp = numberset.split(" ");
+                    String firstNum = temp[0];
+                    String seconNum = temp[1];
+                    TaskLotto3 task3 = new TaskLotto3(firstNum, seconNum, String.valueOf(value), lottoDB );
+                    executorServiceWithCached.submit(task3);
+                }
+            }
+            Thread.sleep(1);
+        }
+        
+        isLoop = true;
+        while( isLoop ) {
+            if( count == LOTTO_RANGE ) {
+                isLoop = false;
+                System.out.println("모든 작업이 끝났습니다.");
             }
             Thread.sleep(1);
         }
@@ -133,3 +171,26 @@ class TaskLotto2 implements Callable<Boolean> {
     }
 }
 
+class TaskLotto3 implements Callable<Boolean> {
+    private String firstNum;
+    private String secondNum;
+    private String value;
+    private LottoDB lottoDB;
+
+    public TaskLotto3(String firstNum, String secondNum, String value, LottoDB lottoDB ) {
+        this.firstNum = firstNum;
+        this.secondNum = secondNum;
+        this.value = value;
+        this.lottoDB = lottoDB;
+    }
+
+    @Override
+    public Boolean call() throws Exception {
+        if( !lottoDB.getQurry("SELECT * FROM lotto_number_total WHERE NUMBER='"+firstNum+"' AND NUMBER_TWO = '"+secondNum+"'")) {
+            lottoDB.insertLottoTwoNum( firstNum, secondNum, value );
+        } else {
+            lottoDB.updateLottoTwoNum( firstNum, secondNum, value );
+        }
+        return true;
+    }
+}
