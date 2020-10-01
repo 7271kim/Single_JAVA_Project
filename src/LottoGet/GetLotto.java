@@ -23,7 +23,7 @@ public class GetLotto {
     
     public static void main(String[] args) throws Exception {
         //updateTotalLottoPage(); 1page부터 93페이지까지 모든 로또 데이터 취합
-        updateTotalLottoPage();
+        //updateTotalLottoPage();
     }
     
     public static int randomRange(int n1, int n2) {
