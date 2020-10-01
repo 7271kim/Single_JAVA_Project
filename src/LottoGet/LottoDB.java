@@ -20,7 +20,6 @@ public class LottoDB {
     private Statement stmt = null;
     private ResultSet rs = null;
     private PreparedStatement psmt = null;
-    private Map<String, String> lottoData = new HashMap<String, String>();
     
     public LottoDB() {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
@@ -37,15 +36,6 @@ public class LottoDB {
         }
     }
     
-    public Map<String, String> getLottoData() {
-        return lottoData;
-    }
-
-    public void setLottoData(Map<String, String> lottoData) {
-        this.lottoData = lottoData;
-    }
-    
-    // o 
     public synchronized void insertLotto(String date, String number) {
         try {
             psmt = conn.prepareStatement("INSERT INTO lotto_data ( DATE, NUMBER ) values (?,?)");
@@ -150,7 +140,20 @@ public class LottoDB {
         return result;
     }
     
-    // d
+    public synchronized int getQurryTotalCount(String query) {
+        int result = 0;
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                result++;
+            }
+        } catch (Exception e) {
+            System.out.println("error  : " +e);
+        }
+        return result;
+    }
+    
     public synchronized boolean getQurry(String query) {
         boolean result = false;
         try {
@@ -166,28 +169,6 @@ public class LottoDB {
         }
         return result;
     }
-    
-    public Map<String, String> getAllData() {
-        Map<String, String> list = new HashMap<String, String>();
-        try {
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM lotto_data ORDER BY `DATE` DESC");
-            writeResultSet(rs, list);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return list;
-    }
-    
-    private Map<String, String> writeResultSet(ResultSet resultSet, Map<String, String> list) throws SQLException {
-        while (resultSet.next()) {
-            String date = resultSet.getString("date");
-            String number = resultSet.getString("number");
-            list.put(date, number);
-        }
-        return list;
-    }
-    
     
     public void close() {
         try {

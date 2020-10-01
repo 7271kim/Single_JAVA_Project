@@ -2,6 +2,7 @@ package LottoGet;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,12 +24,200 @@ public class GetLotto {
     static int count = 0;
     static final int TOTAL_PAGE = 93;
     static final int LOTTO_RANGE = 45;
+    static final LottoDB lottoDB = new LottoDB();
+    static final int GET_TOTAL = 7;
+    static final Set<String> notPassible = new TreeSet<>();
+    static final int RANGE1 = 1;
+    static final int RANGE10 = 0;
+    static final int RANGE20 = 0;
+    static final int RANGE30 = 0;
+    static final int RANGE40 = 0;
+    // https://www.dhlottery.co.kr/gameResult.do?method=noViewNumber 15주간 안나온 번호
+    static final int[] choiceNum = {3,15,17,29,36};
+    static final int[] choiceNotNum = {37,40,45};
+    static final int[] choiceNotNumArray = new int[46];
+    static final int[] isCheckWhenTime = {29,30,36}; // 몇회째에 해당 번호가 나왔는지 찾기
     
     public static void main(String[] args) throws Exception {
         //updateTotalLottoPage(); 1page부터 93페이지까지 모든 로또 데이터 취합
-        updateTotalLottoPage();
+        Set<String> lottoNumbers = getLottoNumber();
+        //checkDBNumber();
     }
     
+    /**
+     * DB에서 isCheckWhenTime 나온 번호 추출
+     */
+    private static void checkDBNumber() {
+        List<LottoModel> modelList = lottoDB.getLottoNumList("SELECT * FROM lotto_data", new TreeSet<String>(Arrays.asList("Number","Date")));
+        for( LottoModel item : modelList ) {
+            String value = item.getNumber();
+            String[] valueList = value.split(" ");
+            int count = 0;
+            for( String numberDB : valueList ) {
+                for( int chNum : isCheckWhenTime ) {
+                    if( numberDB.equals(String.valueOf(chNum)) ) {
+                        count++;
+                    }
+                }
+            }
+            if( count == isCheckWhenTime.length ) {
+                System.out.println(item.getDate());
+                System.out.println(value);
+                System.out.println();
+            }
+        }
+    }
+
+    private static Set<String> getLottoNumber() {
+        Set<String> lottoNumbers = new HashSet<>();
+        double standard = getStandard();
+        double mean = getMean();
+        
+        for( int noNum : choiceNotNum ) {
+            choiceNotNumArray[noNum] = 1;
+        }
+        
+        while ( true ) {
+            if( lottoNumbers.size() == GET_TOTAL ) break;
+            
+            Set<Integer> sixNum = new TreeSet<>();
+            for( int number : choiceNum ) {
+                sixNum.add(number);
+                
+            }
+            int temp1 = RANGE1;
+            int temp10 = RANGE10;
+            int temp20 = RANGE20;
+            int temp30 = RANGE30;
+            int temp40 = RANGE40;
+            
+            if( temp1 + temp10 + temp20 + temp30 + temp40 + choiceNum.length > 6 ) {
+                System.out.println(" 총 뽑아야 하는 개수가 6개가 넘습니다. ");
+                break;
+            }
+            
+            while( true ) {
+                int number = 0;
+                // range별 번호 뽑기
+                
+                if( temp1 != 0 ) {
+                    number  = randomRange(1,10);
+                    if( !sixNum.contains(number) && choiceNotNumArray[number] != 1 ) {
+                        sixNum.add(number);
+                        temp1--;
+                    }
+                } else if( temp10 != 0 ) {
+                    number  = randomRange(11,20);
+                    if( !sixNum.contains(number) && choiceNotNumArray[number] != 1  ) {
+                        sixNum.add(number);
+                        temp10--;
+                    }
+                }else if( temp20 != 0 ) {
+                    number  = randomRange(21,30);
+                    if( !sixNum.contains(number) && choiceNotNumArray[number] != 1  ) {
+                        sixNum.add(number);
+                        temp20--;
+                    }
+                }else if( temp30 != 0 ) {
+                    number  = randomRange(33,40);
+                    if( !sixNum.contains(number) && choiceNotNumArray[number] != 1  ) {
+                        sixNum.add(number);
+                        temp30--;
+                    }
+                }else if( temp40 != 0 ) {
+                    number  = randomRange(41,45);
+                    if( !sixNum.contains(number) && choiceNotNumArray[number] != 1  ) {
+                        sixNum.add(number);
+                        temp40--;
+                    }
+                } else {
+                    number = randomRange(1,45);
+                    if( !sixNum.contains(number) && choiceNotNumArray[number] != 1  ) {
+                        sixNum.add(number);
+                    }
+                }
+                
+                if( sixNum.size() == 6 ) {
+                    break;
+                }
+            }
+            boolean isAllTwoDeviation = isAllTwoDeviation( sixNum, standard, mean );
+            if( isAllTwoDeviation ) {
+                String temp = "";
+                for( Integer number : sixNum ) {
+                    temp += " " + number;
+                }
+                temp = temp.trim();
+                lottoNumbers.add(temp);
+            }
+        }
+        
+        for( String text : lottoNumbers ) {
+            System.out.println(text);
+        }
+        
+        return lottoNumbers;
+    }
+    
+    /**
+     *  뽑은 번호들의 두 번호 사이의 value가 2표준편차 이내일때만 넣기  
+     * @param mean 
+     */
+    private static boolean isAllTwoDeviation(Set<Integer> sixNum, double standard, double mean) {
+        String[] temp = new String[sixNum.size()];
+        int count = 0;
+        for( Integer number : sixNum ) {
+            temp[count++] = String.valueOf(number);
+        }
+        
+        Set<String> combi =  MathAll.getCombination(temp, 2);
+        boolean isPass = true;
+        
+        for( String numberText : combi ) {
+            if( notPassible.contains(numberText) ) {
+                isPass = false;
+                break;
+            }
+            String[] numbers = numberText.split(" ");
+            String numberOne = numbers[0];
+            String numberTwo = numbers[1];
+            List<LottoModel> modelList = lottoDB.getLottoNumList("SELECT * FROM lotto_number_total WHERE NUMBER = '"+numberOne+"' AND NUMBER_TWO = '"+numberTwo+"'", new TreeSet<String>(Arrays.asList("Number","Number_two","Value")));
+            if( modelList.size() > 0 ) {
+                LottoModel dbItem = modelList.get(0);
+                int dbValue =  Integer.parseInt( dbItem.getValue() );
+                if( dbValue < mean - standard*2 || dbValue > mean + standard*2 ) {
+                    notPassible.add(numberText);
+                    isPass = false;
+                    break;
+                }
+            }
+        }
+        
+        return isPass;
+    }
+
+    private static double getStandard() {
+        List<LottoModel> modelList = lottoDB.getLottoNumList("SELECT * FROM lotto_number_total", new TreeSet<String>(Arrays.asList("Number","Number_two","Value")));
+        int totalSize = modelList.size();
+        double[] totalValue = new double[totalSize];
+        for( int index = 0; index < totalSize; index++ ) {
+            LottoModel item = modelList.get(index);
+            totalValue[index] = Double.parseDouble( item.getValue() );
+        }
+        return MathAll.standardDeviation(totalValue);
+    }
+    
+    private static double getMean() {
+        List<LottoModel> modelList = lottoDB.getLottoNumList("SELECT * FROM lotto_number_total", new TreeSet<String>(Arrays.asList("Number","Number_two","Value")));
+        int totalSize = modelList.size();
+        double[] totalValue = new double[totalSize];
+        for( int index = 0; index < totalSize; index++ ) {
+            LottoModel item = modelList.get(index);
+            totalValue[index] = Double.parseDouble( item.getValue() );
+        }
+        return MathAll.mean(totalValue);
+    }
+
     public static int randomRange(int n1, int n2) {
         return (int) (Math.random() * (n2 - n1 + 1)) + n1;
     }
@@ -36,7 +225,6 @@ public class GetLotto {
     public static void updateTotalLottoPage () throws Exception {
         count = 0;
         ExecutorService executorServiceWithCached = Executors.newFixedThreadPool(40);
-        LottoDB lottoDB = new LottoDB();
         // 총 10페이지 업데이트
         for(int index = 1; index <= TOTAL_PAGE; index++) {
             TaskLotto<Integer> task = new TaskLotto<Integer>(index, lottoDB );
