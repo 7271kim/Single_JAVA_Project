@@ -68,7 +68,8 @@ public class GetLotto {
                 }
                 
                 for( int index = 1; index <= 45; index++ ) {
-                    TaskLotto2 task2 = new TaskLotto2(String.valueOf( index ), lottoDB);
+                    String number = String.valueOf( index );
+                    TaskLotto2 task2 = new TaskLotto2(number, String.valueOf(totlaNumber.get(number)), lottoDB );
                     executorServiceWithCached.submit(task2);
                 }
             }
@@ -111,21 +112,22 @@ class TaskLotto <T> implements Callable<Boolean> {
 }
 
 class TaskLotto2 implements Callable<Boolean> {
-    private String input;
+    private String number;
+    private String value;
     private LottoDB lottoDB;
 
-    public TaskLotto2(String input, LottoDB lottoDB ) {
-        this.input = input;
+    public TaskLotto2(String number, String value, LottoDB lottoDB ) {
+        this.number = number;
+        this.value = value;
         this.lottoDB = lottoDB;
     }
 
     @Override
     public Boolean call() throws Exception {
-        if( !lottoDB.getQurry("SELECT * FROM lotto_number WHERE NUMBER='"+input+"'")) {
-            lottoDB.insertLottoNum(input);
+        if( !lottoDB.getQurry("SELECT * FROM lotto_number WHERE NUMBER='"+number+"'")) {
+            lottoDB.insertLottoNum( number, value );
         } else {
-            int getOne = lottoDB.getOne("SELECT SUM FROM lotto_number WHERE NUMBER="+input, "SUM" );
-            lottoDB.updateLottoNum( input, String.valueOf( getOne+1 ));
+            lottoDB.updateLottoNum( number, value );
         }
         return true;
     }

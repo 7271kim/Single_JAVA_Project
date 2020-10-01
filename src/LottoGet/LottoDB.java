@@ -59,10 +59,11 @@ public class LottoDB {
     }
     
     //o 
-    public synchronized void insertLottoNum( String number ) {
+    public synchronized void insertLottoNum( String number, String value ) {
         try {
-                psmt = conn.prepareStatement("INSERT INTO lotto_number ( NUMBER, SUM ) values (?, 0)");
+                psmt = conn.prepareStatement("INSERT INTO lotto_number ( NUMBER, SUM ) values (?, ?)");
                 psmt.setString(1, number);
+                psmt.setString(2, value);
                 psmt.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
