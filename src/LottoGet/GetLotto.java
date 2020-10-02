@@ -39,8 +39,8 @@ public class GetLotto {
     static final int[] isCheckWhenTime = {29,30,36}; // 몇회째에 해당 번호가 나왔는지 찾기
     
     public static void main(String[] args) throws Exception {
-        //updateTotalLottoPage(); 1page부터 93페이지까지 모든 로또 데이터 취합
-        Set<String> lottoNumbers = getLottoNumber();
+        updateTotalLottoPage(); //1page부터 93페이지까지 모든 로또 데이터 취합
+        //Set<String> lottoNumbers = getLottoNumber();
         //checkDBNumber();
     }
     
