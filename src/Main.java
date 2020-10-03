@@ -37,7 +37,6 @@ public class Main {
         caseTest.add(temp);
         
         int[] test = { 12,9,3,12,6,6,9,3,12,9,12,9,12,12,6,6 };
-        //int[] test = { 9,9,9,12,12,12,12,12,12,12,12,12,12,12,12,12 };
         totalCase( test );
     }
     //
